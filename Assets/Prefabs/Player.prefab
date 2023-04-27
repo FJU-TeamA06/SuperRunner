@@ -108,7 +108,6 @@ GameObject:
   - component: {fileID: 2662581808552290357}
   - component: {fileID: 2662581808552290346}
   - component: {fileID: 2662581808552290347}
-  - component: {fileID: 2662581808552290356}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -183,20 +182,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2662581808552290356
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2662581808552290358}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2662581809399784529
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa72ac489a701c643b3bc18029252148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  _interpolationDataSource: 2
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
@@ -326,7 +311,7 @@ MonoBehaviour:
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
   gravity: -20
-  jumpImpulse: 8
+  jumpImpulse: 13
   acceleration: 10
   braking: 10
   maxSpeed: 15
