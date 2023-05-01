@@ -12,6 +12,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
+    private Text UIname = null;
+    [SerializeField]
     private Image hpBar = null;
     [SerializeField]
     private int maxHp = 100;
@@ -68,14 +70,11 @@ public class PlayerController : NetworkBehaviour
         networkCharacterController.transform.position = Vector3.up * 2;
         Hp = maxHp;
     }
-    public void SetNameAfterSpawned(string name)
-    {
-        PlayerName = name;
-        print("PlayerName is: "+ PlayerName);
-    }
+    
     static void OnNameChanged(Changed<PlayerController> changed)
     {
         Debug.Log($"Name changed for player to {changed.Behaviour.PlayerName}");
+        changed.Behaviour.UIname.text = changed.Behaviour.PlayerName.ToString();
     }
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void SetPlayerName_RPC(string name,RpcInfo info=default)
