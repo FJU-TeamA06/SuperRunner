@@ -13,19 +13,23 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField]
     private NetworkPrefabRef playerPrefab;
-
+    public PlayerController PlayerController;
     private Dictionary<PlayerRef, NetworkObject> playerList = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField]
-    private GameMode gameMode;
+    public GameMode gameMode;
     private void Start()
     {
-        StartGame(gameMode);
+        //StartGame(gameMode);
     }
 
-    async void StartGame(GameMode mode)
+    public async void StartGame(GameMode mode)
     {
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Player prefab not set.");
+            return;
+        }
         networkRunner.ProvideInput = true;
-
         await networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
@@ -41,8 +45,9 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
 
         playerList.Add(player, networkPlayerObject);
-        print(player.PlayerId);
+
     }
+    
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {

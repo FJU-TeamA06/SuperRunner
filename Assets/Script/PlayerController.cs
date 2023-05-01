@@ -17,12 +17,22 @@ public class PlayerController : NetworkBehaviour
     private int maxHp = 100;
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
+    [Networked(OnChanged = nameof(OnNameChanged))]
+    public NetworkString<_16> PlayerName { get; set; }
     [Networked]
     public NetworkButtons ButtonsPrevious { get; set; }
     [SerializeField]
     private MeshRenderer meshRenderer = null;
     public override void Spawned()
     {
+        if(Object.HasInputAuthority)
+        {
+            SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
+        }
+        else
+        {
+
+        }
         if (Object.HasStateAuthority)
             Hp = maxHp;
     }
@@ -58,6 +68,22 @@ public class PlayerController : NetworkBehaviour
         networkCharacterController.transform.position = Vector3.up * 2;
         Hp = maxHp;
     }
+    public void SetNameAfterSpawned(string name)
+    {
+        PlayerName = name;
+        print("PlayerName is: "+ PlayerName);
+    }
+    static void OnNameChanged(Changed<PlayerController> changed)
+    {
+        Debug.Log($"Name changed for player to {changed.Behaviour.PlayerName}");
+    }
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void SetPlayerName_RPC(string name,RpcInfo info=default)
+    {
+        Debug.Log($"[RPC] SetName {name}");
+        this.PlayerName= name;
+    }
+
     public void TakeDamage(int damage)
     {
         if (Object.HasStateAuthority)
@@ -91,4 +117,6 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
+    
+
 }

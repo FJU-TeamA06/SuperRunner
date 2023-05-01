@@ -11,15 +11,16 @@ public class SquareScript : NetworkBehaviour
         if (other.CompareTag("Player"))
         {
             // Get the PlayerController script from the touching object
-            PlayerController playerController = other.GetComponent<PlayerController>();
-
+            var player = other.GetComponent<PlayerController>();
             // Ensure that the playerController component is attached
-            if (playerController != null)
+            if (player != null)
             {
                 // Get the player ID from the playerController script
                 //int playerID = playerController.PlayerID;
 
                 //Debug.Log("Square A touched by ID: " + playerID);
+                print("Someone Finished "+ "Is " + player.PlayerName);
+                
             }
         }
     }
