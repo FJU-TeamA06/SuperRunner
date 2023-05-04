@@ -9,6 +9,11 @@ public class PlayerController : NetworkBehaviour
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
+    private Vector3 startPoint;
+    private GameObject finishObject;
+    private float totalDistance;
+    private Collider finishCollider;
+
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
@@ -17,6 +22,8 @@ public class PlayerController : NetworkBehaviour
     private Image hpBar = null;
     [SerializeField]
     private int maxHp = 100;
+    private float timer = 0;
+
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
     [Networked(OnChanged = nameof(OnNameChanged))]
@@ -30,6 +37,9 @@ public class PlayerController : NetworkBehaviour
         if(Object.HasInputAuthority)
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
+            finishObject = GameObject.FindGameObjectWithTag("Finish1");
+            finishCollider = finishObject.GetComponent<Collider>();
+            totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
         }
         else
         {
@@ -37,7 +47,15 @@ public class PlayerController : NetworkBehaviour
         }
         if (Object.HasStateAuthority)
             Hp = maxHp;
+        
     }
+    private void CalculateDistancePercentage()
+    {
+        Vector3 closestPointOnBounds = finishCollider.bounds.ClosestPoint(transform.position);
+        float currentDistance = Vector3.Distance(transform.position, closestPointOnBounds);
+        Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
+    }
+
     public override void FixedUpdateNetwork()
     {
         if (GetInput(out NetworkInputData data))
@@ -64,6 +82,7 @@ public class PlayerController : NetworkBehaviour
         {
             Respawn();
         }
+        
     }
     private void Respawn()
     {
@@ -109,6 +128,12 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             ChangeColor_RPC(Color.blue);
+        }
+        timer += Time.deltaTime;
+        if (timer >= 1)
+        {
+            CalculateDistancePercentage();
+            timer = 0;
         }
     }
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
