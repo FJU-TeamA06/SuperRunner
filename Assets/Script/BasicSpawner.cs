@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
@@ -17,18 +17,27 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> playerList = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField]
     public GameMode gameMode;
+    public int levelIndex; // 使用int类型的levelIndex来表示当前选中的关卡
+    public Dictionary<int, Vector3> spawnPositions; // 修改关卡和生成位置的对应字典，将GameMode替换为int类型
     private void Start()
     {
+        spawnPositions = new Dictionary<int, Vector3>()
+        {
+            { 1, new Vector3(0, 2, 0) },
+            { 2, new Vector3(0, 8, 0) },
+            // 在这里添加更多关卡和生成位置
+        };
         //StartGame(gameMode);
     }
 
-    public async void StartGame(GameMode mode)
+    public async void StartGame(GameMode mode,int selectedLevel)
     {
         if (playerPrefab == null)
         {
             Debug.LogError("Player prefab not set.");
             return;
         }
+        levelIndex = selectedLevel;
         networkRunner.ProvideInput = true;
         await networkRunner.StartGame(new StartGameArgs()
         {
@@ -41,10 +50,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        Vector3 spawnPosition = Vector3.up * 2;
-        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
-
-        playerList.Add(player, networkPlayerObject);
+        Vector3 spawnPosition;
+        if (spawnPositions.TryGetValue(levelIndex, out spawnPosition))
+        {
+            NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
+            playerList.Add(player, networkPlayerObject);
+        }
+        else
+        {
+            Debug.LogError("Spawn position not found for the selected level index.");
+        }
 
     }
     

@@ -36,8 +36,7 @@ public class NameInputHandler : MonoBehaviour
     public void StartGameAfterLevelSelection(int selectedLevel)
     {
         // 在这里设置关卡信息，您可以根据需要进行修改
-        basicSpawner.gameMode = (GameMode)selectedLevel;
-        basicSpawner.StartGame(basicSpawner.gameMode);
+        basicSpawner.StartGame(basicSpawner.gameMode, selectedLevel);
         Destroy(gameObject);
     }
 }
