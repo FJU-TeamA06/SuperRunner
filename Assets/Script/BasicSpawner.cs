@@ -24,7 +24,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         spawnPositions = new Dictionary<int, Vector3>()
         {
             { 1, new Vector3(0, 2, 0) },
-            { 2, new Vector3(0, 8, 0) },
+            { 2, new Vector3(0, 2, 1.5F) },
             // 在这里添加更多关卡和生成位置
         };
         //StartGame(gameMode);

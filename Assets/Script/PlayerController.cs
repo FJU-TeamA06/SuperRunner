@@ -150,7 +150,7 @@ public class PlayerController : NetworkBehaviour
         timer += Time.deltaTime;
         if (timer >= 1)
         {
-            CalculateDistancePercentage();
+            //CalculateDistancePercentage();
             timer = 0;
         }
     }

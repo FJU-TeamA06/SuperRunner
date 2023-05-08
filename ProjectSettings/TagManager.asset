@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Finish1
   - HUD_UI
+  - StartWall
   layers:
   - Default
   - TransparentFX
