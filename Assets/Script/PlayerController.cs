@@ -11,9 +11,11 @@ public class PlayerController : NetworkBehaviour
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     private GameObject finishObject;
+    private GameObject HUD_UI;
+    [SerializeField]
+    private GameObject HUD_UI_Prefab;
     private float totalDistance;
     private Collider finishCollider;
-
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
@@ -32,6 +34,15 @@ public class PlayerController : NetworkBehaviour
     public NetworkButtons ButtonsPrevious { get; set; }
     [SerializeField]
     private MeshRenderer meshRenderer = null;
+    private void InstantiateHUD_UI()
+    {
+        if (Object.HasInputAuthority)
+        {
+            HUD_UI = Instantiate(HUD_UI_Prefab);
+            HUD_UI.SetActive(false); // 預設禁用 HUD_UI
+        }
+    }
+
     public override void Spawned()
     {
         if(Object.HasInputAuthority)
@@ -40,6 +51,9 @@ public class PlayerController : NetworkBehaviour
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
+            InstantiateHUD_UI();
+            HUD_UI.SetActive(true);
+            //EnablePlayerControl_RPC();
         }
         else
         {
@@ -54,6 +68,10 @@ public class PlayerController : NetworkBehaviour
         Vector3 closestPointOnBounds = finishCollider.bounds.ClosestPoint(transform.position);
         float currentDistance = Vector3.Distance(transform.position, closestPointOnBounds);
         Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
+    }
+    public void EnablePlayerControl()
+    {
+        
     }
 
     public override void FixedUpdateNetwork()
@@ -82,8 +100,8 @@ public class PlayerController : NetworkBehaviour
         {
             Respawn();
         }
-        
     }
+
     private void Respawn()
     {
         networkCharacterController.transform.position = Vector3.up * 2;
@@ -141,6 +159,5 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
-    
 
 }

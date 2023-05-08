@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Finish1
+  - HUD_UI
   layers:
   - Default
   - TransparentFX
