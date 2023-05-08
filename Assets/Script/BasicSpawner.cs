@@ -77,11 +77,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         var data = new NetworkInputData();
 
-        if (Input.GetKey(KeyCode.W))
-            data.movementInput += Vector3.forward;
-
-        if (Input.GetKey(KeyCode.S))
-            data.movementInput += Vector3.back;
+        
 
         if (Input.GetKey(KeyCode.A))
             data.movementInput += Vector3.left;
