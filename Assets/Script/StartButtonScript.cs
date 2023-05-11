@@ -53,6 +53,8 @@ public class StartButtonScript : NetworkBehaviour
                 if (startWallScript != null)
                 {
                     startWallScript.DespawnWall();
+                    Destroy(gameObject);
+                    print("destroyed");
                 }
                 else
                 {
@@ -61,4 +63,5 @@ public class StartButtonScript : NetworkBehaviour
             }
         }
     }
+    //待完成:RPC集體銷毀按鈕的函式
 }
