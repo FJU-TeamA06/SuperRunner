@@ -220,6 +220,8 @@ MonoBehaviour:
   StartButton: {fileID: 8382892181145901059}
   playerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
+  wallObject: {fileID: 0}
+  _buttonStartEnabled: 0
 --- !u!114 &8382892181145901071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,9 +239,9 @@ MonoBehaviour:
   DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
-  Flags: 133633
+  Flags: 3073
   NetworkGuid:
-    RawGuidValue: f16879dbed1944018b6e712b77ab4d64
+    RawGuidValue: 00000000000000000000000000000000
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8382892181145901070}
@@ -333,6 +335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8382892181486201850}
+  - component: {fileID: 8438478055056483874}
   m_Layer: 0
   m_Name: HUD_UI
   m_TagString: HUD_UI
@@ -356,6 +359,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8438478055056483874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8382892181486201853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2305
+  NetworkGuid:
+    RawGuidValue: 077fad0e2efe2cf48bfa90560a759627
+  NestedObjects:
+  - {fileID: 8382892181145901071}
+  NetworkedBehaviours: []
+  SimulationBehaviours: []
 --- !u!1 &8382892181515793537
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,9 +409,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8382892181515793537}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.511346}
-  m_LocalScale: {x: 0.46770832, y: 0.46770832, z: 0.46770832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8382892181236974364}
@@ -394,9 +421,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 453.17255, y: 228.46681}
-  m_SizeDelta: {x: 1920, y: 1079.7328}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!223 &8382892181515793549
 Canvas:
   m_ObjectHideFlags: 0

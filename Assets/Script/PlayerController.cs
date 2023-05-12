@@ -11,7 +11,6 @@ public class PlayerController : NetworkBehaviour
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     private GameObject finishObject;
-    private GameObject HUD_UI;
     [SerializeField]
     private GameObject HUD_UI_Prefab;
     private float totalDistance;
@@ -38,8 +37,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (Object.HasInputAuthority)
         {
-            HUD_UI = Instantiate(HUD_UI_Prefab);
-            HUD_UI.SetActive(false); // 預設禁用 HUD_UI
+            NetworkObject HUD_UI = Runner.Spawn(HUD_UI_Prefab);
         }
     }
 
@@ -52,7 +50,6 @@ public class PlayerController : NetworkBehaviour
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI();
-            HUD_UI.SetActive(true);
             //EnablePlayerControl_RPC();
         }
         else
