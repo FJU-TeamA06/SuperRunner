@@ -13,24 +13,30 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField]
     private NetworkPrefabRef playerPrefab;
+    private int playerNumber;
     public PlayerController PlayerController;
     private Dictionary<PlayerRef, NetworkObject> playerList = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField]
     public GameMode gameMode;
     public int levelIndex; // 使用int类型的levelIndex来表示当前选中的关卡
-    public Dictionary<int, Vector3> spawnPositions; // 修改关卡和生成位置的对应字典，将GameMode替换为int类型
+    private Dictionary<int, Dictionary<int, Vector3>> spawnPositions;
     private void Start()
     {
-        spawnPositions = new Dictionary<int, Vector3>()
+        spawnPositions = new Dictionary<int, Dictionary<int, Vector3>>()
         {
-            { 1, new Vector3(0, 2, 0) },
-            { 2, new Vector3(0, 2, 1.5F) },
-            // 在这里添加更多关卡和生成位置
+            { 1, new Dictionary<int, Vector3>()
+                {
+                    { 1, new Vector3(0, 2, 0) },
+                    { 2, new Vector3(0, 2, 2F) }
+                }
+            },
+            // 添加更多关卡和生成位置
         };
+
         //StartGame(gameMode);
     }
 
-    public async void StartGame(GameMode mode,int selectedLevel)
+    public async void StartGame(GameMode mode,int selectedLevel,int PlayerNum)
     {
         if (playerPrefab == null)
         {
@@ -38,6 +44,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
         levelIndex = selectedLevel;
+        playerNumber=PlayerNum;
         networkRunner.ProvideInput = true;
         await networkRunner.StartGame(new StartGameArgs()
         {
@@ -51,10 +58,17 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Vector3 spawnPosition;
-        if (spawnPositions.TryGetValue(levelIndex, out spawnPosition))
+        if (spawnPositions.TryGetValue(levelIndex, out Dictionary<int, Vector3> levelSpawnPositions))
         {
-            NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
-            playerList.Add(player, networkPlayerObject);
+            if (levelSpawnPositions.TryGetValue(playerNumber, out Vector3 playerSpawnPosition))
+            {
+                NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, playerSpawnPosition, Quaternion.identity, player);
+                playerList.Add(player, networkPlayerObject);
+            }
+            else
+            {
+                // 处理无法找到 PlayerNum 的逻辑
+            }
         }
         else
         {

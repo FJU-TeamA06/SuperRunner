@@ -33,10 +33,10 @@ public class NameInputHandler : MonoBehaviour
     }
 
     // 创建一个新方法，在用户选择关卡后开始游戏
-    public void StartGameAfterLevelSelection(int selectedLevel)
+    public void StartGameAfterLevelSelection(int selectedLevel,int PlayerNum)
     {
         // 在这里设置关卡信息，您可以根据需要进行修改
-        basicSpawner.StartGame(basicSpawner.gameMode, selectedLevel);
+        basicSpawner.StartGame(basicSpawner.gameMode, selectedLevel,PlayerNum);
         Destroy(gameObject);
     }
 }

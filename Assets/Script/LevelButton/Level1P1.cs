@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Level1 : MonoBehaviour
+public class Level1P1 : MonoBehaviour
 {
     public int levelNumber = 1; // 关卡编号
+    public int playerNum=1;
     public NameInputHandler nameInputHandler; // 对NameInputHandler的引用
     public GameObject levelSelectionPanel; // 对关卡选择面板的引用
 
@@ -26,7 +27,7 @@ public class Level1 : MonoBehaviour
     void OnButtonClick()
     {
         // 调用NameInputHandler脚本的StartGameAfterLevelSelection方法并传递关卡编号
-        nameInputHandler.StartGameAfterLevelSelection(levelNumber);
+        nameInputHandler.StartGameAfterLevelSelection(levelNumber,playerNum);
         Destroy(levelSelectionPanel); // 销毁关卡选择面板
     }
 }
