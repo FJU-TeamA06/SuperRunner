@@ -50,7 +50,7 @@ public class StartButtonScript : NetworkBehaviour
                     StartWall startWallScript = wallObject.GetComponent<StartWall>();
                     if (startWallScript != null)
                     {
-                        startWallScript.DespawnWall();
+                        startWallScript.RequestDespawnWall_RPC();
                         DisableStartButton_RPC();
                         
                     }

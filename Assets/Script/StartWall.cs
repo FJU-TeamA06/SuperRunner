@@ -18,4 +18,9 @@ public class StartWall : NetworkBehaviour
     {
         Runner.Despawn(Object);
     }
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RequestDespawnWall_RPC()
+    {
+        DespawnWall();
+    }
 }
