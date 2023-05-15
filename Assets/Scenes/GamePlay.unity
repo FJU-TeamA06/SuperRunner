@@ -1678,8 +1678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acba36b164dd6943969ea6b4e9ac00e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 2
-  playerNum: 2
   nameInputHandler: {fileID: 106834934}
   levelSelectionPanel: {fileID: 1208955023}
 --- !u!1 &832575517
@@ -2327,8 +2325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9656924fa6794478c9760e16f49d1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 1
-  playerNum: 1
   nameInputHandler: {fileID: 106834934}
   levelSelectionPanel: {fileID: 1208955023}
 --- !u!1 &1401111831
