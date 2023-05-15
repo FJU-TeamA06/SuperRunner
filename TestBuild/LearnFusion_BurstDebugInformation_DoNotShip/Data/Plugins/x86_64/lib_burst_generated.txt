@@ -1,4 +1,4 @@
-Library: D:\Github\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+Library: C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-14
 --target=X64_SSE2
@@ -129,8 +129,8 @@ Library: D:\Github\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="LearnFusion_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\Github\Platformer2.5D\Temp\Burst
---output=D:\Github\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\Burst
+--output=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
@@ -277,8 +277,8 @@ Library: D:\Github\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="LearnFusion_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\Github\Platformer2.5D\Temp\Burst
---output=D:\Github\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\Burst
+--output=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerUIController : MonoBehaviour
 {
-    private Text timerText;
+    public Text timerText;
     private float timeElapsed;
     private bool timerActive;
 
@@ -12,6 +12,7 @@ public class TimerUIController : MonoBehaviour
     {
         timerText = GetComponent<Text>();
         timerActive = false;
+        ResetTimer();
     }
 
     void Update()

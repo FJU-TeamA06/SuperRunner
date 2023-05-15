@@ -11,6 +11,7 @@ public class StartButtonScript : NetworkBehaviour
     [SerializeField]
     private PlayerController playerController;
     public GameObject wallObject;
+    private GameObject timeObject;
 
     public override void Spawned()
     {
@@ -27,6 +28,7 @@ public class StartButtonScript : NetworkBehaviour
         // 為按鈕添加OnClick事件
         StartButton.onClick.AddListener(OnStartButtonClick);
         wallObject = GameObject.FindGameObjectWithTag("StartWall");
+        timeObject = GameObject.FindGameObjectWithTag("Timer");
         if (wallObject == null)
         {
             Debug.LogWarning("未找到帶有 'Wall' 標籤的物件。請確保牆物件已設置標籤。");
@@ -68,6 +70,8 @@ public class StartButtonScript : NetworkBehaviour
     {
         StartButton.gameObject.SetActive(false);
         print("Disabled Start Button");
+        TimerUIController timerScript = timeObject.GetComponent<TimerUIController>();
+        timerScript.StartTimer();
     }
     
 }

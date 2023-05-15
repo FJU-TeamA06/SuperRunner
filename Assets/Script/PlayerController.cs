@@ -24,7 +24,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private int maxHp = 100;
     private float timer = 0;
-
+    private GameObject timeObject;
+    
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
     [Networked(OnChanged = nameof(OnNameChanged))]
@@ -47,6 +48,7 @@ public class PlayerController : NetworkBehaviour
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
+            timeObject = GameObject.FindGameObjectWithTag("Timer");
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI();

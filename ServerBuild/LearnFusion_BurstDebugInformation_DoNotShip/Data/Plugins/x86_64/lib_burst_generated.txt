@@ -1,4 +1,4 @@
-Library: C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+Library: C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-14
 --target=X64_SSE2
@@ -99,7 +99,6 @@ Library: C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plug
 --compilation-defines=NET_STANDARD_2_1
 --compilation-defines=NETSTANDARD
 --compilation-defines=NETSTANDARD2_1
---compilation-defines=UNITY_SERVER
 --compilation-defines=ENABLE_CUSTOM_RENDER_TEXTURE
 --compilation-defines=ENABLE_DIRECTOR
 --compilation-defines=ENABLE_LOCALIZATION
@@ -130,8 +129,8 @@ Library: C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plug
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="LearnFusion_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\andyching168\Project\Platformer2.5D\Temp\Burst
---output=C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\Burst
+--output=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
@@ -248,7 +247,6 @@ Library: C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plug
 --compilation-defines=NET_STANDARD_2_1
 --compilation-defines=NETSTANDARD
 --compilation-defines=NETSTANDARD2_1
---compilation-defines=UNITY_SERVER
 --compilation-defines=ENABLE_CUSTOM_RENDER_TEXTURE
 --compilation-defines=ENABLE_DIRECTOR
 --compilation-defines=ENABLE_LOCALIZATION
@@ -279,8 +277,8 @@ Library: C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plug
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="LearnFusion_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\andyching168\Project\Platformer2.5D\Temp\Burst
---output=C:\Users\andyching168\Project\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\Burst
+--output=C:\Users\B00\Documents\GitHub\Platformer2.5D\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 

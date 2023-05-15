@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 6192822013241795849}
   m_Layer: 5
   m_Name: Timer_UI
-  m_TagString: Untagged
+  m_TagString: Timer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8804039d562d7e49a15573cca3d6a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerText: {fileID: 8382892181236974365}
 --- !u!1 &8382892181486201853
 GameObject:
   m_ObjectHideFlags: 0
