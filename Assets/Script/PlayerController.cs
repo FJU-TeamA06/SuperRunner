@@ -34,6 +34,7 @@ public class PlayerController : NetworkBehaviour
     public NetworkButtons ButtonsPrevious { get; set; }
     [SerializeField]
     private MeshRenderer meshRenderer = null;
+    private static readonly float FinishThreshold = 1.0f; // 這個值代表角色距離終點多近時算是已經抵達。
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -48,7 +49,7 @@ public class PlayerController : NetworkBehaviour
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
-            timeObject = GameObject.FindGameObjectWithTag("Timer");
+            
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI();
@@ -95,12 +96,28 @@ public class PlayerController : NetworkBehaviour
             Vector3 moveVector = data.movementInput.normalized;
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
         }
+        timeObject = GameObject.FindGameObjectWithTag("Timer");
         if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
         {
             Respawn();
         }
+        
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        // 檢查是否已經抵達終點
+        if (other.gameObject == finishObject)
+        {
+            OnReachedFinish();
+        }
+    }
+    private void OnReachedFinish()
+    {
+        // 在這裡添加您想要在角色抵達終點時執行的程式碼
+        
+        TimerUIController timerScript = timeObject.GetComponent<TimerUIController>();
+        timerScript.StopTimer();
+    }
     private void Respawn()
     {
         networkCharacterController.transform.position = Vector3.up * 2;
