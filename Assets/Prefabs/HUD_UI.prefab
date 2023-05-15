@@ -221,7 +221,6 @@ MonoBehaviour:
   playerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
   wallObject: {fileID: 0}
-  _buttonStartEnabled: 0
 --- !u!114 &8382892181145901071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +256,7 @@ GameObject:
   - component: {fileID: 8382892181236974364}
   - component: {fileID: 8382892181236974362}
   - component: {fileID: 8382892181236974365}
+  - component: {fileID: 6192822013241795849}
   m_Layer: 5
   m_Name: Timer_UI
   m_TagString: Untagged
@@ -326,6 +326,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Time:000
+--- !u!114 &6192822013241795849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8382892181236974367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8804039d562d7e49a15573cca3d6a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8382892181486201853
 GameObject:
   m_ObjectHideFlags: 0
