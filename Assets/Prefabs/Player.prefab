@@ -274,12 +274,14 @@ MonoBehaviour:
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
-  HUD_UI_Prefab: {fileID: 8382892181486201853, guid: 077fad0e2efe2cf48bfa90560a759627,
+  timeObject: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
   moveSpeed: 15
   UIname: {fileID: 723208538431731025}
   hpBar: {fileID: 8167070771759355155}
   maxHp: 100
+  timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
+    type: 3}
   _Hp: 0
   _PlayerName:
     _length: 0

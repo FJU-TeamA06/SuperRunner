@@ -12,7 +12,8 @@ public class PlayerController : NetworkBehaviour
     private Vector3 startPoint;
     private GameObject finishObject;
     [SerializeField]
-    private GameObject HUD_UI_Prefab;
+    private GameObject timeObject;
+    public GameObject wallObject;
     private float totalDistance;
     private Collider finishCollider;
     [SerializeField]
@@ -24,7 +25,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private int maxHp = 100;
     private float timer = 0;
-    private GameObject timeObject;
+    public GameObject timerPrefab;
     
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
@@ -35,11 +36,13 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private MeshRenderer meshRenderer = null;
     private static readonly float FinishThreshold = 1.0f; // 這個值代表角色距離終點多近時算是已經抵達。
+    private GameObject timerInstance;
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
         {
-            NetworkObject HUD_UI = Runner.Spawn(HUD_UI_Prefab);
+            //Runner.Spawn(HUD_UI_Prefab);
+            GameObject timerInstance = Instantiate(timerPrefab);
         }
     }
 
@@ -52,7 +55,7 @@ public class PlayerController : NetworkBehaviour
             
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
-            InstantiateHUD_UI();
+            InstantiateHUD_UI(); 
             //EnablePlayerControl_RPC();
         }
         else
@@ -61,6 +64,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Object.HasStateAuthority)
             Hp = maxHp;
+            
         
     }
     private void CalculateDistancePercentage()
@@ -96,6 +100,7 @@ public class PlayerController : NetworkBehaviour
             Vector3 moveVector = data.movementInput.normalized;
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
         }
+          
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
         {
@@ -115,7 +120,8 @@ public class PlayerController : NetworkBehaviour
     {
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         
-        TimerUIController timerScript = timeObject.GetComponent<TimerUIController>();
+        timeObject = GameObject.FindGameObjectWithTag("Timer");
+        timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();
     }
     private void Respawn()
@@ -162,6 +168,29 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             ChangeColor_RPC(Color.blue);
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            timeObject = GameObject.FindGameObjectWithTag("Timer");
+            wallObject = GameObject.FindGameObjectWithTag("StartWall");
+            StartWall startWallScript = wallObject.GetComponent<StartWall>();
+            if (startWallScript != null)
+            {
+                startWallScript.RequestDespawnWall_RPC();
+                
+            }
+            timerUI timerScript = timeObject.GetComponent<timerUI>();
+            if (timerScript != null)
+            {
+                timerScript.StartTimer();
+                // 在這裡訪問 timerScript 或執行相關操作
+            }
+            else
+            {
+                print("錯誤");
+            }
+            
+            
         }
         timer += Time.deltaTime;
         if (timer >= 1)
