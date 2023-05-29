@@ -20,6 +20,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public GameMode gameMode;
     public int levelIndex; // 使用int类型的levelIndex来表示当前选中的关卡
     private Dictionary<int, Dictionary<int, Vector3>> spawnPositions;
+    private bool isServer=false;
     private void Start()
     {
         spawnPositions = new Dictionary<int, Dictionary<int, Vector3>>()
@@ -32,10 +33,22 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             },
             // 添加更多关卡和生成位置
         };
-
+        if (IsServerMode())
+        {
+            StartServer(gameMode);
+        }
         //StartGame(gameMode);
     }
-
+    public async void StartServer(GameMode mode)
+    {
+        await networkRunner.StartGame(new StartGameArgs()
+        {
+            GameMode = mode,
+            SessionName = "Fusion Room",
+            Scene = SceneManager.GetActiveScene().buildIndex,
+            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+        });
+    }
     public async void StartGame(GameMode mode,int selectedLevel,int PlayerNum)
     {
         if (playerPrefab == null)
@@ -46,6 +59,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         levelIndex = selectedLevel;
         playerNumber=PlayerNum;
         networkRunner.ProvideInput = true;
+        //print("OK");
         await networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
@@ -53,6 +67,20 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Scene = SceneManager.GetActiveScene().buildIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
+    }
+    private bool IsServerMode()
+    {
+        // 判斷是否為 Server 模式的程式碼...
+        if(gameMode == GameMode.Server)
+        {
+            isServer=true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -72,7 +100,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         else
         {
-            Debug.LogError("Spawn position not found for the selected level index.");
+            if(isServer)
+            {
+                NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity, player);
+                playerList.Add(player, networkPlayerObject);
+            }
+            else
+            {
+                Debug.LogError("Spawn position not found for the selected level index.");
+            }
+            
         }
 
     }
