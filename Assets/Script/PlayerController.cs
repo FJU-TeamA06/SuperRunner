@@ -12,12 +12,12 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private Bullet bulletPrefab;
     private Vector3 startPoint;
-    private GameObject finishObject;
     [SerializeField]
     private GameObject timeObject;
     public GameObject wallObject;
     private float totalDistance;
     private Collider finishCollider;
+    private GameObject finishObject;
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
@@ -53,6 +53,7 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
+        finishObject=GameObject.FindGameObjectWithTag("Finish1");
         if(Object.HasInputAuthority)
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
@@ -76,8 +77,8 @@ public class PlayerController : NetworkBehaviour
     }
     private float CalculateDistancePercentage()
     {
-        Vector3 closestPointOnBounds = finishCollider.bounds.ClosestPoint(transform.position);
-        float currentDistance = Vector3.Distance(transform.position, closestPointOnBounds);
+        //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
+        float currentDistance = Vector3.Distance(transform.position,finishObject.transform.position);
         Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
         return currentDistance;
     }
@@ -180,6 +181,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             DistRutern_RPC();
@@ -199,6 +201,7 @@ public class PlayerController : NetworkBehaviour
         {
             timeObject = GameObject.FindGameObjectWithTag("Timer");
             wallObject = GameObject.FindGameObjectWithTag("StartWall");
+            
             StartWall startWallScript = wallObject.GetComponent<StartWall>();
             if (startWallScript != null)
             {

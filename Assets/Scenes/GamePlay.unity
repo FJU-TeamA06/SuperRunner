@@ -2469,7 +2469,7 @@ MonoBehaviour:
     RawGuidValue: 0ddacb3c5e7ec8c40b492143c709ebaf
   PlayerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
-  gameMode: 4
+  gameMode: 5
   levelIndex: 0
 --- !u!1 &1526591986
 GameObject:
