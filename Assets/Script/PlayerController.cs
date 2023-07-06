@@ -8,9 +8,6 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
-    [Networked(OnChanged = nameof(OnFinished))] public int isFinished { get; set; }
-
-
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     private GameObject finishObject;
@@ -60,7 +57,6 @@ public class PlayerController : NetworkBehaviour
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI(); 
             //EnablePlayerControl_RPC();
-            isFinished=0;
         }
         else
         {
@@ -127,7 +123,6 @@ public class PlayerController : NetworkBehaviour
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();
-        print("PlayerController:"+isFinished);
     }
     private void Respawn()
     {
@@ -158,10 +153,12 @@ public class PlayerController : NetworkBehaviour
     {
         changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
     }
-    private static void OnFinished(Changed<PlayerController> changed)
+
+    public void OnFinished()
     {
         print("Finally Finished");
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))

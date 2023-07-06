@@ -2983,7 +2983,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _isFinished: 0
 --- !u!1 &2026787784
 GameObject:
   m_ObjectHideFlags: 0
