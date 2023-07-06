@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : NetworkBehaviour
 {
     [Networked] public int isFinished { get; set; }
+    
     [SerializeField]
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
@@ -25,11 +26,14 @@ public class PlayerController : NetworkBehaviour
     private Image hpBar = null;
     [SerializeField]
     private int maxHp = 100;
+    [SerializeField]
+    private float maxDist = 100;
     private float timer = 0;
     public GameObject timerPrefab;
-    
+    [Networked(OnChanged=nameof(OnDistChanged))] public float Dist { get; set; }
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
+
     [Networked(OnChanged = nameof(OnNameChanged))]
     public NetworkString<_16> PlayerName { get; set; }
     [Networked]
@@ -57,6 +61,7 @@ public class PlayerController : NetworkBehaviour
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI(); 
+            maxDist=CalculateDistancePercentage();
             //EnablePlayerControl_RPC();
         }
         else
@@ -109,6 +114,7 @@ public class PlayerController : NetworkBehaviour
         {
             Respawn();
         }
+        Dist=CalculateDistancePercentage();
         
     }
     private void OnTriggerEnter(Collider other)
@@ -154,9 +160,12 @@ public class PlayerController : NetworkBehaviour
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {
-        changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
+        //changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
     }
-
+    private static void OnDistChanged(Changed<PlayerController> changed)
+    {
+        changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Dist / changed.Behaviour.maxDist;
+    }
     public void OnFinished()
     {
         if(isFinished==0)
@@ -173,6 +182,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            DistRutern_RPC();
             ChangeColor_RPC(Color.red);
         }
 
