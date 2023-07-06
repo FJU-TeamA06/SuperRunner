@@ -5,6 +5,7 @@ using Fusion;
 using UnityEngine.UI;
 public class PlayerController : NetworkBehaviour
 {
+    [Networked] public int isFinished { get; set; }
     [SerializeField]
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
@@ -64,14 +65,16 @@ public class PlayerController : NetworkBehaviour
         }
         if (Object.HasStateAuthority)
             Hp = maxHp;
+            isFinished=0;
             
         
     }
-    private void CalculateDistancePercentage()
+    private float CalculateDistancePercentage()
     {
         Vector3 closestPointOnBounds = finishCollider.bounds.ClosestPoint(transform.position);
         float currentDistance = Vector3.Distance(transform.position, closestPointOnBounds);
         Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
+        return currentDistance;
     }
     public void EnablePlayerControl()
     {
@@ -156,7 +159,14 @@ public class PlayerController : NetworkBehaviour
 
     public void OnFinished()
     {
-        print("Finally Finished");
+        if(isFinished==0)
+        {
+            print("Finally Finished");
+            Finish_RPC(this.PlayerName.ToString());
+            isFinished=1;
+        }
+        
+        
     }
 
     private void Update()
@@ -211,8 +221,14 @@ public class PlayerController : NetworkBehaviour
         meshRenderer.material.color = newColor;
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void Finish_RPC(int a)
+    public void Finish_RPC(string a)
     {
-        print("RPC_Works"+a);
+        print("Player:"+a+" Is the First Place.");
+        DistRutern_RPC();
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void DistRutern_RPC()
+    {
+        print("玩家:"+ this.PlayerName.ToString() +" 跟終點距離: "+CalculateDistancePercentage());
     }
 }
