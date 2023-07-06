@@ -204,10 +204,11 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    void Finish_RPC()
+    [Rpc]
+    public static void Finish_RPC(NetworkRunner runner)
     {
-        print("RPC Works");
+        print("RPC_Works");
     }
+}
 
 }
