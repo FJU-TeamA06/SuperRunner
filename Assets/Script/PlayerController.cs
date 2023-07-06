@@ -204,5 +204,10 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void Finish_RPC()
+    {
+        print("RPC Works");
+    }
 
 }

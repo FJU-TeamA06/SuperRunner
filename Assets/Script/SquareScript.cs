@@ -20,8 +20,14 @@ public class SquareScript : NetworkBehaviour
 
                 //Debug.Log("Square A touched by ID: " + playerID);
                 print("Someone Finished "+ "Is " + player.PlayerName);
+                Finish_RPC();
                 
             }
         }
+    }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void Finish_RPC()
+    {
+        
     }
 }
