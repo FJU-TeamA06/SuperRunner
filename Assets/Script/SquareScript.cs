@@ -5,6 +5,7 @@ using Fusion;
 
 public class SquareScript : NetworkBehaviour
 {
+    [Networked] public int isFinished { get; set; }
     private void OnTriggerEnter(Collider other)
     {
         // Check if the touching object has the "Player" tag
@@ -20,7 +21,8 @@ public class SquareScript : NetworkBehaviour
 
                 //Debug.Log("Square A touched by ID: " + playerID);
                 print("Someone Finished "+ "Is " + player.PlayerName);
-                Finish_RPC(42);
+                isFinished=1;
+                Finish_RPC(isFinished);
                 
             }
         }
@@ -28,7 +30,7 @@ public class SquareScript : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Finish_RPC(int a)
     {
-        print(a);
+        print("Square:"+a);
     }
 }
     
