@@ -28,16 +28,26 @@ public class PlayerController : NetworkBehaviour
     private int maxHp = 100;
     [SerializeField]
     private float maxDist = 100;
+    //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
     [Networked(OnChanged=nameof(OnDistChanged))] public float Dist { get; set; }
+    //玩家血量(預計最終要移除)
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
 
+    //玩家名稱
     [Networked(OnChanged = nameof(OnNameChanged))]
     public NetworkString<_16> PlayerName { get; set; }
     [Networked]
     public NetworkButtons ButtonsPrevious { get; set; }
+
+    //不用網路字典了，直接在每個玩家裡面存一個網路變數，Server端可以直接呼叫所有玩家來回傳(用function)
+    [Networked] 
+    [field: SerializeField] 
+    public float distance { get; private set; }
+    
+
     [SerializeField]
     private MeshRenderer meshRenderer = null;
     private static readonly float FinishThreshold = 1.0f; // 這個值代表角色距離終點多近時算是已經抵達。
@@ -79,7 +89,7 @@ public class PlayerController : NetworkBehaviour
     {
         //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
         float currentDistance = Vector3.Distance(transform.position,finishObject.transform.position);
-        Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
+        //Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
         return currentDistance;
     }
     public void EnablePlayerControl()
@@ -115,8 +125,15 @@ public class PlayerController : NetworkBehaviour
         {
             Respawn();
         }
-        Dist=CalculateDistancePercentage();
         
+        if(HasStateAuthority)
+        {
+            distance = CalculateDistancePercentage();
+        }
+
+
+
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -174,6 +191,7 @@ public class PlayerController : NetworkBehaviour
             print("Finally Finished");
             Finish_RPC(this.PlayerName.ToString());
             isFinished=1;
+            
         }
         
         
@@ -182,10 +200,15 @@ public class PlayerController : NetworkBehaviour
     private void Update()
     {
         
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             DistRutern_RPC();
             ChangeColor_RPC(Color.red);
+        }
+        if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
+        {
+            print(distance);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -213,6 +236,7 @@ public class PlayerController : NetworkBehaviour
             {
                 timerScript.StartTimer();
                 // 在這裡訪問 timerScript 或執行相關操作
+                //之後要實作timer相關的rpc呼叫
             }
             else
             {
