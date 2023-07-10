@@ -266,6 +266,18 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
-        print("玩家:"+ this.PlayerName.ToString() +" 跟終點距離: "+CalculateDistancePercentage());
+        if (HasStateAuthority)
+        {
+            GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var player in allPlayers)
+            {
+                // 先檢查遊戲物件是否有你想要的 Component（比如你的 PlayerController 或其他）
+                PlayerController playerController = player.GetComponent<PlayerController>();
+                if(playerController != null)
+                {
+                    print(playerController.PlayerName+" : "+playerController.distance);
+                }
+            }
+        }
     }
 }
