@@ -271,6 +271,17 @@ public class PlayerController : NetworkBehaviour
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
     }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void ScoreDisplay_RPC()
+    {
+        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        {
+        Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
+        }
+    }
+
+
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
