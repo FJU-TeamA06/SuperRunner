@@ -410,6 +410,7 @@ public class PlayerController : NetworkBehaviour
                         {
                         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
                         }
+                        ScoreDisplay_RPC();
 
                     xxx=xxx+1;
                 }
