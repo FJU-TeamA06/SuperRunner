@@ -223,7 +223,7 @@ public class PlayerController : NetworkBehaviour
         {
             ChangeColor_RPC(Color.green);
         }
-
+        
         if (Input.GetKeyDown(KeyCode.B))
         {
             ChangeColor_RPC(Color.blue);
@@ -242,7 +242,7 @@ public class PlayerController : NetworkBehaviour
             timerUI timerScript = timeObject.GetComponent<timerUI>();
             if (timerScript != null)
             {
-                timerScript.StartTimer();
+                //timerScript.StartTimer();
                 // 在這裡訪問 timerScript 或執行相關操作
                 //之後要實作timer相關的rpc呼叫
             }
@@ -274,10 +274,15 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void ScoreDisplay_RPC()
     {
+        timeObject = GameObject.FindGameObjectWithTag("timerText");
+        Text timerText = timeObject.GetComponent<Text>();
+        print(timerText);
+        timerText.text="";
         print("RPC:");
         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
         {
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
+        timerText.text=timerText.text+"\n"+i+":"+ScoreLeaderboard[i];
         }
     }
 
