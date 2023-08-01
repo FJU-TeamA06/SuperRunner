@@ -374,7 +374,7 @@ public class PlayerController : NetworkBehaviour
                     }
 
 
-                    else if(xxx==4){
+                    
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             print(secN+" Is The Second Place !! ");
@@ -387,8 +387,8 @@ public class PlayerController : NetworkBehaviour
                         if(fou != -1){
                             print(fouN+" Is The Fourth Place !! ");
                             fou=-1;
-                    }
-                    }
+                        }
+                    
                     
 
                     xxx=xxx+1;
