@@ -13,6 +13,10 @@ public class PlayerController : NetworkBehaviour
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     [SerializeField]
+    public float fir=-1,sec=-1,thi=-1,fou=-1,cha;
+    public string firN,secN,thiN,fouN,chaN;
+    public int xxx=0;
+    [SerializeField]
     private GameObject timeObject;
     public GameObject wallObject;
     private float totalDistance;
@@ -275,7 +279,117 @@ public class PlayerController : NetworkBehaviour
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 if(playerController != null)
                 {
-                    print(playerController.PlayerName+" : "+playerController.distance);
+                    if(xxx == 0){
+                        fir=playerController.distance;
+                        firN=playerController.PlayerName.ToString();
+                    }
+                    else if(xxx == 1){
+                        sec=playerController.distance;
+                        secN=playerController.PlayerName.ToString();
+                        if(sec<=fir){
+                            cha=sec;    //2->1
+                            chaN=secN;
+                            sec=fir;
+                            secN=firN;
+                            fir=cha;
+                            firN=chaN;
+                        }
+                    }
+                    else if(xxx == 2){
+                        thi=playerController.distance;
+                        thiN=playerController.PlayerName.ToString();
+                        if(thi<=fir){
+                            cha=thi;  // 3->1
+                            chaN=thiN;
+                            thi=fir;
+                            thiN=firN;
+                            fir=cha;
+                            firN=chaN;
+
+                            cha=sec;   // 2->3
+                            chaN=secN;
+                            sec=thi;
+                            secN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+                        }
+                        else if(thi <= sec){
+                            cha=sec;
+                            chaN=secN;
+                            sec=thi;
+                            secN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+                        }
+                    }
+                    else if(xxx == 3){
+                        fou=playerController.distance;
+                        fouN=playerController.PlayerName.ToString();
+                        if(fou<=fir){
+                            cha=fou;
+                            chaN=fouN;
+                            fou=fir;
+                            fouN=firN;
+                            fir=cha;
+                            firN=chaN;
+
+                            cha=fou;
+                            chaN=fouN;
+                            fou=thi;
+                            fouN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+
+                            cha=sec;
+                            chaN=secN;
+                            sec=thi;
+                            secN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+
+                        }
+                        else if(fou<=sec){
+                            cha=fou;     // 4->3
+                            chaN=fouN;
+                            fou=thi;
+                            fouN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+
+                            cha=sec;   // 3->2
+                            chaN=secN;
+                            sec=thi;
+                            secN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+                        }
+                        else if(fou<=thi){
+                            cha=fou;     // 4->3
+                            chaN=fouN;
+                            fou=thi;
+                            fouN=thiN;
+                            thi=cha;
+                            thiN=chaN;
+                        }
+                    }
+
+
+                    print(firN+" Is The First Place !! ");
+                        if(sec != -1){
+                            print(secN+" Is The Second Place !! ");
+                            sec=-1;
+                        }
+                        if(thi != -1){
+                            print(thiN+" Is The Third Place !! ");
+                            thi=-1;
+                        }
+                        if(fou != -1){
+                            print(fouN+" Is The Fourth Place !! ");
+                            fou=-1;
+                    }
+                    
+
+                    xxx=xxx+1;
                 }
             }
         }
