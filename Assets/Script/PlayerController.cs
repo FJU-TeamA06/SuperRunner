@@ -50,7 +50,11 @@ public class PlayerController : NetworkBehaviour
     [Networked] 
     [field: SerializeField] 
     public float distance { get; private set; }
-    
+
+    [Networked]
+    [Capacity(4)] // Sets the fixed capacity of the collection
+    NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
+    MakeInitializer(new NetworkString<_32>[] { "#0", "#1", "#2", "#3" });
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -374,22 +378,27 @@ public class PlayerController : NetworkBehaviour
                     }
 
 
-                    
+                        ScoreLeaderboard.Set(0, firN);
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
+                            ScoreLeaderboard.Set(1, secN);
                             print(secN+" Is The Second Place !! ");
                             sec=-1;
                         }
                         if(thi != -1){
+                            ScoreLeaderboard.Set(2, thiN);
                             print(thiN+" Is The Third Place !! ");
                             thi=-1;
                         }
                         if(fou != -1){
+                            ScoreLeaderboard.Set(3, fouN);
                             print(fouN+" Is The Fourth Place !! ");
                             fou=-1;
                         }
-                    
-                    
+                        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+                        {
+                        Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
+                        }
 
                     xxx=xxx+1;
                 }
