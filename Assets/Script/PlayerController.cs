@@ -274,6 +274,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void ScoreDisplay_RPC()
     {
+        print("RPC:");
         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
         {
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
@@ -406,6 +407,7 @@ public class PlayerController : NetworkBehaviour
                             print(fouN+" Is The Fourth Place !! ");
                             fou=-1;
                         }
+                        print("server:");
                         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
                         {
                         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
