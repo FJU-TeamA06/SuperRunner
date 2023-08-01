@@ -54,7 +54,7 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { -1,-1, -1, -1 });
+    MakeInitializer(new NetworkString<_32>[] { "-1","-1", "-1", "-1" });
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
