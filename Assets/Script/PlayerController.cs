@@ -283,7 +283,7 @@ public class PlayerController : NetworkBehaviour
                         fir=playerController.distance;
                         firN=playerController.PlayerName.ToString();
                     }
-                    else if(xxx == 1){
+                    else if(xxx == 1 && playerController.PlayerName.ToString() != firN){
                         sec=playerController.distance;
                         secN=playerController.PlayerName.ToString();
                         if(sec<=fir){
@@ -295,7 +295,7 @@ public class PlayerController : NetworkBehaviour
                             firN=chaN;
                         }
                     }
-                    else if(xxx == 2){
+                    else if(xxx == 2 && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         thi=playerController.distance;
                         thiN=playerController.PlayerName.ToString();
                         if(thi<=fir){
@@ -322,7 +322,7 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-                    else if(xxx == 3){
+                    else if(xxx == 3 && playerController.PlayerName.ToString() != thiN && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         fou=playerController.distance;
                         fouN=playerController.PlayerName.ToString();
                         if(fou<=fir){
@@ -374,7 +374,8 @@ public class PlayerController : NetworkBehaviour
                     }
 
 
-                    print(firN+" Is The First Place !! ");
+                    else if(xxx==4){
+                        print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             print(secN+" Is The Second Place !! ");
                             sec=-1;
@@ -386,6 +387,7 @@ public class PlayerController : NetworkBehaviour
                         if(fou != -1){
                             print(fouN+" Is The Fourth Place !! ");
                             fou=-1;
+                    }
                     }
                     
 
