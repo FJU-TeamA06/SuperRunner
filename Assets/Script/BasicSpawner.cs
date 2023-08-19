@@ -21,6 +21,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public int levelIndex; // 使用int类型的levelIndex来表示当前选中的关卡
     private Dictionary<int, Dictionary<int, Vector3>> spawnPositions;
     private bool isServer=false;
+
     private void Start()
     {
         spawnPositions = new Dictionary<int, Dictionary<int, Vector3>>()
@@ -50,7 +51,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         });
     }
     public async void StartGame(GameMode mode,int selectedLevel,int PlayerNum)
-    {
+    {//初始化房間和自動配對
         if (playerPrefab == null)
         {
             Debug.LogError("Player prefab not set.");
@@ -58,7 +59,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         levelIndex = selectedLevel;
         playerNumber=PlayerNum;
-        networkRunner.ProvideInput = true;
+        networkRunner.ProvideInput = true;  //tell runner we provide input
         //print("OK");
         await networkRunner.StartGame(new StartGameArgs()
         {
@@ -127,8 +128,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
-
-        
 
         if (Input.GetKey(KeyCode.A))
             data.movementInput += Vector3.left;

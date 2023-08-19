@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class PlayerController : NetworkBehaviour
 {
     [Networked] public int isFinished { get; set; }
-    
+
     [SerializeField]
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     [SerializeField]
-    public float fir=-1,sec=-1,thi=-1,fou=-1,cha;
-    public string firN,secN,thiN,fouN,chaN;
-    public int xxx=0;
+    public float fir = -1, sec = -1, thi = -1, fou = -1, cha;
+    public string firN, secN, thiN, fouN, chaN;
+    public int xxx = 0;
     [SerializeField]
     private GameObject timeObject;
     public GameObject wallObject;
@@ -35,7 +35,7 @@ public class PlayerController : NetworkBehaviour
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
-    [Networked(OnChanged=nameof(OnDistChanged))] public float Dist { get; set; }
+    [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量(預計最終要移除)
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
@@ -47,14 +47,14 @@ public class PlayerController : NetworkBehaviour
     public NetworkButtons ButtonsPrevious { get; set; }
 
     //不用網路字典了，直接在每個玩家裡面存一個網路變數，Server端可以直接呼叫所有玩家來回傳(用function)
-    [Networked] 
-    [field: SerializeField] 
+    [Networked]
+    [field: SerializeField]
     public float distance { get; private set; }
 
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "-1","-1", "-1", "-1" });
+    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -68,19 +68,21 @@ public class PlayerController : NetworkBehaviour
             GameObject timerInstance = Instantiate(timerPrefab);
         }
     }
+    
 
     public override void Spawned()
     {
-        finishObject=GameObject.FindGameObjectWithTag("Finish1");
-        if(Object.HasInputAuthority)
+        finishObject = GameObject.FindGameObjectWithTag("Finish1");
+
+        if (Object.HasInputAuthority)
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
-            
+
             finishCollider = finishObject.GetComponent<Collider>();
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
-            InstantiateHUD_UI(); 
-            maxDist=CalculateDistancePercentage();
+            InstantiateHUD_UI();
+            maxDist = CalculateDistancePercentage();
             //EnablePlayerControl_RPC();
         }
         else
@@ -88,21 +90,24 @@ public class PlayerController : NetworkBehaviour
 
         }
         if (Object.HasStateAuthority)
+        {
             Hp = maxHp;
-            isFinished=0;
-            
+        }
+        isFinished = 0;
         
+
+
     }
     private float CalculateDistancePercentage()
     {
         //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
-        float currentDistance = Vector3.Distance(transform.position,finishObject.transform.position);
+        float currentDistance = Vector3.Distance(transform.position, finishObject.transform.position);
         //Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
         return currentDistance;
     }
     public void EnablePlayerControl()
     {
-        
+
     }
 
     public override void FixedUpdateNetwork()
@@ -127,22 +132,41 @@ public class PlayerController : NetworkBehaviour
             Vector3 moveVector = data.movementInput.normalized;
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
         }
-          
+
         timeObject = GameObject.FindGameObjectWithTag("Timer");
-        if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
+
+        /*if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f )
         {
             Respawn();
+        }*/
+        if (ShouldRespawn()==true)
+        {
+            Respawn();
+            a = 0;
         }
-        
-        if(HasStateAuthority)
+
+        if (HasStateAuthority)
         {
             distance = CalculateDistancePercentage();
         }
-
-
-
+       
 
     }
+
+    int a = 0;
+    private bool ShouldRespawn()
+    {
+       if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
+            return true;
+       if (a==1)
+       {
+            return true;
+            a = 0;
+       }
+       else
+            return false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // 檢查是否已經抵達終點
@@ -150,11 +174,18 @@ public class PlayerController : NetworkBehaviour
         {
             OnReachedFinish();
         }
+        if (other.gameObject.CompareTag("trapdead"))
+        {
+            Debug.Log("Trapdead object collision!");
+            // Respawn();
+            a = 1;
+        }
+        
     }
+
     private void OnReachedFinish()
     {
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
-        
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();

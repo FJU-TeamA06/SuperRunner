@@ -9,6 +9,7 @@ TagManager:
   - StartWall
   - Timer
   - timerText
+  - trapdead
   layers:
   - Default
   - TransparentFX
