@@ -271,23 +271,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 2
+  MainCameraObject: {fileID: 0}
+  SideCameraObject: {fileID: 0}
+  MainCamera: {fileID: 0}
+  SideCamera: {fileID: 0}
+  _isFinished: 0
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
+  fir: 0
+  sec: 0
+  thi: 0
+  fou: 0
+  cha: 0
+  firN: 
+  secN: 
+  thiN: 
+  fouN: 
+  chaN: 
+  xxx: 0
   timeObject: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
+  wallObject: {fileID: 0}
   moveSpeed: 15
   UIname: {fileID: 723208538431731025}
   hpBar: {fileID: 8167070771759355155}
   maxHp: 100
+  maxDist: 0
   timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
+  _Dist: 0
   _Hp: 0
   _PlayerName:
     _length: 0
     _data:
       Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _distance: 0
   meshRenderer: {fileID: 2662581808552290347}
+  isMainCamera: 1
 --- !u!143 &2662581809399784534
 CharacterController:
   m_ObjectHideFlags: 0
@@ -610,6 +631,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d866fe3327b02b245be4816a9684dbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  SideCamera: {fileID: 0}
 --- !u!1 &7113972447767065794
 GameObject:
   m_ObjectHideFlags: 0

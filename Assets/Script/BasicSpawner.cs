@@ -131,9 +131,20 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetKey(KeyCode.A))
             data.movementInput += Vector3.left;
-
         if (Input.GetKey(KeyCode.D))
             data.movementInput += Vector3.right;
+        if (Input.GetKey(KeyCode.W))
+            data.movementInput += Vector3.forward;
+        if (Input.GetKey(KeyCode.S))
+            data.movementInput += Vector3.back;
+        if (Input.GetKey(KeyCode.UpArrow))
+            data.movementInput += Vector3.right;
+        if (Input.GetKey(KeyCode.DownArrow))
+            data.movementInput += Vector3.left;
+        if (Input.GetKey(KeyCode.LeftArrow))
+            data.movementInput += Vector3.forward;
+        if (Input.GetKey(KeyCode.RightArrow))
+            data.movementInput += Vector3.back;
         data.buttons.Set(InputButtons.JUMP,Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
         input.Set(data);

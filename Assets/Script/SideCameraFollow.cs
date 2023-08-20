@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class CameraFollow : MonoBehaviour
+public class SideCameraFollow : MonoBehaviour
 {
     public Transform target;
     public float smoothSpeed = 0.125f;
@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
-        offset = new Vector3(0f, 5f, -10f);
+        offset = new Vector3(-10f, 5f, 0f);
         networkRunner = FindObjectOfType<NetworkRunner>();
         StartCoroutine(FindPlayer());
     }
