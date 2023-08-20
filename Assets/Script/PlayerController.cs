@@ -73,10 +73,17 @@ public class PlayerController : NetworkBehaviour
             GameObject timerInstance = Instantiate(timerPrefab);
         }
     }
-    
 
+    private BasicSpawner basicSpawner;  //引用
+    private void Awake()
+    {
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+    }
+  
     public override void Spawned()
     {
+        
+
         finishObject = GameObject.FindGameObjectWithTag("Finish1");
 
         if (Object.HasInputAuthority)
@@ -155,7 +162,6 @@ public class PlayerController : NetworkBehaviour
             distance = CalculateDistancePercentage();
         }
        
-
     }
 
     int a = 0;
@@ -166,7 +172,6 @@ public class PlayerController : NetworkBehaviour
        if (a==1)
        {
             return true;
-            a = 0;
        }
        else
             return false;
@@ -195,12 +200,30 @@ public class PlayerController : NetworkBehaviour
         timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();
     }
-    private void Respawn()
+
+    /*private void Respawn()
     {
         networkCharacterController.transform.position = Vector3.up * 2;
         Hp = maxHp;
+    }*/
+    private void Respawn()
+    {
+        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+
+        if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
+        {
+            networkCharacterController.transform.position = spawnPosition;
+        }
+        else
+        {
+            // 如果無法獲取重生位置，可以設定一個默認的重生位置
+            networkCharacterController.transform.position = Vector3.up * 2;
+        }
+
+        Hp = maxHp; 
     }
-    
+
+
     static void OnNameChanged(Changed<PlayerController> changed)
     {
         Debug.Log($"Name changed for player to {changed.Behaviour.PlayerName}");

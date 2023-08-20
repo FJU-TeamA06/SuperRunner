@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Level1P2 : MonoBehaviour
 {
-    private int levelNumber = 1; // 关卡编号
+    private int levelNumber = 2; // 关卡编号
     private int playerNum=2;
     public NameInputHandler nameInputHandler; // 对NameInputHandler的引用
     public GameObject levelSelectionPanel; // 对关卡选择面板的引用
