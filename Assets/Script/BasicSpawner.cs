@@ -121,8 +121,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             if (levelSpawnPositions.TryGetValue(playerNumber, out Vector3 playerSpawnPosition))
             {
-                Debug.Log(playerNumber);//P1 or P2
-                Debug.Log(playerSpawnPosition);//P1 or P2
+                //Debug.Log(playerNumber);//P1 or P2
+                //Debug.Log(playerSpawnPosition);//P1 or P2
                 NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, playerSpawnPosition, Quaternion.identity, player);
                 playerList.Add(player, networkPlayerObject);
             }
