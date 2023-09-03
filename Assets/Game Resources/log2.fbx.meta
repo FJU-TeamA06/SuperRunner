@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bfb3713242e25f1448ef2632582d20d2
+guid: 3fbffb31b1a707349b6af3126e14f5db
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -66,7 +66,7 @@ ModelImporter:
       takeName: Cylinder.004|Cylinder.004Action
       internalID: 753833352031884721
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 80
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -95,7 +95,7 @@ ModelImporter:
       takeName: Cylinder.004|Cylinder.007Action
       internalID: 2329774861519470470
       firstFrame: 0
-      lastFrame: 80
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
