@@ -21,13 +21,13 @@ public class timerUI : MonoBehaviour
         if (timerActive)
         {
             timeElapsed += Time.deltaTime;
-            timerText.text = FormatTime(timeElapsed);
+            //timerText.text = FormatTime(timeElapsed);
         }
     }
 
     public void StartTimer()
     {
-        timerActive = true;
+        //timerActive = true;
     }
 
     public void StopTimer()
@@ -38,15 +38,15 @@ public class timerUI : MonoBehaviour
     public void ResetTimer()
     {
         timeElapsed = 0f;
-        timerText.text = FormatTime(timeElapsed);
+        //timerText.text = FormatTime(timeElapsed);
     }
 
-    private string FormatTime(float timeToFormat)
-    {
-        int minutes = (int) timeToFormat / 60;
-        int seconds = (int) timeToFormat % 60;
-        float fraction = (timeToFormat * 10) % 10;
+    //private string FormatTime(float timeToFormat)
+    //{
+        //int minutes = (int) timeToFormat / 60;
+       // int seconds = (int) timeToFormat % 60;
+      //  float fraction = (timeToFormat * 10) % 10;
 
-        return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
-    }
+       // return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
+    //}
 }

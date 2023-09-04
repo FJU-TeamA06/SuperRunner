@@ -288,7 +288,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DistRutern_RPC();
+            DistRutern_RPC();               //For Testing! 
             ChangeColor_RPC(Color.red);
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
@@ -313,6 +313,7 @@ public class PlayerController : NetworkBehaviour
             StartWall startWallScript = wallObject.GetComponent<StartWall>();
             if (startWallScript != null)
             {
+                StartM_RPC();
                 startWallScript.RequestDespawnWall_RPC();
                 
             }
@@ -361,6 +362,15 @@ public class PlayerController : NetworkBehaviour
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
         timerText.text=timerText.text+"\n"+i+":"+ScoreLeaderboard[i];
         }
+    }
+
+     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void StartM_RPC()
+    {
+        timeObject = GameObject.FindGameObjectWithTag("timerText");
+        Text timerText = timeObject.GetComponent<Text>();
+        timerText.text=" Start ! ";
+        
     }
 
 
