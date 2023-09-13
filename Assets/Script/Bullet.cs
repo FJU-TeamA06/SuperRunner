@@ -34,7 +34,7 @@ public class Bullet : NetworkBehaviour
         {
             var player = other.GetComponent<PlayerController>();
 
-            player.TakeDamage(10);
+            player.TakeDamage(34);
 
             Runner.Despawn(Object);
         }

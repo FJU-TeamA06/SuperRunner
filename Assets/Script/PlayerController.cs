@@ -257,7 +257,7 @@ public class PlayerController : NetworkBehaviour
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {
-        //changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
+        changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
     }
     private static void OnDistChanged(Changed<PlayerController> changed)
     {
