@@ -35,6 +35,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private int maxHp = 100;
     [SerializeField]
+    private int maxBullet = 5;
+    [SerializeField]
     private float maxDist = 100;
     //本地計時器
     private float timer = 0;
@@ -105,6 +107,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Object.HasStateAuthority)
         {
+            bulletCount=maxBullet;
             Hp = maxHp;
         }
         isFinished = 0;
@@ -137,12 +140,18 @@ public class PlayerController : NetworkBehaviour
             }
             if (pressed.IsSet(InputButtons.FIRE))
             {
-                //發射子彈(要做子彈數量的檢測)
-                Runner.Spawn(
+                //發射子彈(子彈數量的檢測)
+                if(bulletCount>0)
+                {
+                    Runner.Spawn(
                     bulletPrefab,
                     transform.position + transform.TransformDirection(Vector3.forward),
                     Quaternion.LookRotation(transform.TransformDirection(Vector3.forward)),
                     Object.InputAuthority);
+                    bulletCount--;
+                    print("bulletCount:"+bulletCount);
+                }
+                
             }
             Vector3 moveVector = data.movementInput.normalized;
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
