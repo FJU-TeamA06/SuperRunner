@@ -40,10 +40,12 @@ public class PlayerController : NetworkBehaviour
     private float timer = 0;
     public GameObject timerPrefab;
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
-    //玩家血量(預計最終要移除)
+    //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
-
+    //玩家子彈數量
+    [Networked]
+    public int bulletCount { get; set; }
     //玩家名稱
     [Networked(OnChanged = nameof(OnNameChanged))]
     public NetworkString<_16> PlayerName { get; set; }
@@ -135,6 +137,7 @@ public class PlayerController : NetworkBehaviour
             }
             if (pressed.IsSet(InputButtons.FIRE))
             {
+                //發射子彈(要做子彈數量的檢測)
                 Runner.Spawn(
                     bulletPrefab,
                     transform.position + transform.TransformDirection(Vector3.forward),
