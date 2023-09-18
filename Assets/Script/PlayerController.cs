@@ -168,6 +168,11 @@ public class PlayerController : NetworkBehaviour
             Respawn();
             a = 0;
         }
+        if(frozen == 1)
+        {
+            StartCoroutine(FreezePlayerForSeconds(5.0f));
+            frozen = 0;
+        }
 
         if (HasStateAuthority)
         {
@@ -189,6 +194,18 @@ public class PlayerController : NetworkBehaviour
             return false;
     }
 
+    int frozen = 0; 
+    private IEnumerator FreezePlayerForSeconds(float seconds)
+    {
+        if (frozen == 1)
+        {
+            moveSpeed = 0f;
+            yield return new WaitForSeconds(seconds); // 等待指定的秒數
+            moveSpeed = 13f; // 恢復移動速度
+        }
+        frozen = 0;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // 檢查是否已經抵達終點
@@ -202,7 +219,11 @@ public class PlayerController : NetworkBehaviour
             // Respawn();
             a = 1;
         }
-        
+        if (other.gameObject.CompareTag("Frozen"))
+        {
+            Debug.Log("Trapdead frozen!");
+            frozen = 1;
+        }
     }
 
     private void OnReachedFinish()
