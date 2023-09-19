@@ -21,6 +21,7 @@ public class PlayerController : NetworkBehaviour
     public string firN, secN, thiN, fouN, chaN;
     public int xxx = 0;
     [SerializeField]
+    private GameObject scoreObject;
     private GameObject timeObject;
     public GameObject wallObject;
     private float totalDistance;
@@ -41,6 +42,7 @@ public class PlayerController : NetworkBehaviour
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
+    public GameObject scorePrefab;
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -62,7 +64,13 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });
+    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名
+
+
+    [Networked]
+    [Capacity(4)] // Sets the fixed capacity of the collection
+    NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
+    MakeInitializer(new NetworkString<_32>[] { "0", "0", "0", "0" });       // 分數 
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -75,6 +83,7 @@ public class PlayerController : NetworkBehaviour
         {
             //Runner.Spawn(HUD_UI_Prefab);
             GameObject timerInstance = Instantiate(timerPrefab);
+            GameObject scoreInstance = Instantiate(scorePrefab);
         }
     }
 
@@ -158,6 +167,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         timeObject = GameObject.FindGameObjectWithTag("Timer");
+        scoreObject = GameObject.FindGameObjectWithTag("Score");
 
         /*if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f )
         {
@@ -347,6 +357,7 @@ public class PlayerController : NetworkBehaviour
             if (startWallScript != null)
             {
                 StartM_RPC();
+                FinalScoreDisplay_RPC();
                 startWallScript.RequestDespawnWall_RPC();
                 
             }
@@ -376,13 +387,15 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
+
+    [Rpc(RpcSources.All, RpcTargets.All)]                                 // 終點＿RPC
     public void Finish_RPC(string a)
     {
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
     }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                      // 排名顯示＿RPC
     public void ScoreDisplay_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
@@ -397,7 +410,21 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                      // 分數顯示＿RPC
+    public void FinalScoreDisplay_RPC()
+    {
+        scoreObject = GameObject.FindGameObjectWithTag("scoreText");
+        Text scoreText = scoreObject.GetComponent<Text>();
+        print(scoreText);
+        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        {
+        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
+        scoreText.text=scoreText.text+"\n"+i+":"+FinalScoreBoard[i];
+        }
+        
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
@@ -538,6 +565,7 @@ public class PlayerController : NetworkBehaviour
                         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
                         }
                         ScoreDisplay_RPC();
+                        FinalScoreDisplay_RPC();
 
                     xxx=xxx+1;
                 }

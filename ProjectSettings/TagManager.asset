@@ -12,6 +12,8 @@ TagManager:
   - trapdead
   - SideCamera
   - Frozen
+  - Score
+  - scoreText
   layers:
   - Default
   - TransparentFX
