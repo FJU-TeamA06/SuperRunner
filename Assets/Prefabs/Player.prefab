@@ -304,12 +304,6 @@ MonoBehaviour:
   thi: 0
   fou: 0
   cha: 0
-  firN: 
-  secN: 
-  thiN: 
-  fouN: 
-  chaN: 
-  xxx: 0
   scoreObject: {fileID: 0}
   wallObject: {fileID: 0}
   moveSpeed: 10
@@ -320,7 +314,7 @@ MonoBehaviour:
   maxDist: 0
   timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
-  scorePrefab: {fileID: 4481991688134352356, guid: d453485f9212248dd9377427bef1315b,
+  scorePrefab: {fileID: 4644077946161223230, guid: d453485f9212248dd9377427bef1315b,
     type: 3}
   _Dist: 0
   _Hp: 0

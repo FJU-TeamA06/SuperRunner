@@ -20,9 +20,11 @@ public class PlayerController : NetworkBehaviour
     private Bullet bulletPrefab;
     private Vector3 startPoint;
     [SerializeField]
-    public float fir = -1, sec = -1, thi = -1, fou = -1, cha;
-    public string firN, secN, thiN, fouN, chaN;
-    public int xxx = 0;
+    private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
+    private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                      // 分數用
+    private string firN, secN, thiN, fouN, chaN;
+
+    private int xxx = 0, yyy = 0;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -73,7 +75,12 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "0", "0", "0", "0" });       // 分數 
+    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });       // 分數 
+
+    [Networked]
+    [Capacity(4)] // Sets the fixed capacity of the collection
+    NetworkArray<int> ScoreBoard { get; } =
+    MakeInitializer(new int[] { 0,0 ,0,0 }); 
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -346,7 +353,9 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DistRutern_RPC();               //For Testing! 
+            DistRutern_RPC();   
+            yyy += 1;            //For Testing! 
+
             ChangeColor_RPC(Color.red);
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
@@ -372,7 +381,7 @@ public class PlayerController : NetworkBehaviour
             if (startWallScript != null)
             {
                 StartM_RPC();
-                FinalScoreDisplay_RPC();
+               // FinalScoreDisplay_RPC();
                 startWallScript.RequestDespawnWall_RPC();
                 
             }
@@ -408,6 +417,7 @@ public class PlayerController : NetworkBehaviour
     {
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
+        yyy += 1;
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                      // 排名顯示＿RPC
@@ -425,16 +435,17 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                      // 分數顯示＿RPC
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                      // 分數顯示＿RPC
     public void FinalScoreDisplay_RPC()
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         Text scoreText = scoreObject.GetComponent<Text>();
         print(scoreText);
-        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        scoreText.text="";
+        for (int i = 0; i < FinalScoreBoard.Length; ++i)
         {
         Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
-        scoreText.text=scoreText.text+"\n"+i+":"+FinalScoreBoard[i];
+        scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"----"+ScoreBoard[i];
         }
         
     }
@@ -555,22 +566,32 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-
-
+                        if(yyy == 0 ){
+                            FinalScoreBoard.Set(0, firN);
+                        }
                         ScoreLeaderboard.Set(0, firN);
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             ScoreLeaderboard.Set(1, secN);
+                            if(yyy == 0 ){
+                                FinalScoreBoard.Set(1, secN);
+                            }
                             print(secN+" Is The Second Place !! ");
                             sec=-1;
                         }
                         if(thi != -1){
                             ScoreLeaderboard.Set(2, thiN);
+                            if(yyy == 0 ){
+                                FinalScoreBoard.Set(2, thiN);
+                            }
                             print(thiN+" Is The Third Place !! ");
                             thi=-1;
                         }
                         if(fou != -1){
                             ScoreLeaderboard.Set(3, fouN);
+                            if(yyy == 0 ){
+                                FinalScoreBoard.Set(3, fouN);
+                            }
                             print(fouN+" Is The Fourth Place !! ");
                             fou=-1;
                         }
@@ -578,6 +599,10 @@ public class PlayerController : NetworkBehaviour
                         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
                         {
                         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
+                        }
+                        for (int i = 0; i < FinalScoreBoard.Length; ++i)
+                        {
+                        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
                         }
                         ScoreDisplay_RPC();
                         FinalScoreDisplay_RPC();
