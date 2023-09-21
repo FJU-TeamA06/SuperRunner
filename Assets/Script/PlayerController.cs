@@ -7,8 +7,11 @@ public class PlayerController : NetworkBehaviour
 {
     public GameObject MainCameraObject;
     public GameObject SideCameraObject;
+    public GameObject FirstCameraObject;
+    
     public Camera MainCamera;
     public Camera SideCamera;
+    public Camera FirstCamera;
     [Networked] public int isFinished { get; set; }
 
     [SerializeField]
@@ -77,6 +80,7 @@ public class PlayerController : NetworkBehaviour
     private static readonly float FinishThreshold = 1.0f; // 這個值代表角色距離終點多近時算是已經抵達。
     private GameObject timerInstance;
     public bool isMainCamera=true;
+
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -306,7 +310,7 @@ public class PlayerController : NetworkBehaviour
         
         
     }
-
+    private int currentCameraMode = 0;
     private void Update()
     {
         //切換鏡頭模式
@@ -314,9 +318,20 @@ public class PlayerController : NetworkBehaviour
         {
             MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
             SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
+            FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
             MainCamera = MainCameraObject.GetComponent<Camera>();
+            FirstCamera = FirstCameraObject.GetComponent<Camera>();
             SideCamera = SideCameraObject.GetComponent<Camera>();
-            if(isMainCamera)
+            // 切换到下一个相机模式
+            currentCameraMode = (currentCameraMode + 1) % 3;
+
+            // 根据当前模式启用相应的相机
+            MainCamera.enabled = currentCameraMode == 0;
+            SideCamera.enabled = currentCameraMode == 1;
+            FirstCamera.enabled = currentCameraMode == 2;
+
+
+            /*if (isMainCamera)
             {
                 MainCamera.enabled = false;
                 SideCamera.enabled = true;
@@ -327,7 +342,7 @@ public class PlayerController : NetworkBehaviour
                 SideCamera.enabled = false;
                 MainCamera.enabled = true;
                 isMainCamera=true;
-            }
+            }*/
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
