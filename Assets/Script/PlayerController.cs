@@ -226,7 +226,7 @@ public class PlayerController : NetworkBehaviour
         }
         frozen = 0;
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         // 檢查是否已經抵達終點
@@ -244,6 +244,13 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.Log("Trapdead frozen!");
             frozen = 1;
+        }
+        if(other.gameObject.CompareTag("Clip"))
+        {
+            Debug.Log("Clip Get!");
+            bulletCount+=5;
+            print("bulletCount:"+bulletCount);
+            Destroy(other.gameObject);
         }
     }
 
