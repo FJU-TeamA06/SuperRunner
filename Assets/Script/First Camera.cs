@@ -23,19 +23,19 @@ public class FirstCamera : MonoBehaviour
 
     void Update()
     {
-        // 獲取滑鼠輸入
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+        // 偵測是否按住滑鼠右鍵（您可以更改成其他按鍵）
+        if (Input.GetMouseButton(1))
+        {
+            // 獲取滑鼠輸入
+            float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
-
-        // 根據滑鼠輸入旋轉視角攝像機
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -30f, 30f); // 限制上下旋轉的角度
-        transform.localRotation = Quaternion.Euler(rotationX, 0, 0); // 上下旋轉
-        playerBody.Rotate(Vector3.up * mouseX); // 左右旋轉
-
-
+            // 根據滑鼠輸入旋轉視角攝像機
+            rotationX -= mouseY;
+            rotationX = Mathf.Clamp(rotationX, -30f, 30f); // 限制上下旋轉的角度
+            transform.localRotation = Quaternion.Euler(rotationX, 0, 0); // 上下旋轉
+            playerBody.Rotate(Vector3.up * mouseX); // 左右旋轉
+        }
     }
-
-
+  
 }

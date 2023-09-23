@@ -17,11 +17,12 @@ TagManager:
   - FirstCamera
   - Clip
   - Treasure
+  - Coin
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Eyes
   - Water
   - UI
   - UI-Background

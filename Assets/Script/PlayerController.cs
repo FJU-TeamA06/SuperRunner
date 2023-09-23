@@ -87,7 +87,8 @@ public class PlayerController : NetworkBehaviour
     private static readonly float FinishThreshold = 1.0f; // 這個值代表角色距離終點多近時算是已經抵達。
     private GameObject timerInstance;
     public bool isMainCamera=true;
-
+    public bool isSideCamera = false;
+    public bool isFirstCamera = false;
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -245,7 +246,12 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Trapdead frozen!");
             frozen = 1;
         }
-        if(other.gameObject.CompareTag("Clip"))
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            Debug.Log("Get Coin!");
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Clip"))
         {
             Debug.Log("Clip Get!");
             bulletCount+=5;
@@ -341,26 +347,41 @@ public class PlayerController : NetworkBehaviour
             FirstCamera = FirstCameraObject.GetComponent<Camera>();
             SideCamera = SideCameraObject.GetComponent<Camera>();
             // 切换到下一个相机模式
-            currentCameraMode = (currentCameraMode + 1) % 3;
+            //currentCameraMode = (currentCameraMode + 1) % 2;
+            //MainCamera.enabled = currentCameraMode == 0;
+            //SideCamera.enabled = currentCameraMode == 1;
+            //FirstCamera.enabled = currentCameraMode == 2;
 
-            // 根据当前模式启用相应的相机
-            MainCamera.enabled = currentCameraMode == 0;
-            SideCamera.enabled = currentCameraMode == 1;
-            FirstCamera.enabled = currentCameraMode == 2;
-
-
-            /*if (isMainCamera)
+            if (isMainCamera)
             {
                 MainCamera.enabled = false;
                 SideCamera.enabled = true;
                 isMainCamera=false;
             }
-            else
+            else if(isSideCamera)
             {
+                MainCamera.enabled = true;
+                SideCamera.enabled = false;
+                isSideCamera=false;
+            }
+            else if(isFirstCamera)
+            {
+                FirstCamera.enabled = false;
                 SideCamera.enabled = false;
                 MainCamera.enabled = true;
-                isMainCamera=true;
-            }*/
+                isMainCamera = true;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+            FirstCamera = FirstCameraObject.GetComponent<Camera>();
+
+            //currentCameraMode = 2;
+            isFirstCamera = true;
+            MainCamera.enabled = false;
+            SideCamera.enabled = false;
+            FirstCamera.enabled = true;
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

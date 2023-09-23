@@ -289,12 +289,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 2
-  MainCameraObject: {fileID: 0}
-  SideCameraObject: {fileID: 0}
-  FirstCameraObject: {fileID: 0}
-  MainCamera: {fileID: 0}
-  SideCamera: {fileID: 0}
-  FirstCamera: {fileID: 0}
+  MainCameraObject: {fileID: 6209884809161383694, guid: 34363131b51ad524bb84c5d969517a67,
+    type: 3}
+  SideCameraObject: {fileID: 2066052007386740931, guid: a581b387685d58844ab4ec3d6aa9f81a,
+    type: 3}
+  FirstCameraObject: {fileID: 6115795556681698289}
+  MainCamera: {fileID: 5313463807213857299, guid: 34363131b51ad524bb84c5d969517a67,
+    type: 3}
+  SideCamera: {fileID: 3478467336335800805, guid: a581b387685d58844ab4ec3d6aa9f81a,
+    type: 3}
+  FirstCamera: {fileID: 5070783983854351187}
   _isFinished: 0
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
@@ -326,6 +330,8 @@ MonoBehaviour:
   _distance: 0
   meshRenderer: {fileID: 2662581808552290347}
   isMainCamera: 1
+  isSideCamera: 0
+  isFirstCamera: 0
 --- !u!143 &2662581809399784534
 CharacterController:
   m_ObjectHideFlags: 0
@@ -727,7 +733,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 300
+  far clip plane: 350
   field of view: 30
   orthographic: 0
   orthographic size: 5
@@ -880,7 +886,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
