@@ -16,6 +16,7 @@ TagManager:
   - scoreText
   - FirstCamera
   - Clip
+  - Treasure
   layers:
   - Default
   - TransparentFX

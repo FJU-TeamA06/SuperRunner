@@ -252,6 +252,10 @@ public class PlayerController : NetworkBehaviour
             print("bulletCount:"+bulletCount);
             Destroy(other.gameObject);
         }
+        if (other.gameObject.tag == "Treasure")
+        {
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnReachedFinish()
