@@ -18,6 +18,8 @@ public class PlayerController : NetworkBehaviour
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
+
+    
     private Vector3 startPoint;
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
@@ -29,6 +31,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject scoreObject;
     private GameObject timeObject;
     public GameObject wallObject;
+    public GameObject countdownTimerObject;
     private float totalDistance;
     private Collider finishCollider;
     private GameObject finishObject;
@@ -89,6 +92,9 @@ public class PlayerController : NetworkBehaviour
     public bool isMainCamera=true;
     public bool isSideCamera = false;
     public bool isFirstCamera = false;
+    private bool countdownStarted = false; // 用於跟蹤倒計時是否已經啟動
+    //public CountdownTimer countdownTimer; //
+    
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -107,16 +113,16 @@ public class PlayerController : NetworkBehaviour
   
     public override void Spawned()
     {
-        
 
+        
         finishObject = GameObject.FindGameObjectWithTag("Finish1");
 
         if (Object.HasInputAuthority)
         {
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
-
-            finishCollider = finishObject.GetComponent<Collider>();
+            finishCollider = finishObject.GetComponent<Collider>(); 
+            
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI();
             maxDist = CalculateDistancePercentage();
@@ -162,17 +168,22 @@ public class PlayerController : NetworkBehaviour
             if (pressed.IsSet(InputButtons.FIRE))
             {
                 //發射子彈(子彈數量的檢測)
-                if(bulletCount>0)
+                if (bulletCount > 0)
                 {
+                    // 創建一個向前方旋轉 90 度的 Quaternion
+                    Quaternion rotation = Quaternion.Euler(0, 90, 0);
+                    // 使用轉向旋轉子彈方向
+                    Quaternion bulletRotation = Quaternion.LookRotation(rotation * transform.TransformDirection(Vector3.forward));
+
                     Runner.Spawn(
-                    bulletPrefab,
-                    transform.position + transform.TransformDirection(Vector3.forward),
-                    Quaternion.LookRotation(transform.TransformDirection(Vector3.forward)),
-                    Object.InputAuthority);
+                        bulletPrefab,
+                        transform.position + bulletRotation * Vector3.forward, // 使用旋轉後的方向
+                        bulletRotation,
+                        Object.InputAuthority);
                     bulletCount--;
-                    print("bulletCount:"+bulletCount);
+                    print("bulletCount:" + bulletCount);
                 }
-                
+
             }
             Vector3 moveVector = data.movementInput.normalized;
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
@@ -180,11 +191,8 @@ public class PlayerController : NetworkBehaviour
 
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         scoreObject = GameObject.FindGameObjectWithTag("Score");
+        //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
 
-        /*if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f )
-        {
-            Respawn();
-        }*/
         if (ShouldRespawn()==true)
         {
             Respawn();
@@ -290,7 +298,6 @@ public class PlayerController : NetworkBehaviour
             // 如果無法獲取重生位置，可以設定一個默認的重生位置
             networkCharacterController.transform.position = Vector3.up * 2;
         }
-
         Hp = maxHp; 
     }
 
@@ -331,8 +338,33 @@ public class PlayerController : NetworkBehaviour
             isFinished=1;
             
         }
+    }
+    private CountdownTimer CountdownTimer;
+    public float initialCountdownTime = 300.0f; // 初始倒計時時間（以秒為單位）
+    private void StartCountdown()
+    {
         
-        
+        // 防止多次啟動倒計時
+        if (countdownStarted)
+        {
+            return;
+        }
+        // 查找並獲取 CountdownTimer 對象
+        countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
+        CountdownTimer CountdownTimer = GetComponent<CountdownTimer>();
+
+        // 如果找到了 CountdownTimer 腳本，啟動它
+        if (CountdownTimer != null)
+        {   
+            CountdownTimer.SetCountdownTime();//initialCountdownTime
+            CountdownTimer.enabled = true;
+            countdownStarted = true; // 標記為已啟動
+            
+        }
+        else
+        {
+            Debug.LogError("CountdownTimer 腳本未找到！");
+        }
     }
     private int currentCameraMode = 0;
     private void Update()
@@ -376,7 +408,6 @@ public class PlayerController : NetworkBehaviour
         {
             FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
             FirstCamera = FirstCameraObject.GetComponent<Camera>();
-
             //currentCameraMode = 2;
             isFirstCamera = true;
             MainCamera.enabled = false;
@@ -406,9 +437,12 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            //countdownTimer.enabled = true;
             timeObject = GameObject.FindGameObjectWithTag("Timer");
             wallObject = GameObject.FindGameObjectWithTag("StartWall");
-            
+           // countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
+            //CountdownTimer CountdownTimer =countdownTimerObject.GetComponent<CountdownTimer>();
+
             StartWall startWallScript = wallObject.GetComponent<StartWall>();
             if (startWallScript != null)
             {
@@ -417,6 +451,7 @@ public class PlayerController : NetworkBehaviour
                 startWallScript.RequestDespawnWall_RPC();
                 
             }
+            //StartCountdown();
             timerUI timerScript = timeObject.GetComponent<timerUI>();
             if (timerScript != null)
             {
@@ -486,6 +521,7 @@ public class PlayerController : NetworkBehaviour
     public void StartM_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
+        //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
         Text timerText = timeObject.GetComponent<Text>();
         timerText.text=" Start ! ";
         

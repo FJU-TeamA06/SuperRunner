@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2662581807982622242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.51, z: 0.459}
-  m_LocalScale: {x: 0.56005454, y: 0.21103, z: 0.2649295}
+  m_LocalPosition: {x: 0.47, y: 0.51, z: -0.01}
+  m_LocalScale: {x: 0.39203817, y: 0.21103, z: 0.56297517}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8998728732847114224}
@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2662581809399784529}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.37, z: 0}
+  m_LocalPosition: {x: 0, y: 1.37, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -310,6 +310,8 @@ MonoBehaviour:
   cha: 0
   scoreObject: {fileID: 0}
   wallObject: {fileID: 0}
+  countdownTimerObject: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
+    type: 3}
   moveSpeed: 10
   UIname: {fileID: 723208538431731025}
   hpBar: {fileID: 8167070771759355155}
@@ -332,6 +334,8 @@ MonoBehaviour:
   isMainCamera: 1
   isSideCamera: 0
   isFirstCamera: 0
+  countdownTimer: {fileID: 8736888676111111381, guid: 307d1cfaad8519b4c84c1c583a771d15,
+    type: 3}
 --- !u!143 &2662581809399784534
 CharacterController:
   m_ObjectHideFlags: 0
@@ -693,14 +697,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6115795556681698289}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.92}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.66, y: 0, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2662581807982622241}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!20 &5070783983854351187
 Camera:
   m_ObjectHideFlags: 0

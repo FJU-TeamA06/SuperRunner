@@ -13,7 +13,7 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        void OnTriggerEnter(Collision other)
+        void OnTriggerEnter(Collision other)  //目前無作用待更改
         {
             if (other.gameObject.CompareTag("Coin"))
             {
