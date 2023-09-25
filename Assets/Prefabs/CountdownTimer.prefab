@@ -181,8 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4702411098456153044}
-  - component: {fileID: 8736888676111111381}
-  - component: {fileID: 8963707325963313581}
+  - component: {fileID: 1638254891748018496}
   m_Layer: 0
   m_Name: CountdownTimer
   m_TagString: CountdownTimer
@@ -204,14 +203,14 @@ RectTransform:
   m_Children:
   - {fileID: 830323122808000678}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8736888676111111381
+--- !u!114 &1638254891748018496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,36 +222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a680f1d75ec06014b80976c45d8083b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   m_seconds: 0
-  m_min: 5
+  m_min: 2
   m_sec: 0
   m_timer: {fileID: 8304617635669381483}
   m_gameOver: {fileID: 8940915674602905781}
---- !u!114 &8963707325963313581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6169238286707200031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectInterest: 1
-  DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
-  AllowStateAuthorityOverride: 1
-  AoiPositionSource: {fileID: 0}
-  Flags: 2305
-  NetworkGuid:
-    RawGuidValue: 307d1cfaad8519b4c84c1c583a771d15
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 8736888676111111381}
-  SimulationBehaviours: []
 --- !u!1 &6918321168707775411
 GameObject:
   m_ObjectHideFlags: 0

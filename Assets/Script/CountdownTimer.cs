@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fusion;
 
-public class CountdownTimer : NetworkBehaviour
+public class CountdownTimer : MonoBehaviour
 {
     public int m_seconds;          //计璸竒传衡羆计
     public int m_min;              //ノ砞﹚计璸だ牧
