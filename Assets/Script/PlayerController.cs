@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
+
 public class PlayerController : NetworkBehaviour
 {
     public GameObject MainCameraObject;
@@ -23,10 +24,11 @@ public class PlayerController : NetworkBehaviour
     private Vector3 startPoint;
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
-    private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                      // 分數用
+    private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                         // 分數用
+    private int [] arr = {0,0,0,0};                                     // 分數用
     private string firN, secN, thiN, fouN, chaN;
-
-    private int xxx = 0, yyy = 0;
+    private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
+    private int xxx = 0, yyy = 0 , pp = 0 ;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -58,6 +60,8 @@ public class PlayerController : NetworkBehaviour
     //玩家子彈數量
     [Networked]
     public int bulletCount { get; set; }
+    [Networked]
+    public int playerCount { get; set; }
     //玩家名稱
     [Networked(OnChanged = nameof(OnNameChanged))]
     public NetworkString<_16> PlayerName { get; set; }
@@ -78,12 +82,12 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });       // 分數 
+    MakeInitializer(new NetworkString<_32>[] { "-2", "-2", "-2", "-2" });       // 分數 
 
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<int> ScoreBoard { get; } =
-    MakeInitializer(new int[] { 0,0 ,0,0 }); 
+    MakeInitializer(new int[] { 0,0,0,0 }); 
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -134,6 +138,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Object.HasStateAuthority)
         {
+            playerCount=pp;
             bulletCount=maxBullet;
             Hp = maxHp;
         }
@@ -416,8 +421,8 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DistRutern_RPC();   
-            yyy += 1;            //For Testing! 
+            DistRutern_RPC();
+            Finish_RPC("XXX");            //For Testing! 
 
             ChangeColor_RPC(Color.red);
         }
@@ -443,11 +448,10 @@ public class PlayerController : NetworkBehaviour
            // countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
             //CountdownTimer CountdownTimer =countdownTimerObject.GetComponent<CountdownTimer>();
 
-            StartWall startWallScript = wallObject.GetComponent<StartWall>();
+            StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
             if (startWallScript != null)
             {
-                StartM_RPC();
-               // FinalScoreDisplay_RPC();
+                StartM_RPC();     
                 startWallScript.RequestDespawnWall_RPC();
                 
             }
@@ -473,21 +477,56 @@ public class PlayerController : NetworkBehaviour
             timer = 0;
         }
     }
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                                               // 顏色更換_RPC
     private void ChangeColor_RPC(Color newColor)
     {
         meshRenderer.material.color = newColor;
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]                                 // 終點＿RPC
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                // 終點＿RPC
     public void Finish_RPC(string a)
     {
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
+        for (int i = 0, eeee; i < playerCount && i < FinalScoreBoard.Length; i++){
+            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
+                ScoreBoard.Set(i, ScoreBoard[i]+1);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
+                ScoreBoard.Set(i, ScoreBoard[i]+2);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
+                ScoreBoard.Set(i, ScoreBoard[i]+3);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
+                ScoreBoard.Set(i, ScoreBoard[i]+4);
+            }
+        }
+        ScoreDisplay_RPC();
+        FinalScoreDisplay_RPC();
+        xxx = 0;
         yyy += 1;
     }
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                      // 排名顯示＿RPC
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
+    public void CoinPoint_RPC(string a)
+    {
+        if (FinalScoreBoard[0] == a){
+            ScoreBoard.Set(0, ScoreBoard[0] + 1);
+        }
+        else if (FinalScoreBoard[1] == a){
+            ScoreBoard.Set(1, ScoreBoard[1] + 1);
+        }
+        else if (FinalScoreBoard[2] == a){
+            ScoreBoard.Set(2, ScoreBoard[2] + 1);
+        }
+        else if (FinalScoreBoard[3] == a){
+            ScoreBoard.Set(3, ScoreBoard[3] + 1);
+        }
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                     // 排名顯示＿RPC
     public void ScoreDisplay_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
@@ -502,19 +541,18 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                      // 分數顯示＿RPC
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
     public void FinalScoreDisplay_RPC()
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         Text scoreText = scoreObject.GetComponent<Text>();
         print(scoreText);
         scoreText.text="";
-        for (int i = 0; i < FinalScoreBoard.Length; ++i)
+        for (int i = 0; i < playerCount; i++)
         {
         Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
-        scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"----"+ScoreBoard[i];
-        }
-        
+        scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"    "+ScoreBoard[i];
+        }        
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -524,7 +562,6 @@ public class PlayerController : NetworkBehaviour
         //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
         Text timerText = timeObject.GetComponent<Text>();
         timerText.text=" Start ! ";
-        
     }
 
 
@@ -544,10 +581,18 @@ public class PlayerController : NetworkBehaviour
                     if(xxx == 0){
                         fir=playerController.distance;
                         firN=playerController.PlayerName.ToString();
+                        if(yyy == 0){
+                            playerCount ++;
+                        }
+                        xxx++;
                     }
                     else if(xxx == 1 && playerController.PlayerName.ToString() != firN){
                         sec=playerController.distance;
                         secN=playerController.PlayerName.ToString();
+                        xxx++;
+                        if(yyy == 0){
+                           playerCount ++;
+                        }
                         if(sec<=fir){
                             cha=sec;    //2->1
                             chaN=secN;
@@ -560,6 +605,10 @@ public class PlayerController : NetworkBehaviour
                     else if(xxx == 2 && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         thi=playerController.distance;
                         thiN=playerController.PlayerName.ToString();
+                        xxx++;
+                        if(yyy == 0){
+                           playerCount ++;
+                        }
                         if(thi<=fir){
                             cha=thi;  // 3->1
                             chaN=thiN;
@@ -587,6 +636,10 @@ public class PlayerController : NetworkBehaviour
                     else if(xxx == 3 && playerController.PlayerName.ToString() != thiN && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         fou=playerController.distance;
                         fouN=playerController.PlayerName.ToString();
+                        xxx++;
+                        if(yyy == 0){
+                            playerCount ++;
+                        }
                         if(fou<=fir){
                             cha=fou;
                             chaN=fouN;
@@ -645,7 +698,7 @@ public class PlayerController : NetworkBehaviour
                                 FinalScoreBoard.Set(1, secN);
                             }
                             print(secN+" Is The Second Place !! ");
-                            sec=-1;
+                            
                         }
                         if(thi != -1){
                             ScoreLeaderboard.Set(2, thiN);
@@ -653,7 +706,7 @@ public class PlayerController : NetworkBehaviour
                                 FinalScoreBoard.Set(2, thiN);
                             }
                             print(thiN+" Is The Third Place !! ");
-                            thi=-1;
+                            
                         }
                         if(fou != -1){
                             ScoreLeaderboard.Set(3, fouN);
@@ -661,7 +714,7 @@ public class PlayerController : NetworkBehaviour
                                 FinalScoreBoard.Set(3, fouN);
                             }
                             print(fouN+" Is The Fourth Place !! ");
-                            fou=-1;
+                           
                         }
                         print("server:");
                         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
@@ -672,10 +725,6 @@ public class PlayerController : NetworkBehaviour
                         {
                         Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
                         }
-                        ScoreDisplay_RPC();
-                        FinalScoreDisplay_RPC();
-
-                    xxx=xxx+1;
                 }
             }
         }

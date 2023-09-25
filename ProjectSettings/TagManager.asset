@@ -19,6 +19,7 @@ TagManager:
   - Treasure
   - Coin
   - CountdownTimer
+  - Set
   layers:
   - Default
   - TransparentFX
