@@ -34,6 +34,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject timeObject;
     public GameObject wallObject;
     public GameObject countdownTimerObject;
+    public GameObject bulletCountObject;
     private float totalDistance;
     private Collider finishCollider;
     private GameObject finishObject;
@@ -53,6 +54,7 @@ public class PlayerController : NetworkBehaviour
     private float timer = 0;
     public GameObject timerPrefab;
     public GameObject scorePrefab;
+    public GameObject bulletCountPrefab;
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -106,6 +108,7 @@ public class PlayerController : NetworkBehaviour
             //Runner.Spawn(HUD_UI_Prefab);
             GameObject timerInstance = Instantiate(timerPrefab);
             GameObject scoreInstance = Instantiate(scorePrefab);
+            GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
         }
     }
 
@@ -161,6 +164,12 @@ public class PlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        bulletCountObject = GameObject.FindGameObjectWithTag("BulletCount");
+        timeObject = GameObject.FindGameObjectWithTag("Timer");
+        scoreObject = GameObject.FindGameObjectWithTag("Score");
+        //定期更新子彈數量
+        Text bulletCountText = bulletCountObject.GetComponent<Text>();
+        bulletCountText.text=bulletCount.ToString();
         if (GetInput(out NetworkInputData data))
         {
             NetworkButtons buttons = data.buttons;
@@ -194,8 +203,8 @@ public class PlayerController : NetworkBehaviour
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
         }
 
-        timeObject = GameObject.FindGameObjectWithTag("Timer");
-        scoreObject = GameObject.FindGameObjectWithTag("Score");
+        
+        
         //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
 
         if (ShouldRespawn()==true)
@@ -332,7 +341,7 @@ public class PlayerController : NetworkBehaviour
     }
     private static void OnDistChanged(Changed<PlayerController> changed)
     {
-        changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Dist / changed.Behaviour.maxDist;
+        //changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Dist / changed.Behaviour.maxDist;
     }
     public void OnFinished()
     {
@@ -546,6 +555,7 @@ public class PlayerController : NetworkBehaviour
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         Text scoreText = scoreObject.GetComponent<Text>();
+        
         print(scoreText);
         scoreText.text="";
         for (int i = 0; i < playerCount; i++)

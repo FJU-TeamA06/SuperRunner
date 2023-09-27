@@ -20,6 +20,7 @@ TagManager:
   - Coin
   - CountdownTimer
   - Set
+  - BulletCount
   layers:
   - Default
   - TransparentFX

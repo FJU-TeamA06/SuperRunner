@@ -322,9 +322,12 @@ MonoBehaviour:
     type: 3}
   scorePrefab: {fileID: 4644077946161223230, guid: d453485f9212248dd9377427bef1315b,
     type: 3}
+  bulletCountPrefab: {fileID: 3634676630446003616, guid: 6a21cecb9419b7a4b80f9e0baa63b471,
+    type: 3}
   _Dist: 0
   _Hp: 0
   _bulletCount: 0
+  _playerCount: 0
   _PlayerName:
     _length: 0
     _data:
@@ -334,8 +337,7 @@ MonoBehaviour:
   isMainCamera: 1
   isSideCamera: 0
   isFirstCamera: 0
-  countdownTimer: {fileID: 8736888676111111381, guid: 307d1cfaad8519b4c84c1c583a771d15,
-    type: 3}
+  initialCountdownTime: 300
 --- !u!143 &2662581809399784534
 CharacterController:
   m_ObjectHideFlags: 0
