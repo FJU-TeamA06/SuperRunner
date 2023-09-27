@@ -55,6 +55,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject timerPrefab;
     public GameObject scorePrefab;
     public GameObject bulletCountPrefab;
+    public GameObject countDownPrefab;
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -109,6 +110,7 @@ public class PlayerController : NetworkBehaviour
             GameObject timerInstance = Instantiate(timerPrefab);
             GameObject scoreInstance = Instantiate(scorePrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
+            GameObject countDownInstance = Instantiate(countDownPrefab);
         }
     }
 

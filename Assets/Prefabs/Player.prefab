@@ -312,6 +312,7 @@ MonoBehaviour:
   wallObject: {fileID: 0}
   countdownTimerObject: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
+  bulletCountObject: {fileID: 0}
   moveSpeed: 10
   UIname: {fileID: 723208538431731025}
   hpBar: {fileID: 8167070771759355155}
@@ -323,6 +324,8 @@ MonoBehaviour:
   scorePrefab: {fileID: 4644077946161223230, guid: d453485f9212248dd9377427bef1315b,
     type: 3}
   bulletCountPrefab: {fileID: 3634676630446003616, guid: 6a21cecb9419b7a4b80f9e0baa63b471,
+    type: 3}
+  countDownPrefab: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   _Dist: 0
   _Hp: 0
