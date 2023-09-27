@@ -6,24 +6,24 @@ using Fusion;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public int m_seconds;          //╜к╪ф╜p╝и╦g╢╚╨Б╙╨а`╛М╪ф
-    public int m_min;              //╔н╘СЁ]╘w╜к╪ф╜p╝и╙╨╓юда
-    public int m_sec;              //╔н╘СЁ]╘w╜к╪ф╜p╝и╙╨╛М╪ф
+    public int m_seconds;          //Е─▓Ф∙╦Х╗┬Ф≥┌Г╤⌠Ф▐⌡Г╝≈Г └Г╦╫Г╖▓Ф∙╦
+    public int m_min;              //Г■╗Ф√╪Х╗╜Е╝ Е─▓Ф∙╦Х╗┬Ф≥┌Г └Е┬├И░≤
+    public int m_sec;              //Г■╗Ф√╪Х╗╜Е╝ Е─▓Ф∙╦Х╗┬Ф≥┌Г └Г╖▓Ф∙╦
 
-    public Text m_timer;           //Ё]╘w╣e╜╠╜к╪ф╜p╝и╙╨╓Е╕r
-    public GameObject m_gameOver;  //Ё]╘w GAME OVER ╙╚╔С
+    public Text m_timer;           //Х╗╜Е╝ Г∙╚И²╒Е─▓Ф∙╦Х╗┬Ф≥┌Г └Ф√┤Е╜≈
+    public GameObject m_gameOver;  //Х╗╜Е╝  GAME OVER Г┴╘Д╩╤
     private PlayerController playerController;
     //public NetworkRunner networkRunner;
     
 
     void Start()
     {
-        StartCoroutine(Countdown());   //╘I╔s╜к╪ф╜p╝и╙╨╗С╣{
+        StartCoroutine(Countdown());   //Е▒╪Е▐╚Е─▓Ф∙╦Х╗┬Ф≥┌Г └Е█■Г╗▀
 
     }
     public void SetCountdownTime()
     {
-       StartCoroutine(Countdown());   //╘I╔s╜к╪ф╜p╝и╙╨╗С╣{
+       StartCoroutine(Countdown());   //Е▒╪Е▐╚Е─▓Ф∙╦Х╗┬Ф≥┌Г └Е█■Г╗▀
 
     }
 
@@ -32,30 +32,30 @@ public class CountdownTimer : MonoBehaviour
     {   
        
         m_timer.text = string.Format("{0}:{1}", m_min.ToString("00"), m_sec.ToString("00"));
-        m_seconds = (m_min * 60) + m_sec;       //╠N╝и╤║╢╚╨Б╛╟╛М╪ф
+        m_seconds = (m_min * 60) + m_sec;       //Е╟┤Ф≥┌И√⌠Ф▐⌡Г╝≈Г┌╨Г╖▓Ф∙╦
 
-        while (m_seconds > 0)                   //╕p╙G╝и╤║╘|╔╪╣╡╖Т
+        while (m_seconds > 0)                   //Е╕┌Ф·°Ф≥┌И√⌠Е╟ Ф°╙Г╣░Ф²÷
         {
-            yield return new WaitForSeconds(1); //╣╔╜т╓@╛М╕A╕╦╟У╕Ф
+            yield return new WaitForSeconds(1); //Г╜┴Е─≥Д╦─Г╖▓Е├█Ф╛║Е÷╥Х║▄
 
-            m_seconds--;                        //а`╛М╪ф╢Н 1
-            m_sec--;                            //╠N╛М╪ф╢Н 1
+            m_seconds--;                        //Г╦╫Г╖▓Ф∙╦Ф╦⌡1
+            m_sec--;                            //Е╟┤Г╖▓Ф∙╦Ф╦⌡1
 
-            if (m_sec < 0 && m_min > 0)         //╕p╙G╛М╪ф╛╟ 0 ╔B╓юда╓j╘С 0
+            if (m_sec < 0 && m_min > 0)         //Е╕┌Ф·°Г╖▓Ф∙╦Г┌╨ 0 Д╦■Е┬├И░≤Е╓╖Ф√╪ 0
             {
-                m_min -= 1;                     //╔Щ╠N╓юда╢Н╔h 1
-                m_sec = 59;                     //╕A╠N╛М╪фЁ]╛╟ 59
+                m_min -= 1;                     //Е┘┬Е╟┤Е┬├И░≤Ф╦⌡Е▌╩ 1
+                m_sec = 59;                     //Е├█Е╟┤Г╖▓Ф∙╦Х╗╜Г┌╨ 59
             }
-            else if (m_sec < 0 && m_min == 0)   //╕p╙G╛М╪ф╛╟ 0 ╔B╓юда╓j╘С 0
+            else if (m_sec < 0 && m_min == 0)   //Е╕┌Ф·°Г╖▓Ф∙╦Г┌╨ 0 Д╦■Е┬├И░≤Е╓╖Ф√╪ 0
             {
-                m_sec = 0;                      //Ё]╘w╛М╪ф╣╔╘С 0
+                m_sec = 0;                      //Х╗╜Е╝ Г╖▓Ф∙╦Г╜┴Ф√╪ 0
             }
             m_timer.text = string.Format("{0}:{1}", m_min.ToString("00"), m_sec.ToString("00"));
         }
 
-        yield return new WaitForSeconds(1);   //╝и╤║╣╡╖Т╝и║AеЦ╔э 00:00 ╟╠╞d╓@╛М
-        m_gameOver.SetActive(true);           //╝и╤║╣╡╖Т╝и║A╣e╜╠╔X╡{ GAME OVER
-        Time.timeScale = 0;                   //╝и╤║╣╡╖Т╝и║A╠╠╗Н╧Cю╦╪х╟╠╣L╙k╬ч╖@
+        yield return new WaitForSeconds(1);   //Ф≥┌И√⌠Г╣░Ф²÷Ф≥┌О╪▄И║╞Г╓╨ 00:00 Е│°Г∙≥Д╦─Г╖▓
+        m_gameOver.SetActive(true);           //Ф≥┌И√⌠Г╣░Ф²÷Ф≥┌О╪▄Г∙╚И²╒Е┤╨Г▐╬ GAME OVER
+        Time.timeScale = 0;                   //Ф≥┌И√⌠Г╣░Ф²÷Ф≥┌О╪▄Ф▌╖Е┬╤И│┼Ф┬╡Ф ╚Е│°Г└║ФЁ∙Ф⌠█Д╫°
  
     }
 }
