@@ -13,7 +13,7 @@ public class MainCameraFollow : MonoBehaviour
 
     private void Start()
     {
-        offset = new Vector3(0f, 7f, -22f);
+        offset = new Vector3(0f, 6f, -15f);
         networkRunner = FindObjectOfType<NetworkRunner>();
         StartCoroutine(FindPlayer());
     }
