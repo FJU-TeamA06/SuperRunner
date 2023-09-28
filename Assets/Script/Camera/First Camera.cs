@@ -14,7 +14,7 @@ public class FirstCamera : MonoBehaviour
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked; // 鎖定滑鼠游標到遊戲視窗內
+        Cursor.lockState = CursorLockMode.Locked; // 鎖定滑鼠游標到遊戲視窗內
         //offset = transform.position - playerBody.transform.position;
         //transform.localRotation = Quaternion.identity;
         //transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
@@ -23,8 +23,8 @@ public class FirstCamera : MonoBehaviour
     void Update()
     {
         // 偵測是否按住滑鼠右鍵（您可以更改成其他按鍵）
-        if (Input.GetMouseButton(1))
-        {
+        //if (Input.GetMouseButton(1))
+        //{
             
             // 獲取滑鼠輸入
             float mouseX = Input.GetAxis("Mouse X") * sensitivity;
@@ -35,7 +35,7 @@ public class FirstCamera : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -30f, 30f); // 限制上下旋轉的角度
             transform.localRotation = Quaternion.Euler(rotationX, 90, 0); // 上下旋轉
             playerBody.Rotate(Vector3.up * mouseX); // 左右旋轉
-        }
+        //}
     }
   
 }

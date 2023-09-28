@@ -99,8 +99,9 @@ public class PlayerController : NetworkBehaviour
     public bool isMainCamera=true;
     public bool isSideCamera = false;
     public bool isFirstCamera = false;
-    public CountdownTimer countdownTimer;
-   
+    
+
+
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -112,11 +113,13 @@ public class PlayerController : NetworkBehaviour
             GameObject countDownInstance = Instantiate(countDownPrefab); //
         }
     }
-
+    public CountdownTimer countdownTimer;
+    private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
     private void Awake()
     {
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+        firstCamera = FindObjectOfType<FirstCamera>();
     }
   
     public override void Spawned()
@@ -200,8 +203,12 @@ public class PlayerController : NetworkBehaviour
                 }
 
             }
-            Vector3 moveVector = data.movementInput.normalized;
+            // 使用相機的旋轉來調整角色的方向
+            Quaternion playerRotation = Quaternion.Euler(0, firstCamera.transform.rotation.eulerAngles.y, 0);
+            Vector3 moveVector = playerRotation * data.movementInput.normalized;
+
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
+
         }
 
 
@@ -355,6 +362,9 @@ public class PlayerController : NetworkBehaviour
     private int currentCameraMode = 0;
     private void Update()
     {
+        
+
+
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
         {
