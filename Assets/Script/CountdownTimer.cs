@@ -18,13 +18,13 @@ public class CountdownTimer : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(Countdown());   //呼叫倒數計時的協程
-
+        //StartCoroutine(Countdown());   //呼叫倒數計時的協程
+        //gameObject.SetActive(false);
     }
     public void SetCountdownTime()
     {
+       //gameObject.SetActive(true);
        StartCoroutine(Countdown());   //呼叫倒數計時的協程
-
     }
 
 

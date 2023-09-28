@@ -99,9 +99,8 @@ public class PlayerController : NetworkBehaviour
     public bool isMainCamera=true;
     public bool isSideCamera = false;
     public bool isFirstCamera = false;
-    private bool countdownStarted = false; // 用於跟蹤倒計時是否已經啟動
-    //public CountdownTimer countdownTimer; //
-    
+    public CountdownTimer countdownTimer;
+   
     private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
@@ -110,7 +109,7 @@ public class PlayerController : NetworkBehaviour
             GameObject timerInstance = Instantiate(timerPrefab);
             GameObject scoreInstance = Instantiate(scorePrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
-            GameObject countDownInstance = Instantiate(countDownPrefab);
+            GameObject countDownInstance = Instantiate(countDownPrefab); //
         }
     }
 
@@ -205,9 +204,6 @@ public class PlayerController : NetworkBehaviour
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
         }
 
-        
-        
-        //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
 
         if (ShouldRespawn()==true)
         {
@@ -355,33 +351,7 @@ public class PlayerController : NetworkBehaviour
             
         }
     }
-    private CountdownTimer CountdownTimer;
-    public float initialCountdownTime = 300.0f; // 初始倒計時時間（以秒為單位）
-    private void StartCountdown()
-    {
-        
-        // 防止多次啟動倒計時
-        if (countdownStarted)
-        {
-            return;
-        }
-        // 查找並獲取 CountdownTimer 對象
-        countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
-        CountdownTimer CountdownTimer = GetComponent<CountdownTimer>();
 
-        // 如果找到了 CountdownTimer 腳本，啟動它
-        if (CountdownTimer != null)
-        {   
-            CountdownTimer.SetCountdownTime();//initialCountdownTime
-            CountdownTimer.enabled = true;
-            countdownStarted = true; // 標記為已啟動
-            
-        }
-        else
-        {
-            Debug.LogError("CountdownTimer 腳本未找到！");
-        }
-    }
     private int currentCameraMode = 0;
     private void Update()
     {
@@ -453,20 +423,17 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            //countdownTimer.enabled = true;
+            
             timeObject = GameObject.FindGameObjectWithTag("Timer");
             wallObject = GameObject.FindGameObjectWithTag("StartWall");
-           // countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
-            //CountdownTimer CountdownTimer =countdownTimerObject.GetComponent<CountdownTimer>();
 
             StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
             if (startWallScript != null)
             {
                 StartM_RPC();     
                 startWallScript.RequestDespawnWall_RPC();
-                
             }
-            //StartCountdown();
+            
             timerUI timerScript = timeObject.GetComponent<timerUI>();
             if (timerScript != null)
             {
@@ -571,11 +538,18 @@ public class PlayerController : NetworkBehaviour
     public void StartM_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
-        //countdownTimerObject = GameObject.FindGameObjectWithTag("CountdownTimer");
+        CountdownTimer countdownTimer = FindObjectOfType<CountdownTimer>();
+        if (countdownTimer != null)
+        {
+            countdownTimer.SetCountdownTime();
+        }
+        else
+        {
+            Debug.LogError("countdownTimer is null! Make sure it's properly initialized.");
+        }
         Text timerText = timeObject.GetComponent<Text>();
         timerText.text=" Start ! ";
     }
-
 
 
     [Rpc(RpcSources.All, RpcTargets.All)]
