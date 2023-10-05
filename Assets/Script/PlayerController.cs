@@ -33,6 +33,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject scoreObject;
     private GameObject timeObject;
     public GameObject wallObject;
+    public GameObject FinishPlaneObject123;//
     public GameObject countdownTimerObject;
     public GameObject bulletCountObject;
     private float totalDistance;
@@ -56,6 +57,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject scorePrefab;
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
+    public GameObject finishPlane123Prefab; //
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -111,9 +113,11 @@ public class PlayerController : NetworkBehaviour
             GameObject scoreInstance = Instantiate(scorePrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
             GameObject countDownInstance = Instantiate(countDownPrefab); //
+            GameObject finishPlaneInstance = Instantiate(finishPlane123Prefab); //
         }
     }
     public CountdownTimer countdownTimer;
+    public FinishPlane finishPlane;
     private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
     private void Awake()
@@ -291,8 +295,15 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    
     private void OnReachedFinish()
     {
+        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        if (finishPlane != null)
+        {
+            finishPlane.FinishClick();
+        }
+        
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         timerUI timerScript = timeObject.GetComponent<timerUI>();
