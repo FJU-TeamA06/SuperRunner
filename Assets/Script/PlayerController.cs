@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -373,9 +374,6 @@ public class PlayerController : NetworkBehaviour
     private int currentCameraMode = 0;
     private void Update()
     {
-        
-
-
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -386,41 +384,58 @@ public class PlayerController : NetworkBehaviour
             FirstCamera = FirstCameraObject.GetComponent<Camera>();
             SideCamera = SideCameraObject.GetComponent<Camera>();
             // 切换到下一个相机模式
-            //currentCameraMode = (currentCameraMode + 1) % 2;
-            //MainCamera.enabled = currentCameraMode == 0;
-            //SideCamera.enabled = currentCameraMode == 1;
+            currentCameraMode = (currentCameraMode + 1) % 2;
+            MainCamera.enabled = currentCameraMode == 0;
+            SideCamera.enabled = currentCameraMode == 1;
             //FirstCamera.enabled = currentCameraMode == 2;
-
-            if (isMainCamera)
+            
+            if (isFirstCamera)
+            {
+                FirstCamera.enabled = false;
+                SideCamera.enabled = false;
+                MainCamera.enabled = true;
+                //isMainCamera = true;
+                currentCameraMode = 0;
+            }
+            /*if(isMainCamera)
             {
                 MainCamera.enabled = false;
                 SideCamera.enabled = true;
                 isMainCamera=false;
             }
-            else if(isSideCamera)
+            if(isSideCamera)
             {
-                MainCamera.enabled = true;
                 SideCamera.enabled = false;
+                MainCamera.enabled = true;
                 isSideCamera=false;
             }
-            else if(isFirstCamera)
+            if(isFirstCamera)
             {
                 FirstCamera.enabled = false;
                 SideCamera.enabled = false;
                 MainCamera.enabled = true;
                 isMainCamera = true;
+            }*/
+        }
+        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+                FirstCamera = FirstCameraObject.GetComponent<Camera>();
+                //currentCameraMode = 2;
+                isFirstCamera = true;
+                MainCamera.enabled = false;
+                SideCamera.enabled = false;
+                FirstCamera.enabled = true;
             }
         }
-        if (Input.GetKeyDown(KeyCode.V))
+        else
         {
-            FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
-            FirstCamera = FirstCameraObject.GetComponent<Camera>();
-            //currentCameraMode = 2;
-            isFirstCamera = true;
-            MainCamera.enabled = false;
-            SideCamera.enabled = false;
-            FirstCamera.enabled = true;
+            // 在其他場景中禁用這些功能
+            // 例如：playerObject.SetActive(false);
         }
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             DistRutern_RPC();

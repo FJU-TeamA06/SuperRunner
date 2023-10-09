@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Fusion;
 
 public class FirstCamera : MonoBehaviour
@@ -14,10 +15,20 @@ public class FirstCamera : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // 鎖定滑鼠游標到遊戲視窗內
-        //offset = transform.position - playerBody.transform.position;
-        //transform.localRotation = Quaternion.identity;
-        //transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
+        {
+            Cursor.lockState = CursorLockMode.Locked; 
+            // 鎖定滑鼠游標到遊戲視窗內
+            //offset = transform.position - playerBody.transform.position;
+            //transform.localRotation = Quaternion.identity;
+            //transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+        }
+        else
+        {
+            // 在其他場景中禁用這些功能
+            // 例如：playerObject.SetActive(false);
+        }
+        
     }
 
     void Update()
