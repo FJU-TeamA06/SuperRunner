@@ -13,7 +13,10 @@ public enum InputButtons
 
 public struct NetworkInputDataFPS : INetworkInput
 {
+
     public NetworkButtons buttons;
+    public NetworkBool isJumpPressed;
+    public float rotationInput;
     public Vector3 aimForwardVector;
-    public Vector3 movementInput;
+    public Vector2 movementInput;
 }
