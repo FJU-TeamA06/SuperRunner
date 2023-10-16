@@ -444,14 +444,7 @@ public class PlayerController : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.R))
         {
-            FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
-            if (finishPlane != null)
-            {
-                finishPlane.FinishClick();
-                DistRutern_RPC();
-                FinalPlaneDisplay_RPC();
-            }
-            //Finish_RPC("XXX");            //For Testing! 
+            Finish_RPC("XXX");            //For Testing! 
             ChangeColor_RPC(Color.red);
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
@@ -526,6 +519,12 @@ public class PlayerController : NetworkBehaviour
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 ScoreBoard.Set(i, ScoreBoard[i]+4);
             }
+        }
+        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        if (finishPlane != null)
+        {
+            finishPlane.FinishClick();
+            FinalPlaneDisplay_RPC();
         }
         //ScoreDisplay_RPC();
         //FinalScoreDisplay_RPC();
