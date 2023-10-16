@@ -21,6 +21,8 @@ TagManager:
   - CountdownTimer
   - Set
   - BulletCount
+  - FinPlane
+  - RankingText
   layers:
   - Default
   - TransparentFX

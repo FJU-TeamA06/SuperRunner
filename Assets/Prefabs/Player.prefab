@@ -310,8 +310,7 @@ MonoBehaviour:
   cha: 0
   scoreObject: {fileID: 0}
   wallObject: {fileID: 0}
-  FinishPlaneObject123: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
-    type: 3}
+  rankingObject: {fileID: 0}
   countdownTimerObject: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   bulletCountObject: {fileID: 0}
@@ -329,7 +328,7 @@ MonoBehaviour:
     type: 3}
   countDownPrefab: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
-  finishPlane123Prefab: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
+  FinishPlanePrefab: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
     type: 3}
   _Dist: 0
   _Hp: 0

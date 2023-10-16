@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -34,7 +35,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject scoreObject;
     private GameObject timeObject;
     public GameObject wallObject;
-    public GameObject FinishPlaneObject123;//
+    public GameObject rankingObject;//
     public GameObject countdownTimerObject;
     public GameObject bulletCountObject;
     private float totalDistance;
@@ -58,7 +59,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject scorePrefab;
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
-    public GameObject finishPlane123Prefab; //
+    public GameObject FinishPlanePrefab; //
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -114,7 +115,7 @@ public class PlayerController : NetworkBehaviour
             GameObject scoreInstance = Instantiate(scorePrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
             GameObject countDownInstance = Instantiate(countDownPrefab); //
-            GameObject finishPlaneInstance = Instantiate(finishPlane123Prefab); //
+            GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); //
         }
     }
     public CountdownTimer countdownTimer;
@@ -176,6 +177,8 @@ public class PlayerController : NetworkBehaviour
         bulletCountObject = GameObject.FindGameObjectWithTag("BulletCount");
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         scoreObject = GameObject.FindGameObjectWithTag("Score");
+        rankingObject = GameObject.FindGameObjectWithTag("FinPlane");
+
         //定期更新子彈數量
         Text bulletCountText = bulletCountObject.GetComponent<Text>();
         bulletCountText.text=bulletCount.ToString();
@@ -304,6 +307,8 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
+            DistRutern_RPC();
+            FinalPlaneDisplay_RPC();
         }
         
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -439,9 +444,14 @@ public class PlayerController : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DistRutern_RPC();
-            Finish_RPC("XXX");            //For Testing! 
-
+            FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+            if (finishPlane != null)
+            {
+                finishPlane.FinishClick();
+                DistRutern_RPC();
+                FinalPlaneDisplay_RPC();
+            }
+            //Finish_RPC("XXX");            //For Testing! 
             ChangeColor_RPC(Color.red);
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
@@ -517,27 +527,24 @@ public class PlayerController : NetworkBehaviour
                 ScoreBoard.Set(i, ScoreBoard[i]+4);
             }
         }
-        ScoreDisplay_RPC();
-        FinalScoreDisplay_RPC();
+        //ScoreDisplay_RPC();
+        //FinalScoreDisplay_RPC();
         xxx = 0;
         yyy += 1;
     }
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
-    public void CoinPoint_RPC(string a)
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
+    public void FinalPlaneDisplay_RPC()
     {
-        if (FinalScoreBoard[0] == a){
-            ScoreBoard.Set(0, ScoreBoard[0] + 1);
-        }
-        else if (FinalScoreBoard[1] == a){
-            ScoreBoard.Set(1, ScoreBoard[1] + 1);
-        }
-        else if (FinalScoreBoard[2] == a){
-            ScoreBoard.Set(2, ScoreBoard[2] + 1);
-        }
-        else if (FinalScoreBoard[3] == a){
-            ScoreBoard.Set(3, ScoreBoard[3] + 1);
-        }
+        rankingObject = GameObject.FindGameObjectWithTag("RankingText");
+        TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
+        
+        rankingText.text="";
+        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        {
+            Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
+            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i];
+        }      
     }
 
 
@@ -554,6 +561,7 @@ public class PlayerController : NetworkBehaviour
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
         timerText.text=timerText.text+"\n"+i+":"+ScoreLeaderboard[i];
         }
+        
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
