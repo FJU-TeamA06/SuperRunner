@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
+  InterpolationTarget: {fileID: 1822104727443329074}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -511,6 +511,21 @@ PrefabInstance:
       propertyPath: playerBody
       value: 
       objectReference: {fileID: 4716800605178822246}
+    - target: {fileID: 2797358784925569659, guid: 07f31a3c73d9c034abbcdd4ea895b3cc,
+        type: 3}
+      propertyPath: cameraAnchorPoint
+      value: 
+      objectReference: {fileID: 7020943209431184313}
+    - target: {fileID: 5230900720805042002, guid: 07f31a3c73d9c034abbcdd4ea895b3cc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5230900720805042002, guid: 07f31a3c73d9c034abbcdd4ea895b3cc,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6491733187984060400, guid: 07f31a3c73d9c034abbcdd4ea895b3cc,
         type: 3}
       propertyPath: m_Name
