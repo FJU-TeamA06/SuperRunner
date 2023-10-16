@@ -194,7 +194,7 @@ public class PlayerController : NetworkBehaviour
                 if (bulletCount > 0)
                 {
                     // 創建一個向前方旋轉 90 度的 Quaternion
-                    Quaternion rotation = Quaternion.Euler(0, 90, 0);
+                    Quaternion rotation = Quaternion.Euler(0, 0, 0);
                     // 使用轉向旋轉子彈方向
                     Quaternion bulletRotation = Quaternion.LookRotation(rotation * transform.TransformDirection(Vector3.forward));
 
@@ -210,6 +210,7 @@ public class PlayerController : NetworkBehaviour
             }
             // 使用相機的旋轉來調整角色的方向
             Quaternion playerRotation = Quaternion.Euler(0, firstCamera.transform.rotation.eulerAngles.y, 0);
+            print(playerRotation);
             Vector3 moveVector = playerRotation * data.movementInput.normalized;
 
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);

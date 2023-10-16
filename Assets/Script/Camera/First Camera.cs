@@ -12,7 +12,7 @@ public class FirstCamera : MonoBehaviour
     //public Transform player; // 玩家的Transform
 
     private float rotationX = 0;
-
+    private float rotationY = 0;
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
@@ -44,8 +44,9 @@ public class FirstCamera : MonoBehaviour
             // 根據滑鼠輸入旋轉視角攝像機
             rotationX -= mouseY;
             rotationX = Mathf.Clamp(rotationX, -30f, 30f); // 限制上下旋轉的角度
-            transform.localRotation = Quaternion.Euler(rotationX, 90, 0); // 上下旋轉
-            playerBody.Rotate(Vector3.up * mouseX); // 左右旋轉
+            rotationY -=mouseX;
+            transform.localRotation = Quaternion.Euler(rotationX, 1, 0); // 上下旋轉
+            playerBody.Rotate(Vector3.up * mouseX*1); // 左右旋轉
         //}
     }
   
