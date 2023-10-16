@@ -7,45 +7,45 @@ using Fusion;
 public class FirstCamera : MonoBehaviour
 {
     private Vector3 offset;
-    public float sensitivity = 1.0f; // ±±¨îµø¨¤ÆF±Ó«×
-    public Transform playerBody; // ¥Î©ó±ÛÂà¨¤¦â¨­ÅéªºÅÜ´«
-    //public Transform player; // ª±®aªºTransform
+    public float sensitivity = 1.0f; // æ§åˆ¶è¦–è§’éˆæ•åº¦
+    public Transform playerBody; // ç”¨æ–¼æ—‹è½‰è§’è‰²èº«é«”çš„è®Šæ›
+    //public Transform player; // ç©å®¶çš„Transform
 
     private float rotationX = 0;
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name == "FPS") // «ü©w³õ´ºªº¦WºÙ
+        if (SceneManager.GetActiveScene().name == "FPS") // æŒ‡å®šå ´æ™¯çš„åç¨±
         {
             Cursor.lockState = CursorLockMode.Locked; 
-            // Âê©w·Æ¹«´å¼Ğ¨ì¹CÀ¸µøµ¡¤º
+            // é–å®šæ»‘é¼ æ¸¸æ¨™åˆ°éŠæˆ²è¦–çª—å…§
             //offset = transform.position - playerBody.transform.position;
             //transform.localRotation = Quaternion.identity;
             //transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
         }
         else
         {
-            // ¦b¨ä¥L³õ´º¤¤¸T¥Î³o¨Ç¥\¯à
-            // ¨Ò¦p¡GplayerObject.SetActive(false);
+            // åœ¨å…¶ä»–å ´æ™¯ä¸­ç¦ç”¨é€™äº›åŠŸèƒ½
+            // ä¾‹å¦‚ï¼šplayerObject.SetActive(false);
         }
         
     }
 
     void Update()
     {
-        // °»´ú¬O§_«ö¦í·Æ¹«¥kÁä¡]±z¥i¥H§ó§ï¦¨¨ä¥L«öÁä¡^
+        // åµæ¸¬æ˜¯å¦æŒ‰ä½æ»‘é¼ å³éµï¼ˆæ‚¨å¯ä»¥æ›´æ”¹æˆå…¶ä»–æŒ‰éµï¼‰
         //if (Input.GetMouseButton(1))
         //{
             
-            // Àò¨ú·Æ¹«¿é¤J
+            // ç²å–æ»‘é¼ è¼¸å…¥
             float mouseX = Input.GetAxis("Mouse X") * sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
-            // ®Ú¾Ú·Æ¹«¿é¤J±ÛÂàµø¨¤Äá¹³¾÷
+            // æ ¹æ“šæ»‘é¼ è¼¸å…¥æ—‹è½‰è¦–è§’æ”åƒæ©Ÿ
             rotationX -= mouseY;
-            rotationX = Mathf.Clamp(rotationX, -30f, 30f); // ­­¨î¤W¤U±ÛÂàªº¨¤«×
-            transform.localRotation = Quaternion.Euler(rotationX, 90, 0); // ¤W¤U±ÛÂà
-            playerBody.Rotate(Vector3.up * mouseX); // ¥ª¥k±ÛÂà
+            rotationX = Mathf.Clamp(rotationX, -30f, 30f); // é™åˆ¶ä¸Šä¸‹æ—‹è½‰çš„è§’åº¦
+            transform.localRotation = Quaternion.Euler(rotationX, 90, 0); // ä¸Šä¸‹æ—‹è½‰
+            playerBody.Rotate(Vector3.up * mouseX); // å·¦å³æ—‹è½‰
         //}
     }
   
