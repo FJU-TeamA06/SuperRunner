@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4716800605178822246}
   - component: {fileID: 7055345644766861247}
-  - component: {fileID: 5359587745697615141}
+  - component: {fileID: 8415347247849364516}
   - component: {fileID: 3701670104353736707}
   - component: {fileID: 4804169772732259511}
   m_Layer: 0
@@ -167,10 +167,10 @@ MonoBehaviour:
     RawGuidValue: c3718d34ee937bc41b352ee63391a595
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 5359587745697615141}
+  - {fileID: 8415347247849364516}
   - {fileID: 4804169772732259511}
   SimulationBehaviours: []
---- !u!114 &5359587745697615141
+--- !u!114 &8415347247849364516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,10 +179,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1537915207630457956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa72ac489a701c643b3bc18029252148, type: 3}
+  m_Script: {fileID: 11500000, guid: 9da55c27372b28942bdf5928d5d9a9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 2
+  _interpolationDataSource: 0
   MainCameraObject: {fileID: 6209884809161383694, guid: 34363131b51ad524bb84c5d969517a67,
     type: 3}
   SideCameraObject: {fileID: 2066052007386740931, guid: a581b387685d58844ab4ec3d6aa9f81a,
@@ -204,7 +204,8 @@ MonoBehaviour:
   thi: -1
   fou: -1
   cha: 0
-  scoreObject: {fileID: 0}
+  scoreObject: {fileID: 4644077946161223230, guid: d453485f9212248dd9377427bef1315b,
+    type: 3}
   wallObject: {fileID: 0}
   FinishPlaneObject123: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
     type: 3}
@@ -238,9 +239,9 @@ MonoBehaviour:
       Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   _distance: 0
   meshRenderer: {fileID: 1502813166194347782}
-  isMainCamera: 1
+  isMainCamera: 0
   isSideCamera: 0
-  isFirstCamera: 0
+  isFirstCamera: 1
   countdownTimer: {fileID: 1638254891748018496, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   finishPlane: {fileID: 8075821973780585517, guid: f34ff5ec5b04194479eb4824dadaee3e,

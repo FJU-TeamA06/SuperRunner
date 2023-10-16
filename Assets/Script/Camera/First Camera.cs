@@ -1,69 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Fusion;
 
 public class FirstCamera : MonoBehaviour
 {
+    Vector2 viewInput;
+    float cameraRotationX = 0;
+    float cameraRotationY = 0;
+    NetworkCharacterControllerPrototype networkCharacterControllerPrototypeCustom;
     private Vector3 offset;
-    private NetworkRunner networkRunner;
-    public Transform target;
+    public Transform cameraAnchorPoint; 
     public float sensitivity = 1.0f; // 控制視角靈敏度
     public Transform playerBody; // 用於旋轉角色身體的變換
     //public Transform player; // 玩家的Transform
-    private IEnumerator FindPlayer()
-    {
-        while (target == null)
-        {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject player in players)
-            {
-                NetworkObject networkObject = player.GetComponent<NetworkObject>();
-
-                if (networkObject != null && networkObject.InputAuthority == networkRunner.LocalPlayer)
-                {
-                    target = player.transform;
-                    break;
-                }
-            }
-
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
     private float rotationX = 0;
     private float rotationY = 0;
-    private void Start()
+    Camera localCamera;
+
+    
+    private void Awake()
     {
-        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
-        {
-            Cursor.lockState = CursorLockMode.Locked; 
-            networkRunner = FindObjectOfType<NetworkRunner>();
-            StartCoroutine(FindPlayer());
-            // 鎖定滑鼠游標到遊戲視窗內
-            //offset = transform.position - playerBody.transform.position;
-            //transform.localRotation = Quaternion.identity;
-            //transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
-        }
-        else
-        {
-            // 在其他場景中禁用這些功能
-            // 例如：playerObject.SetActive(false);
-        }
+        localCamera = GetComponent<Camera>();
+    }
+    void Start()
+    {
+        if(localCamera.enabled)
+                localCamera.transform.parent=null;
+                Cursor.lockState = CursorLockMode.Locked; 
         
     }
 
-    private void FixedUpdate()
+    void LateUpdate()
     {
+        if(cameraAnchorPoint==null)
+            return;
+        if(!localCamera.enabled)
+            return;
+        localCamera.transform.position = cameraAnchorPoint.position;
+        cameraRotationX+=viewInput.y*Time.deltaTime;
+        cameraRotationX=Mathf.Clamp(cameraRotationX,-90,90);
+        cameraRotationY+=viewInput.x*Time.deltaTime;
+        localCamera.transform.rotation=Quaternion.Euler(cameraRotationX,cameraRotationY,0);
         // 偵測是否按住滑鼠右鍵（您可以更改成其他按鍵）
         //if (Input.GetMouseButton(1))
         //{
-            if (target == null)
-            {
-                return;
-            }
-
+/*
             // 獲取滑鼠輸入
             float mouseX = Input.GetAxis("Mouse X") * sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
@@ -75,6 +57,13 @@ public class FirstCamera : MonoBehaviour
             transform.localRotation = Quaternion.Euler(rotationX, 1, 0); // 上下旋轉
             playerBody.Rotate(Vector3.up * mouseX*1); // 左右旋轉
         //}
+*/
+
+
+    }
+    public void SetViewInputVector(Vector2 viewInput)
+    {
+        this.viewInput=viewInput;
     }
   
 }
