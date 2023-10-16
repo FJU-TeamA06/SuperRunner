@@ -7,17 +7,40 @@ using Fusion;
 public class FirstCamera : MonoBehaviour
 {
     private Vector3 offset;
+    private NetworkRunner networkRunner;
+    public Transform target;
     public float sensitivity = 1.0f; // 控制視角靈敏度
     public Transform playerBody; // 用於旋轉角色身體的變換
     //public Transform player; // 玩家的Transform
+    private IEnumerator FindPlayer()
+    {
+        while (target == null)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject player in players)
+            {
+                NetworkObject networkObject = player.GetComponent<NetworkObject>();
+
+                if (networkObject != null && networkObject.InputAuthority == networkRunner.LocalPlayer)
+                {
+                    target = player.transform;
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
 
     private float rotationX = 0;
     private float rotationY = 0;
-    void Start()
+    private void Start()
     {
         if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
         {
             Cursor.lockState = CursorLockMode.Locked; 
+            networkRunner = FindObjectOfType<NetworkRunner>();
+            StartCoroutine(FindPlayer());
             // 鎖定滑鼠游標到遊戲視窗內
             //offset = transform.position - playerBody.transform.position;
             //transform.localRotation = Quaternion.identity;
@@ -31,12 +54,16 @@ public class FirstCamera : MonoBehaviour
         
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         // 偵測是否按住滑鼠右鍵（您可以更改成其他按鍵）
         //if (Input.GetMouseButton(1))
         //{
-            
+            if (target == null)
+            {
+                return;
+            }
+
             // 獲取滑鼠輸入
             float mouseX = Input.GetAxis("Mouse X") * sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
