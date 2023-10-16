@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Fusion;
 
 public class FirstCamera : MonoBehaviour
@@ -27,7 +28,12 @@ public class FirstCamera : MonoBehaviour
     {
         if(localCamera.enabled)
                 localCamera.transform.parent=null;
-                Cursor.lockState = CursorLockMode.Locked; 
+        if (SceneManager.GetActiveScene().name == "FPS")
+        {
+            Cursor.lockState = CursorLockMode.Locked; 
+
+        }
+            
         
     }
 
