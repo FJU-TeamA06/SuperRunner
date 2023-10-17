@@ -16,7 +16,12 @@ public class PlayerController : NetworkBehaviour
     public Camera SideCamera;
     public Camera FirstCamera;
     [Networked] public int isFinished { get; set; }
-
+    [Networked]
+    private Angle _yaw { get; set; }
+    [SerializeField]
+    private float _speed = 5f;
+    [Networked]
+    private Angle _pitch { get; set; }
     [SerializeField]
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
@@ -136,6 +141,17 @@ public class PlayerController : NetworkBehaviour
 
         if (Object.HasInputAuthority)
         {
+            if (SceneManager.GetActiveScene().name == "FPS")
+            {
+                isFirstCamera = true;
+                MainCamera.enabled = false;
+                SideCamera.enabled = false;
+                FirstCamera.enabled = true;
+                firstCamera.GetComponent<AudioListener>().enabled = true;
+
+            }
+            
+            
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
             finishCollider = finishObject.GetComponent<Collider>(); 
@@ -147,7 +163,8 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
-
+            firstCamera.enabled = false;
+            firstCamera.GetComponent<AudioListener>().enabled = false;
         }
         if (Object.HasStateAuthority)
         {
@@ -187,6 +204,10 @@ public class PlayerController : NetworkBehaviour
             NetworkButtons buttons = data.buttons;
             var pressed = buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = buttons;
+
+            var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
+            networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
+            HandlePitchYaw(data);
             if (pressed.IsSet(InputButtons.JUMP))
             {
                 networkCharacterController.Jump();
@@ -197,7 +218,7 @@ public class PlayerController : NetworkBehaviour
                 if (bulletCount > 0)
                 {
                     // 創建一個向前方旋轉 90 度的 Quaternion
-                    Quaternion rotation = Quaternion.Euler(0, 0, 0);
+                    Quaternion rotation = Quaternion.Euler(0, 90, 0);
                     // 使用轉向旋轉子彈方向
                     Quaternion bulletRotation = Quaternion.LookRotation(rotation * transform.TransformDirection(Vector3.forward));
 
@@ -211,15 +232,11 @@ public class PlayerController : NetworkBehaviour
                 }
 
             }
-            // 使用相機的旋轉來調整角色的方向
-            Quaternion playerRotation = Quaternion.Euler(0, firstCamera.transform.rotation.eulerAngles.y, 0);
-            print(playerRotation);
-            Vector3 moveVector = playerRotation * data.movementInput.normalized;
-
-            networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
+            
+            
 
         }
-
+        
 
         if (ShouldRespawn()==true)
         {
@@ -236,6 +253,10 @@ public class PlayerController : NetworkBehaviour
         {
             distance = CalculateDistancePercentage();
         }
+        transform.rotation = Quaternion.Euler(0, (float)_yaw, 0);
+
+        var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
+        firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
        
     }
 
@@ -434,6 +455,7 @@ public class PlayerController : NetworkBehaviour
                 MainCamera.enabled = false;
                 SideCamera.enabled = false;
                 FirstCamera.enabled = true;
+                
             }
         }
         else
@@ -595,7 +617,20 @@ public class PlayerController : NetworkBehaviour
         timerText.text=" Start ! ";
     }
 
+    private void HandlePitchYaw(NetworkInputData data)
+    {
+        _yaw   += data.Yaw;
+        _pitch += data.Pitch;
 
+        if (_pitch >= 180 && _pitch <= 270)
+        {
+            _pitch = 271;
+        }
+        else if (_pitch <= 180 && _pitch >= 90)
+        {
+            _pitch = 89;
+        }
+    }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
