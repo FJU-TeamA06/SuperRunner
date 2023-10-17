@@ -53,13 +53,18 @@ public class PlayerController : NetworkBehaviour
     private int maxBullet = 5;
     [SerializeField]
     private float maxDist = 100;
+    //AudioSource
+    public GameObject audioManagerPrefab;
+    public AudioManager audioManager;
+    //public AudioClip soundEffect; // 您的音效文件
+    //private AudioSource audioSource;
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
     public GameObject scorePrefab;
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
-    public GameObject FinishPlanePrefab; //
+    public GameObject FinishPlanePrefab; 
     [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -127,7 +132,13 @@ public class PlayerController : NetworkBehaviour
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
     }
-  
+
+    //private void Start()
+    //{
+    //    audioSource = GetComponent<AudioSource>();
+    //    audioSource.clip = soundEffect;
+    //}
+
     public override void Spawned()
     {
 
@@ -300,7 +311,17 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("trapdead")) // 碰撞到的物體的Tag設置為"Player"
+    //    {
+    //        if (!audioSource.isPlaying) // 檢查音效是否正在播放，以避免重疊播放
+    //        {
+    //            audioSource.Play();
+    //        }
+    //    }
+    //}
+
     private void OnReachedFinish()
     {
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
