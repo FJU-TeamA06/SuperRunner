@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class BasicSpawnerFPS : MonoBehaviour, INetworkRunnerCallbacks
 {
-    CharacterInputHandler characterInputHandler;
     [SerializeField]
     private NetworkRunner networkRunner = null;
 
@@ -159,10 +158,29 @@ public class BasicSpawnerFPS : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        if (characterInputHandler == null )
-            characterInputHandler = GetComponent<CharacterInputHandler>();
-        if (characterInputHandler != null )
-            input.Set(characterInputHandler.GetNetworkInput());
+        var data = new NetworkInputData();
+
+        if (Input.GetKey(KeyCode.A))
+            data.movementInput += Vector3.left;
+        if (Input.GetKey(KeyCode.D))
+            data.movementInput += Vector3.right;
+        if (Input.GetKey(KeyCode.W))
+            data.movementInput += Vector3.forward;
+        if (Input.GetKey(KeyCode.S))
+            data.movementInput += Vector3.back;
+
+        /*if (Input.GetKey(KeyCode.UpArrow))
+            data.movementInput += Vector3.right;
+        if (Input.GetKey(KeyCode.DownArrow))
+            data.movementInput += Vector3.left;
+        if (Input.GetKey(KeyCode.LeftArrow))
+            data.movementInput += Vector3.forward;
+        if (Input.GetKey(KeyCode.RightArrow))
+            data.movementInput += Vector3.back;*/
+
+        data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
+        data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
+        input.Set(data);
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
