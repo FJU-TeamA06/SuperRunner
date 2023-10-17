@@ -36,20 +36,6 @@ public class FirstCamera : MonoBehaviour
     private float rotationY = 0;
     private void Start()
     {
-<<<<<<< HEAD
-        localCamera = GetComponent<Camera>();
-    }
-    void Start()
-    {
-        if(localCamera.enabled)
-                localCamera.transform.parent=null;
-        if (SceneManager.GetActiveScene().name == "FPS")
-        {
-            Cursor.lockState = CursorLockMode.Locked; 
-
-        }
-            
-=======
         if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
         {
             Cursor.lockState = CursorLockMode.Locked; 
@@ -65,7 +51,6 @@ public class FirstCamera : MonoBehaviour
             // 在其他場景中禁用這些功能
             // 例如：playerObject.SetActive(false);
         }
->>>>>>> parent of 1804bb1 (FPS模式遊戲邏輯分開)
         
     }
 
