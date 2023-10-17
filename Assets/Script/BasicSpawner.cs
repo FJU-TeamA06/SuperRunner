@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+    [SerializeField] 
+    private float _mouseSensitivity = 10f;
     [SerializeField]
     private NetworkRunner networkRunner = null;
 
@@ -159,24 +161,26 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
+        
+        if (SceneManager.GetActiveScene().name == "FPS")
+        {
+            if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
+            if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
+            if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.left; }
+            if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.right; }
 
-        if (Input.GetKey(KeyCode.A))
-            data.movementInput += Vector3.left;
-        if (Input.GetKey(KeyCode.D))
-            data.movementInput += Vector3.right;
-        if (Input.GetKey(KeyCode.W))
-            data.movementInput += Vector3.forward;
-        if (Input.GetKey(KeyCode.S))
-            data.movementInput += Vector3.back;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
+            if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
+            if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
+            if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+        }
+        
 
-        /*if (Input.GetKey(KeyCode.UpArrow))
-            data.movementInput += Vector3.right;
-        if (Input.GetKey(KeyCode.DownArrow))
-            data.movementInput += Vector3.left;
-        if (Input.GetKey(KeyCode.LeftArrow))
-            data.movementInput += Vector3.forward;
-        if (Input.GetKey(KeyCode.RightArrow))
-            data.movementInput += Vector3.back;*/
+        data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
+        data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity * (-1);
 
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
