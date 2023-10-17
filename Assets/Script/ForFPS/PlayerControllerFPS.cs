@@ -210,7 +210,7 @@ public class PlayerControllerFPS : NetworkBehaviour
             }
             // 使用相機的旋轉來調整角色的方向
             Quaternion playerRotation = Quaternion.Euler(0, firstCamera.transform.rotation.eulerAngles.y, 0);
-            //print(playerRotation);
+            print(playerRotation);
             Vector3 moveVector = playerRotation * data.movementInput.normalized;
 
             networkCharacterController.Move(moveSpeed * moveVector * Runner.DeltaTime);
