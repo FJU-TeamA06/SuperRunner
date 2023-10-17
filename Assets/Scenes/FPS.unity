@@ -3011,7 +3011,6 @@ GameObject:
   - component: {fileID: 1510189103}
   - component: {fileID: 1510189102}
   - component: {fileID: 1510189104}
-  - component: {fileID: 1510189105}
   m_Layer: 0
   m_Name: Network Runner
   m_TagString: Untagged
@@ -3063,25 +3062,6 @@ MonoBehaviour:
     RawGuidValue: c3718d34ee937bc41b352ee63391a595
   PlayerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
-  gameMode: 6
-  playerNumber: 0
-  levelIndex: 0
---- !u!114 &1510189105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1510189101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa2d75246a388d24a9a723b32d1163fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkRunner: {fileID: 1510189102}
-  playerPrefab:
-    RawGuidValue: c3718d34ee937bc41b352ee63391a595
-  PlayerController: {fileID: 0}
   gameMode: 6
   playerNumber: 0
   levelIndex: 0

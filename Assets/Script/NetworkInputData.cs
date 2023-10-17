@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public enum InputButtonsFPS
+public enum InputButtons
 {
     JUMP,
     FIRE
@@ -14,6 +14,5 @@ public enum InputButtonsFPS
 public struct NetworkInputData : INetworkInput
 {
     public NetworkButtons buttons;
-    public Vector3 aimForwardVector;
     public Vector3 movementInput;
 }
