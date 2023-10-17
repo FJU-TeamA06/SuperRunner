@@ -200,10 +200,10 @@ MonoBehaviour:
   networkCharacterController: {fileID: 4804169772732259511}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
-  fir: -1
-  sec: -1
-  thi: -1
-  fou: -1
+  fir: 0
+  sec: 0
+  thi: 0
+  fou: 0
   cha: 0
   scoreObject: {fileID: 0}
   wallObject: {fileID: 0}
@@ -217,7 +217,7 @@ MonoBehaviour:
   hpBar: {fileID: 5377737272242267998}
   maxHp: 100
   maxBullet: 5
-  maxDist: 100
+  maxDist: 0
   timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
   scorePrefab: {fileID: 4644077946161223230, guid: d453485f9212248dd9377427bef1315b,
@@ -226,7 +226,8 @@ MonoBehaviour:
     type: 3}
   countDownPrefab: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
-  FinishPlanePrefab: {fileID: 0}
+  FinishPlanePrefab: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
+    type: 3}
   _Dist: 0
   _Hp: 0
   _bulletCount: 0
@@ -284,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
+  InterpolationTarget: {fileID: 1822104727443329074}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -302,7 +303,7 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 10
+  maxSpeed: 11
   rotationSpeed: 15
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
