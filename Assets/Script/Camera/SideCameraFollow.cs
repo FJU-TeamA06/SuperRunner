@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,8 +46,12 @@ public class SideCameraFollow : MonoBehaviour
             return;
         }
 
-        Vector3 desiredPosition = target.position + offset;
+        // 計算相機的目標位置，根據玩家的朝向加上偏移量
+        Vector3 desiredPosition = target.position + target.right * offset.x + target.up * offset.y + target.forward * offset.z;
+        // 使用線性插值平滑移動相機
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
+        // 讓相機看向玩家
+        transform.LookAt(target);
     }
 }

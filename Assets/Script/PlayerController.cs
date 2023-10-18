@@ -161,6 +161,11 @@ public class PlayerController : NetworkBehaviour
                 firstCamera.GetComponent<AudioListener>().enabled = true;
 
             }
+            else
+            {
+                firstCamera.enabled = false;
+                firstCamera.GetComponent<AudioListener>().enabled = false;
+            }
             
             
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
@@ -266,8 +271,8 @@ public class PlayerController : NetworkBehaviour
         }
         transform.rotation = Quaternion.Euler(0, (float)_yaw, 0);
 
-        var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
-        firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
+        //var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
+        //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
        
     }
 
@@ -641,16 +646,6 @@ public class PlayerController : NetworkBehaviour
     private void HandlePitchYaw(NetworkInputData data)
     {
         _yaw   += data.Yaw;
-        _pitch += data.Pitch;
-
-        if (_pitch >= 180 && _pitch <= 270)
-        {
-            _pitch = 271;
-        }
-        else if (_pitch <= 180 && _pitch >= 90)
-        {
-            _pitch = 89;
-        }
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()

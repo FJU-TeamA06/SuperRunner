@@ -166,8 +166,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
             if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
-            if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.left; }
-            if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.right; }
+            if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.left; }
+            if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.right; }
 
         }
         else
@@ -180,7 +180,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         
 
         data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
-        data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity * (-1);
+        data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
 
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
