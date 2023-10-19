@@ -43,7 +43,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 {
                     { 1, new Vector3(0, 2, 200) },
                     { 2, new Vector3(0, 2, 202F) }
-                    // 在這裡添加第二個關卡的初始位置設定
+                }
+            },
+            { 3, new Dictionary<int, Vector3>()
+                {
+                    { 1, new Vector3(0, 62, -200) },
+                    { 2, new Vector3(0, 62, -202F) }
                 }
             },
         };
