@@ -24,6 +24,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public int levelIndex; // 使用int类型的levelIndex来表示当前选中的关卡
     private Dictionary<int, Dictionary<int, Vector3>> spawnPositions;
     private bool isServer = false;
+    public bool SideInput=true;
 
     private void Start()
     {
@@ -84,6 +85,11 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Scene = SceneManager.GetActiveScene().buildIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
+    }
+    public void SideInputToggle(bool _sideinput)
+    {
+        print(_sideinput);
+        SideInput = _sideinput;
     }
 
    
@@ -172,15 +178,27 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         else
         {
-            if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
-            if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
-            if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
-            if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+            if(SideInput)
+            {
+                if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
+                if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
+                if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
+                if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
+                if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
+                if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.left; }
+                if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.right; }
+                data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
+                data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
+            }
+            
         }
         
 
-        data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
-        data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
+        
 
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));

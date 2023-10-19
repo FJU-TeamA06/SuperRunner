@@ -223,7 +223,15 @@ public class PlayerController : NetworkBehaviour
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
             networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            HandlePitchYaw(data);
+            if(isMainCamera)
+            {
+                _yaw=0;
+            }
+            else
+            {
+                HandlePitchYaw(data);
+            }
+            
             if (pressed.IsSet(InputButtons.JUMP))
             {
                 networkCharacterController.Jump();
@@ -439,6 +447,8 @@ public class PlayerController : NetworkBehaviour
             // 切换到下一个相机模式
             currentCameraMode = (currentCameraMode + 1) % 2;
             MainCamera.enabled = currentCameraMode == 0;
+            isMainCamera = currentCameraMode == 0;
+            basicSpawner.SideInputToggle(currentCameraMode == 0);
             SideCamera.enabled = currentCameraMode == 1;
             //FirstCamera.enabled = currentCameraMode == 2;
             
@@ -450,18 +460,7 @@ public class PlayerController : NetworkBehaviour
                 //isMainCamera = true;
                 currentCameraMode = 0;
             }
-            /*if(isMainCamera)
-            {
-                MainCamera.enabled = false;
-                SideCamera.enabled = true;
-                isMainCamera=false;
-            }
-            if(isSideCamera)
-            {
-                SideCamera.enabled = false;
-                MainCamera.enabled = true;
-                isSideCamera=false;
-            }
+            /*
             if(isFirstCamera)
             {
                 FirstCamera.enabled = false;
