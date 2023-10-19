@@ -26,7 +26,7 @@ public class PlayerController : NetworkBehaviour
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
-
+    private int FPS_Level=2;
     
     private Vector3 startPoint;
     [SerializeField]
@@ -113,7 +113,7 @@ public class PlayerController : NetworkBehaviour
     public bool isMainCamera=true;
     public bool isSideCamera = false;
     public bool isFirstCamera = false;
-    
+    public int currentCameraMode = 0;
 
 
     private void InstantiateHUD_UI()
@@ -167,7 +167,6 @@ public class PlayerController : NetworkBehaviour
                 firstCamera.GetComponent<AudioListener>().enabled = false;
             }
             
-            
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
             finishObject = GameObject.FindGameObjectWithTag("Finish1");
             finishCollider = finishObject.GetComponent<Collider>(); 
@@ -211,7 +210,7 @@ public class PlayerController : NetworkBehaviour
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         scoreObject = GameObject.FindGameObjectWithTag("Score");
         rankingObject = GameObject.FindGameObjectWithTag("FinPlane");
-
+        
         //定期更新子彈數量
         Text bulletCountText = bulletCountObject.GetComponent<Text>();
         bulletCountText.text=bulletCount.ToString();
@@ -432,43 +431,67 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private int currentCameraMode = 0;
+    
     private void Update()
     {
+        if(basicSpawner.levelIndex==1)//在確認為第一關要做的事情
+        {
+            
+        }
+        else if(basicSpawner.levelIndex==FPS_Level)//為了同個.unity檔案的FPS模式(具體為哪個level要再討論，目前為2)做準備，預設會是正朝向模式
+        {
+            currentCameraMode = 1;
+            isMainCamera=false;
+            isSideCamera = true;
+            isFirstCamera = false;
+        }
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
         {
-            MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
-            SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
-            FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
-            MainCamera = MainCameraObject.GetComponent<Camera>();
-            FirstCamera = FirstCameraObject.GetComponent<Camera>();
-            SideCamera = SideCameraObject.GetComponent<Camera>();
-            // 切换到下一个相机模式
-            currentCameraMode = (currentCameraMode + 1) % 2;
-            MainCamera.enabled = currentCameraMode == 0;
-            isMainCamera = currentCameraMode == 0;
-            basicSpawner.SideInputToggle(currentCameraMode == 0);
-            SideCamera.enabled = currentCameraMode == 1;
-            //FirstCamera.enabled = currentCameraMode == 2;
-            
-            if (isFirstCamera)
+            if(basicSpawner.levelIndex==1)//在第一關，按鍵切換模式
             {
-                FirstCamera.enabled = false;
-                SideCamera.enabled = false;
-                MainCamera.enabled = true;
-                //isMainCamera = true;
-                currentCameraMode = 0;
+                currentCameraMode = (currentCameraMode + 1) % 2;
+                
             }
-            /*
-            if(isFirstCamera)
+            else if(basicSpawner.levelIndex==FPS_Level)//為了同個.unity檔案的FPS模式做準備，預設會是正朝向模式，按鍵不會切換
             {
-                FirstCamera.enabled = false;
-                SideCamera.enabled = false;
-                MainCamera.enabled = true;
-                isMainCamera = true;
-            }*/
+                currentCameraMode = 1;
+                
+            }
+            else
+            {
+
+            }
+            
         }
+        MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
+        FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+        MainCamera = MainCameraObject.GetComponent<Camera>();
+        FirstCamera = FirstCameraObject.GetComponent<Camera>();
+        SideCamera = SideCameraObject.GetComponent<Camera>();
+        MainCamera.enabled = currentCameraMode == 0;
+        isMainCamera = currentCameraMode == 0;
+        basicSpawner.SideInputToggle(currentCameraMode == 0);
+        SideCamera.enabled = currentCameraMode == 1;
+        //FirstCamera.enabled = currentCameraMode == 2;
+            
+        if (isFirstCamera)
+        {
+            FirstCamera.enabled = false;
+            SideCamera.enabled = false;
+            MainCamera.enabled = true;
+            //isMainCamera = true;
+            currentCameraMode = 0;
+        }
+        /*
+        if(isFirstCamera)
+        {
+            FirstCamera.enabled = false;
+            SideCamera.enabled = false;
+            MainCamera.enabled = true;
+            isMainCamera = true;
+        }*/
         if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
         {
             if (Input.GetKeyDown(KeyCode.V))

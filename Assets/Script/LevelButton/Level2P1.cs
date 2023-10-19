@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Level1P2 : MonoBehaviour
+public class Level2P1 : MonoBehaviour
 {
     private int levelNumber = 2; // 关卡编号
-    private int playerNum=2;
+    private int playerNum=1;
     public NameInputHandler nameInputHandler; // 对NameInputHandler的引用
     public GameObject levelSelectionPanel; // 对关卡选择面板的引用
 

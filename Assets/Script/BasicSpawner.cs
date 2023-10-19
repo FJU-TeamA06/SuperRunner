@@ -88,7 +88,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void SideInputToggle(bool _sideinput)
     {
-        print(_sideinput);
         SideInput = _sideinput;
     }
 
@@ -195,6 +194,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
             }
             
+            
         }
         
 
@@ -204,7 +204,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
         input.Set(data);
     }
-
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
