@@ -12,7 +12,7 @@ public class SoundController : MonoBehaviour
 
     private float originalBackgroundMusicVolume;
 
-    void Start()
+    private void Awake()
     {
         // 添加背景音樂的AudioSource
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
@@ -24,11 +24,32 @@ public class SoundController : MonoBehaviour
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
         collisionSoundSource.clip = collisionSound;
 
-        originalBackgroundMusicVolume = backgroundMusicSource.volume;
-
-        //audioSource = GetComponent<AudioSource>();
-        //audioSource.clip = soundEffect;
+        originalBackgroundMusicVolume = backgroundMusicSource.volume; 
     }
+
+    //public void Play(int index, string name, bool isloop)
+    //{
+    //    var clip = GetAudioClip(name);
+    //    if (clip != null)
+    //    {
+    //        var audio = audios[index];
+    //        audio.clip = clip;
+    //        audio.loop = isloop;
+    //        audio.Play();
+    //    }
+    //}
+
+    //AudioClip GetAudioClip(string name)
+    //{
+    //    switch (name)
+    //    {
+    //        case "bgmBackground":
+    //            return bgmBackground;
+    //        case "seCollision":
+    //            return seCollision;
+    //    }
+    //    return null;
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -42,6 +63,11 @@ public class SoundController : MonoBehaviour
                 backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
                 // 將音量降低為原來的 30%
             }
+        }
+
+        if (!backgroundMusicSource.isPlaying)
+        {
+            backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
         }
     }
 

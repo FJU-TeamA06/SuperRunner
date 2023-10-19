@@ -61,8 +61,18 @@ public class PlayerController : NetworkBehaviour
     //AudioSource
     public GameObject audioManagerPrefab;
     public AudioManager audioManager;
-    //public AudioClip soundEffect; // 您的音效文件
-    //private AudioSource audioSource;
+
+    public AudioClip bgmBackground; // 背景音樂
+    public AudioClip seShoot;// 碰撞音效槍
+    public AudioClip seCollision;// 碰撞音效
+    public AudioClip seDamage;// 碰撞音效被打到
+
+    private AudioSource backgroundMusicSource;
+    private AudioSource collisionSoundSource1;
+    private AudioSource collisionSoundSource2;
+    private AudioSource collisionSoundSource3;
+
+    private float originalBackgroundMusicVolume;
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
@@ -115,8 +125,31 @@ public class PlayerController : NetworkBehaviour
     public bool isFirstCamera = false;
     public int currentCameraMode = 0;
 
+    //private void Awake()
+    //{
+    //    backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+    //    backgroundMusicSource.clip = bgmBackground;
+    //    backgroundMusicSource.loop = true;
+    //    backgroundMusicSource.Play();
 
-    private void InstantiateHUD_UI()
+    //    collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
+    //    collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
+    //    collisionSoundSource3 = gameObject.AddComponent<AudioSource>();
+    //    collisionSoundSource1.clip = seShoot;
+    //    collisionSoundSource2.clip = seCollision;
+    //    collisionSoundSource3.clip = seDamage;
+
+    //    audios.Add(backgroundMusicSource);
+    //    audios.Add(collisionSoundSource2);
+
+    //    originalBackgroundMusicVolume = backgroundMusicSource.volume;
+
+    //    basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+    //    firstCamera = FindObjectOfType<FirstCamera>();
+    //}
+
+
+        private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
         {
@@ -317,6 +350,12 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
+            //collisionSoundSource2.clip = seCollision;
+            //collisionSoundSource2.Play();
+
+            //// 降低背景音樂的音量
+            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+
             Debug.Log("Trapdead object collision!");
             // Respawn();
             a = 1;
@@ -342,6 +381,12 @@ public class PlayerController : NetworkBehaviour
         {
             Destroy(other.gameObject);
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // 在碰撞結束時恢復背景音樂音量
+        backgroundMusicSource.volume = originalBackgroundMusicVolume;
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -371,11 +416,6 @@ public class PlayerController : NetworkBehaviour
         timerScript.StopTimer();
     }
 
-    /*private void Respawn()
-    {
-        networkCharacterController.transform.position = Vector3.up * 2;
-        Hp = maxHp;
-    }*/
     private void Respawn()
     {
         Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);

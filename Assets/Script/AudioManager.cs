@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     private float originalBackgroundMusicVolume;
 
     // Start is called before the first frame update
-    void Start()
+    public void Awake()
     {
         // 添加背景音樂的AudioSource
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
@@ -58,18 +58,18 @@ public class AudioManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) // 碰撞到的物體的Tag設置為"Player"
-        {
-            collisionSoundSource1.clip = seShoot;
-            collisionSoundSource1.Play();
+        //if (collision.gameObject.CompareTag("Player")) // 碰撞到的物體的Tag設置為"Player"
+        //{
+        //    collisionSoundSource1.clip = seShoot;
+        //    collisionSoundSource1.Play();
             
-            // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
-        }
-        else if (collision.collider.CompareTag("trapdead") && collision.other.gameObject.CompareTag("Player"))
+        //    // 降低背景音樂的音量
+        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+        //}
+        if (collision.collider.CompareTag("trapdead") && collision.other.gameObject.CompareTag("Player"))
         {
             collisionSoundSource2.clip = seCollision;
-            collisionSoundSource3.Play();
+            collisionSoundSource2.Play();
 
             // 降低背景音樂的音量
             backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
@@ -81,6 +81,11 @@ public class AudioManager : MonoBehaviour
 
             // 降低背景音樂的音量
             backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+        }
+
+        if (!backgroundMusicSource.isPlaying)
+        {
+            backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
         }
     }
 
