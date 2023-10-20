@@ -26,7 +26,8 @@ public class PlayerController : NetworkBehaviour
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
-    private int FPS_Level=2;
+    //FPS關卡(專屬控制)的編號指定
+    private int FPS_Level=3;
     
     private Vector3 startPoint;
     [SerializeField]
@@ -474,7 +475,7 @@ public class PlayerController : NetworkBehaviour
     
     private void Update()
     {
-        if(basicSpawner.levelIndex==1)//在確認為第一關要做的事情
+        if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
         {
             
         }
@@ -488,7 +489,7 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if(basicSpawner.levelIndex==1)//在第一關，按鍵切換模式
+            if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在第一關或第二關，按鍵切換模式
             {
                 currentCameraMode = (currentCameraMode + 1) % 2;
                 
