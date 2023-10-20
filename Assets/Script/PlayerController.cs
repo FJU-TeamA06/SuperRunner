@@ -576,8 +576,8 @@ public class PlayerController : NetworkBehaviour
         {
             
             timeObject = GameObject.FindGameObjectWithTag("Timer");
-            wallObject = GameObject.FindGameObjectWithTag("StartWall");
 
+            wallObject = GameObject.FindGameObjectWithTag("StartWall");
             StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
             if (startWallScript != null)
             {
@@ -658,14 +658,11 @@ public class PlayerController : NetworkBehaviour
     }
 
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                     // 排名顯示＿RPC
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                     // 排名顯示＿RPC___停用
     public void ScoreDisplay_RPC()
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
         Text timerText = timeObject.GetComponent<Text>();
-        print(timerText);
-        timerText.text="";
-        print("RPC:");
         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
         {
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
@@ -688,6 +685,22 @@ public class PlayerController : NetworkBehaviour
         scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"    "+ScoreBoard[i];
         }        
     }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
+    public void CoinPoint_RPC(string a)
+    {
+        if (FinalScoreBoard[0] == a){
+            ScoreBoard.Set(0, ScoreBoard[0] + 1);
+        }
+        else if (FinalScoreBoard[1] == a){
+            ScoreBoard.Set(1, ScoreBoard[1] + 1);
+        }
+        else if (FinalScoreBoard[2] == a){
+            ScoreBoard.Set(2, ScoreBoard[2] + 1);
+        }
+        else if (FinalScoreBoard[3] == a){
+            ScoreBoard.Set(3, ScoreBoard[3] + 1);
+        }
+    }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
@@ -702,8 +715,14 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.LogError("countdownTimer is null! Make sure it's properly initialized.");
         }
-        Text timerText = timeObject.GetComponent<Text>();
+        TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
         timerText.text=" Start ! ";
+        Invoke("C0", 5 );
+    }
+    private void C0(){                                                                                         // 倒數用
+        timeObject = GameObject.FindGameObjectWithTag("timerText");
+        TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+        timerText.text=" ";
     }
 
     private void HandlePitchYaw(NetworkInputData data)
