@@ -310,7 +310,7 @@ public class PlayerController : NetworkBehaviour
         {
             distance = CalculateDistancePercentage();
         }
-        transform.rotation = Quaternion.Euler(0, (float)_yaw, 0);
+        transform.rotation = Quaternion.Euler(0, (float)_yaw,(float)_pitch);
 
         //var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
@@ -709,6 +709,18 @@ public class PlayerController : NetworkBehaviour
     private void HandlePitchYaw(NetworkInputData data)
     {
         _yaw   += data.Yaw;
+        _pitch += data.Pitch;
+        
+
+        if (_pitch >= 180 && _pitch <= 329)
+        {
+            _pitch = 330;
+        }
+        else if (_pitch <= 180 && _pitch >= 29)
+        {
+            _pitch = 28;
+        }
+        print(_pitch);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
