@@ -142,8 +142,8 @@ public class PlayerController : NetworkBehaviour
         collisionSoundSource2.clip = seCollision;
         collisionSoundSource3.clip = seDamage;
 
-        audios.Add(backgroundMusicSource);
-        audios.Add(collisionSoundSource2);
+        //audios.Add(backgroundMusicSource);
+        //audios.Add(collisionSoundSource2);
 
         originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
