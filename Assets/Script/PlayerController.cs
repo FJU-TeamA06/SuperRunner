@@ -60,8 +60,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float maxDist = 100;
     //AudioSource
-    public GameObject audioManagerPrefab;
-    public AudioManager audioManager;
+    //public GameObject AudioManagerPrefab;
+    //public AudioManager AudioManager;
 
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip seShoot;// 碰撞音效槍
@@ -70,10 +70,12 @@ public class PlayerController : NetworkBehaviour
 
     private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource1;
-    private AudioSource collisionSoundSource2;
+    public AudioSource collisionSoundSource2;
     private AudioSource collisionSoundSource3;
 
     private float originalBackgroundMusicVolume;
+
+    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
@@ -126,31 +128,31 @@ public class PlayerController : NetworkBehaviour
     public bool isFirstCamera = false;
     public int currentCameraMode = 0;
 
-    //private void Awake()
-    //{
-    //    backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-    //    backgroundMusicSource.clip = bgmBackground;
-    //    backgroundMusicSource.loop = true;
-    //    backgroundMusicSource.Play();
+    private void Awake()
+    {
+        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        backgroundMusicSource.clip = bgmBackground;
+        backgroundMusicSource.loop = true;
+        backgroundMusicSource.Play();
 
-    //    collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
-    //    collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
-    //    collisionSoundSource3 = gameObject.AddComponent<AudioSource>();
-    //    collisionSoundSource1.clip = seShoot;
-    //    collisionSoundSource2.clip = seCollision;
-    //    collisionSoundSource3.clip = seDamage;
+        collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
+        collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
+        collisionSoundSource3 = gameObject.AddComponent<AudioSource>();
+        collisionSoundSource1.clip = seShoot;
+        collisionSoundSource2.clip = seCollision;
+        collisionSoundSource3.clip = seDamage;
 
-    //    audios.Add(backgroundMusicSource);
-    //    audios.Add(collisionSoundSource2);
+        audios.Add(backgroundMusicSource);
+        audios.Add(collisionSoundSource2);
 
-    //    originalBackgroundMusicVolume = backgroundMusicSource.volume;
+        originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
-    //    basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
-    //    firstCamera = FindObjectOfType<FirstCamera>();
-    //}
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+        firstCamera = FindObjectOfType<FirstCamera>();
+    }
 
 
-        private void InstantiateHUD_UI()
+    private void InstantiateHUD_UI()
     {
         if (Object.HasInputAuthority)
         {
@@ -160,23 +162,28 @@ public class PlayerController : NetworkBehaviour
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
             GameObject countDownInstance = Instantiate(countDownPrefab); //
             GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); //
+            //GameObject AudioManagerInstance = Instantiate(AudioManagerPrefab);
         }
     }
     public CountdownTimer countdownTimer;
     public FinishPlane finishPlane;
     private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
-    private void Awake()
-    {
-        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
-        firstCamera = FindObjectOfType<FirstCamera>();
-    }
-
-    //private void Start()
+    //private void Awake()
     //{
-    //    audioSource = GetComponent<AudioSource>();
-    //    audioSource.clip = soundEffect;
+    //    basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+    //    firstCamera = FindObjectOfType<FirstCamera>();
     //}
+
+    void Start()
+    {
+        //audioSource = GetComponent<AudioSource>();
+        //audioSource.clip = soundEffect;
+
+        audioClips.Add("shoot", seShoot);
+        audioClips.Add("collision", seCollision);
+        audioClips.Add("damage", seDamage);
+    }
 
     public override void Spawned()
     {
@@ -351,12 +358,6 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
-            //collisionSoundSource2.clip = seCollision;
-            //collisionSoundSource2.Play();
-
-            //// 降低背景音樂的音量
-            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
-
             Debug.Log("Trapdead object collision!");
             // Respawn();
             a = 1;
@@ -381,6 +382,36 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.tag == "Treasure")
         {
             Destroy(other.gameObject);
+        }
+        //if (other.gameObject.CompareTag("Soundtest"))
+        //{
+        //    collisionSoundSource2.clip = seCollision;
+        //    collisionSoundSource2.Play();
+
+        //    // 降低背景音樂的音量
+        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+        //}
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        string selectedSound = "";
+        if (collision.gameObject.tag == "Player") // 假設碰撞到的是標記為 "Player" 的物體
+        {
+            selectedSound = "shoot"; // 如果碰撞到了 "Player"，選擇 sound1
+        }
+        else if (collision.gameObject.tag == "Soundtest")
+        {
+            selectedSound = "collision"; // 否則選擇 sound2
+        }
+
+        if (audioClips.ContainsKey(selectedSound))
+        {
+            GetComponent<AudioSource>().clip = audioClips[selectedSound];
+            GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+
+            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         }
     }
 

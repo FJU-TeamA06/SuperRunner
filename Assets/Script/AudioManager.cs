@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour
         //    collisionSoundSource1.Play();
             
         //    // 降低背景音樂的音量
-        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         //}
         if (collision.collider.CompareTag("trapdead") && collision.other.gameObject.CompareTag("Player"))
         {
@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
             collisionSoundSource2.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         }
         else if (collision.gameObject.CompareTag("Object3"))
         {
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
             collisionSoundSource3.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.3f;
+            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         }
 
         if (!backgroundMusicSource.isPlaying)
@@ -88,6 +88,7 @@ public class AudioManager : MonoBehaviour
             backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
         }
     }
+
 
     private void OnCollisionExit(Collision collision)
     {
