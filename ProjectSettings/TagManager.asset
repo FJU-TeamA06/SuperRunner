@@ -23,6 +23,7 @@ TagManager:
   - BulletCount
   - FinPlane
   - RankingText
+  - Soundtest
   layers:
   - Default
   - TransparentFX

@@ -88,19 +88,29 @@ public class SoundController : MonoBehaviour
     
     private AudioSource collisionSoundSource;
 
-    void Start()
-    {
-        collisionSoundSource = GetComponent<AudioSource>();
-        collisionSoundSource.clip = collisionSound;
-        collisionSoundSource.loop = false;
-    }
+    private float originalBackgroundMusicVolume;
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            collisionSoundSource.PlayOneShot(collisionSound);
-        }
-    }
+    //void Start()
+    //{
+    //    collisionSoundSource = GetComponent<AudioSource>();
+    //    collisionSoundSource.clip = collisionSound;
+    //    collisionSoundSource.loop = false;
 
+    //    originalBackgroundMusicVolume = backgroundMusicSource.volume;
+    //}
+
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        collisionSoundSource.PlayOneShot(collisionSound);
+    //        backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+    //    }
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    // 在碰撞結束時恢復背景音樂音量
+    //    backgroundMusicSource.volume = originalBackgroundMusicVolume;
+    //}
 }

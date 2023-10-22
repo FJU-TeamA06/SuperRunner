@@ -383,6 +383,12 @@ public class PlayerController : NetworkBehaviour
         {
             Destroy(other.gameObject);
         }
+        if (other.gameObject.CompareTag("Soundtest"))
+        {
+            Debug.Log("Soundtest object collision!");
+            // Respawn();
+            a = 1;
+        }
         //if (other.gameObject.CompareTag("Soundtest"))
         //{
         //    collisionSoundSource2.clip = seCollision;
@@ -397,7 +403,7 @@ public class PlayerController : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         string selectedSound = "";
-        if (collision.gameObject.tag == "Player") // 假設碰撞到的是標記為 "Player" 的物體
+        if (collision.gameObject.tag == "bullet") // 假設碰撞到的是標記為 "Player" 的物體
         {
             selectedSound = "shoot"; // 如果碰撞到了 "Player"，選擇 sound1
         }
