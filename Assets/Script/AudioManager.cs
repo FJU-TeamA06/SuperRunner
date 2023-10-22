@@ -40,6 +40,9 @@ public class AudioManager : MonoBehaviour
         collisionSoundSource1.clip = seShoot;
         collisionSoundSource2.clip = seCollision;
         collisionSoundSource3.clip = seDamage;
+        collisionSoundSource1.loop = false;
+        collisionSoundSource2.loop = false;
+        collisionSoundSource3.loop = false;
 
         originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
@@ -64,23 +67,23 @@ public class AudioManager : MonoBehaviour
         //    collisionSoundSource1.Play();
             
         //    // 降低背景音樂的音量
-        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         //}
-        if (collision.collider.CompareTag("trapdead") && collision.other.gameObject.CompareTag("Player"))
+        if (collision.collider.CompareTag("Soundtest") && collision.other.gameObject.CompareTag("Player"))
         {
             collisionSoundSource2.clip = seCollision;
             collisionSoundSource2.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
-        else if (collision.gameObject.CompareTag("Object3"))
+        else if (collision.collider.CompareTag("bullet") && collision.other.gameObject.CompareTag("Player"))
         {
             collisionSoundSource3.clip = seDamage;
             collisionSoundSource3.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
 
         if (!backgroundMusicSource.isPlaying)

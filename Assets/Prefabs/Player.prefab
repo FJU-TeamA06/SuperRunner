@@ -319,12 +319,15 @@ MonoBehaviour:
   countdownTimerObject: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   bulletCountObject: {fileID: 0}
+  AudioManagerObject: {fileID: 0}
   moveSpeed: 10
   UIname: {fileID: 723208538431731025}
   hpBar: {fileID: 8167070771759355155}
   maxHp: 100
   maxBullet: 5
   maxDist: 0
+  AudioManagerPrefab: {fileID: 7270766955060539352, guid: baa31c895b8b6a342825b516a83dcf65,
+    type: 3}
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
   seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
   seCollision: {fileID: 8300000, guid: 52a31547bdf2321448364e09bf1ca5f1, type: 3}

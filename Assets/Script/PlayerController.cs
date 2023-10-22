@@ -44,6 +44,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject rankingObject;//
     public GameObject countdownTimerObject;
     public GameObject bulletCountObject;
+    public GameObject AudioManagerObject;//music
     private float totalDistance;
     private Collider finishCollider;
     private GameObject finishObject;
@@ -60,7 +61,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float maxDist = 100;
     //AudioSource
-    //public GameObject AudioManagerPrefab;
+    public GameObject AudioManagerPrefab;
     //public AudioManager AudioManager;
 
     public AudioClip bgmBackground; // 背景音樂
@@ -68,7 +69,7 @@ public class PlayerController : NetworkBehaviour
     public AudioClip seCollision;// 碰撞音效
     public AudioClip seDamage;// 碰撞音效被打到
 
-    private AudioSource backgroundMusicSource;
+    //private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource1;
     public AudioSource collisionSoundSource2;
     private AudioSource collisionSoundSource3;
@@ -130,10 +131,10 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        backgroundMusicSource.clip = bgmBackground;
-        backgroundMusicSource.loop = true;
-        backgroundMusicSource.Play();
+        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        //backgroundMusicSource.clip = bgmBackground;
+        //backgroundMusicSource.loop = true;
+        //backgroundMusicSource.Play();
 
         collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
         collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
@@ -141,11 +142,14 @@ public class PlayerController : NetworkBehaviour
         collisionSoundSource1.clip = seShoot;
         collisionSoundSource2.clip = seCollision;
         collisionSoundSource3.clip = seDamage;
+        collisionSoundSource1.loop = false;
+        collisionSoundSource2.loop = false;
+        collisionSoundSource3.loop = false;
 
         //audios.Add(backgroundMusicSource);
         //audios.Add(collisionSoundSource2);
 
-        originalBackgroundMusicVolume = backgroundMusicSource.volume;
+        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
@@ -278,6 +282,15 @@ public class PlayerController : NetworkBehaviour
             }
             if (pressed.IsSet(InputButtons.FIRE))
             {
+                string selectedSound = "shoot";
+                if (audioClips.ContainsKey(selectedSound))
+                {
+                    GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                    GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                    GetComponent<AudioSource>().loop = false;
+                    //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+                }
+
                 //發射子彈(子彈數量的檢測)
                 if (bulletCount > 0)
                 {
@@ -291,6 +304,7 @@ public class PlayerController : NetworkBehaviour
                         transform.position + bulletRotation * Vector3.forward, // 使用旋轉後的方向
                         bulletRotation,
                         Object.InputAuthority);
+
                     bulletCount--;
                     print("bulletCount:" + bulletCount);
                 }
@@ -386,6 +400,16 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Soundtest"))
         {
             Debug.Log("Soundtest object collision!");
+
+            string selectedSound = "collision";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+            }
+
             // Respawn();
             a = 1;
         }
@@ -417,14 +441,14 @@ public class PlayerController : NetworkBehaviour
             GetComponent<AudioSource>().clip = audioClips[selectedSound];
             GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
 
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         // 在碰撞結束時恢復背景音樂音量
-        backgroundMusicSource.volume = originalBackgroundMusicVolume;
+        //backgroundMusicSource.volume = originalBackgroundMusicVolume;
     }
 
     //private void OnCollisionEnter(Collision collision)
