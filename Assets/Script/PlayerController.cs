@@ -80,7 +80,6 @@ public class PlayerController : NetworkBehaviour
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
-    public GameObject scorePrefab;
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
     public GameObject FinishPlanePrefab; 
@@ -151,7 +150,6 @@ public class PlayerController : NetworkBehaviour
         {
             //Runner.Spawn(HUD_UI_Prefab);
             GameObject timerInstance = Instantiate(timerPrefab);
-            GameObject scoreInstance = Instantiate(scorePrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
             GameObject countDownInstance = Instantiate(countDownPrefab); //
             GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); //
@@ -379,6 +377,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Coin"))
         {
+            CoinPoint_RPC(this.PlayerName.ToString());
             Debug.Log("Get Coin!");
             Destroy(other.gameObject);
         }
@@ -689,16 +688,16 @@ public class PlayerController : NetworkBehaviour
         DistRutern_RPC();
         for (int i = 0, eeee; i < playerCount && i < FinalScoreBoard.Length; i++){
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
-                ScoreBoard.Set(i, ScoreBoard[i]+1);
+                ScoreBoard.Set(i, ScoreBoard[i]+4);
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
-                ScoreBoard.Set(i, ScoreBoard[i]+2);
+                ScoreBoard.Set(i, ScoreBoard[i]+6);
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                ScoreBoard.Set(i, ScoreBoard[i]+3);
+                ScoreBoard.Set(i, ScoreBoard[i]+8);
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
-                ScoreBoard.Set(i, ScoreBoard[i]+4);
+                ScoreBoard.Set(i, ScoreBoard[i]+10);
             }
         }
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
@@ -708,7 +707,7 @@ public class PlayerController : NetworkBehaviour
             FinalPlaneDisplay_RPC();
         }
         //ScoreDisplay_RPC();
-        //FinalScoreDisplay_RPC();
+        FinalScoreDisplay_RPC();
         xxx = 0;
         yyy += 1;
     }
@@ -733,7 +732,7 @@ public class PlayerController : NetworkBehaviour
     {
         timeObject = GameObject.FindGameObjectWithTag("timerText");
         Text timerText = timeObject.GetComponent<Text>();
-        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        for (int i = 0; i < playerCount; ++i)
         {
         Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
         timerText.text=timerText.text+"\n"+i+":"+ScoreLeaderboard[i];
@@ -745,11 +744,9 @@ public class PlayerController : NetworkBehaviour
     public void FinalScoreDisplay_RPC()
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
-        Text scoreText = scoreObject.GetComponent<Text>();
+        TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
         
-        print(scoreText);
-        scoreText.text="";
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < FinalScoreBoard.Length; i++)
         {
         Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
         scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"    "+ScoreBoard[i];
