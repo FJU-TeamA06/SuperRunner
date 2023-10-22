@@ -68,13 +68,13 @@ public class PlayerController : NetworkBehaviour
     public AudioClip seShoot;// 碰撞音效槍
     public AudioClip seCollision;// 碰撞音效
     public AudioClip seDamage;// 碰撞音效被打到
+    public AudioClip seCactus;// 碰撞音效被打到
 
-    //private AudioSource backgroundMusicSource;
-    private AudioSource collisionSoundSource1;
-    public AudioSource collisionSoundSource2;
-    private AudioSource collisionSoundSource3;
+    private AudioSource backgroundMusicSource;
+    private AudioSource collisionSoundSource;
 
     private float originalBackgroundMusicVolume;
+    private bool isPlayingSpecialMusic = false;
 
     private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
     //本地計時器
@@ -131,25 +131,14 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        //backgroundMusicSource.clip = bgmBackground;
-        //backgroundMusicSource.loop = true;
-        //backgroundMusicSource.Play();
+        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        backgroundMusicSource.clip = bgmBackground;
+        backgroundMusicSource.loop = true;
+        backgroundMusicSource.Play();
 
-        collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource3 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource1.clip = seShoot;
-        collisionSoundSource2.clip = seCollision;
-        collisionSoundSource3.clip = seDamage;
-        collisionSoundSource1.loop = false;
-        collisionSoundSource2.loop = false;
-        collisionSoundSource3.loop = false;
+        collisionSoundSource = gameObject.AddComponent<AudioSource>();
 
-        //audios.Add(backgroundMusicSource);
-        //audios.Add(collisionSoundSource2);
-
-        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
+        originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
@@ -187,6 +176,7 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("shoot", seShoot);
         audioClips.Add("collision", seCollision);
         audioClips.Add("damage", seDamage);
+        audioClips.Add("cactus", seCactus);
     }
 
     public override void Spawned()
@@ -285,10 +275,14 @@ public class PlayerController : NetworkBehaviour
                 string selectedSound = "shoot";
                 if (audioClips.ContainsKey(selectedSound))
                 {
+                    isPlayingSpecialMusic = true;
+                    // 播放特定音樂                    
                     GetComponent<AudioSource>().clip = audioClips[selectedSound];
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
-                    //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+
+                    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+
                 }
 
                 //發射子彈(子彈數量的檢測)
@@ -310,9 +304,11 @@ public class PlayerController : NetworkBehaviour
                 }
 
             }
-            
-            
 
+            if (!isPlayingSpecialMusic)
+            {
+                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+            }
         }
         
 
@@ -404,24 +400,48 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
+                isPlayingSpecialMusic = true;
+
                 GetComponent<AudioSource>().clip = audioClips[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = false;
 
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
+                backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
             a = 1;
+
+            if (isPlayingSpecialMusic)
+            {
+                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+            }
         }
-        //if (other.gameObject.CompareTag("Soundtest"))
-        //{
-        //    collisionSoundSource2.clip = seCollision;
-        //    collisionSoundSource2.Play();
 
-        //    // 降低背景音樂的音量
-        //    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
-        //}
+        if (other.gameObject.CompareTag("Soundcactus"))
+        {
+            Debug.Log("Soundcactus object collision!");
 
+            string selectedSound = "cactus";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                isPlayingSpecialMusic = true;
+
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = false;
+
+                backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+            }
+
+            // Respawn();
+            a = 1;
+
+            if (isPlayingSpecialMusic)
+            {
+                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -445,21 +465,10 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        // 在碰撞結束時恢復背景音樂音量
-        //backgroundMusicSource.volume = originalBackgroundMusicVolume;
-    }
-
-    //private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionExit(Collision collision)
     //{
-    //    if (collision.gameObject.CompareTag("trapdead")) // 碰撞到的物體的Tag設置為"Player"
-    //    {
-    //        if (!audioSource.isPlaying) // 檢查音效是否正在播放，以避免重疊播放
-    //        {
-    //            audioSource.Play();
-    //        }
-    //    }
+    //    // 在碰撞結束時恢復背景音樂音量
+    //    backgroundMusicSource.volume = originalBackgroundMusicVolume;
     //}
 
     private void OnReachedFinish()

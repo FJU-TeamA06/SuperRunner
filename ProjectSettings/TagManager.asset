@@ -24,6 +24,7 @@ TagManager:
   - FinPlane
   - RankingText
   - Soundtest
+  - Soundcactus
   layers:
   - Default
   - TransparentFX

@@ -330,8 +330,9 @@ MonoBehaviour:
     type: 3}
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
   seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
-  seCollision: {fileID: 8300000, guid: 52a31547bdf2321448364e09bf1ca5f1, type: 3}
+  seCollision: {fileID: 8300000, guid: d230ce4259a33cd4cbd4c3e4be22cbcd, type: 3}
   seDamage: {fileID: 8300000, guid: 7cd4f1803ddf8204d866a1aad1ddc139, type: 3}
+  seCactus: {fileID: 8300000, guid: 20682ede17e816b428f1f3eea1749bdc, type: 3}
   collisionSoundSource2: {fileID: 0}
   timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
