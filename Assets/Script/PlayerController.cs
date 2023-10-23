@@ -187,6 +187,10 @@ public class PlayerController : NetworkBehaviour
         {
             finishObject = GameObject.FindGameObjectWithTag("Finish2");
         }
+        else if(basicSpawner.levelIndex==3)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish3");
+        }
 
         if (Object.HasInputAuthority)
         {
@@ -785,6 +789,10 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
     {
+        if(basicSpawner.levelIndex==3)
+        {
+            finishObject.transform.position=new Vector3(27.40012f,58.84f,-350.8f);
+        }
         timeObject = GameObject.FindGameObjectWithTag("timerText");
         CountdownTimer countdownTimer = FindObjectOfType<CountdownTimer>();
         if (countdownTimer != null)
