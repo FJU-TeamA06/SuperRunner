@@ -25,7 +25,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<int, Dictionary<int, Vector3>> spawnPositions;
     private bool isServer = false;
     public bool SideInput=true;
-
+    public bool EnableInput=true;
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip bgmBackgroundFPS; // 背景音樂
     private AudioSource backgroundMusicSource;
@@ -162,8 +162,14 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         SideInput = _sideinput;
     }
-
-   
+    public void EnableInputToggle(bool _enableinput)
+    {
+        EnableInput = _enableinput;
+    }
+    public bool GetEnableInput()
+    {
+        return EnableInput;
+    }
 
     public Vector3 GetSpawnPosition(int levelIndex, int playerNumber)
     {
@@ -271,22 +277,26 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         else
         {
-            if(SideInput)
+            if(EnableInput)
             {
-                if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
-                if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
-                if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
-                if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+                if(SideInput)
+                {
+                    if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
+                    if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
+                    if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
+                    if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+                }
+                else
+                {
+                    if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
+                    if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
+                    if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.left; }
+                    if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.right; }
+                    data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
+                    data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
+                }
             }
-            else
-            {
-                if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
-                if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
-                if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.left; }
-                if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.right; }
-                data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
-                data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
-            }
+            
             
             
         }
