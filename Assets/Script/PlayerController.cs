@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
     private int [] arr = {0,0,0,0};                                     // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
-    private int xxx = 0, yyy = 0 , pp = 0 ;
+    private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -386,6 +386,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject == finishObject)
         {
             OnReachedFinish();
+            Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
@@ -492,9 +493,9 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            finishPlane.FinishClick();
-            DistRutern_RPC();
-            FinalPlaneDisplay_RPC();
+            //finishPlane.FinishClick();
+            Finish_RPC(this.PlayerName.ToString());
+            cc=0;
         }
         
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -561,7 +562,7 @@ public class PlayerController : NetworkBehaviour
         if(isFinished==0)
         {
             print("Finally Finished");
-            Finish_RPC(this.PlayerName.ToString());
+            //Finish_RPC(this.PlayerName.ToString());
             isFinished=1;
             
         }
@@ -727,28 +728,13 @@ public class PlayerController : NetworkBehaviour
     {
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
-        for (int i = 0, eeee; i < playerCount && i < FinalScoreBoard.Length; i++){
-            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
-                ScoreBoard.Set(i, ScoreBoard[i]+4);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
-                ScoreBoard.Set(i, ScoreBoard[i]+6);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                ScoreBoard.Set(i, ScoreBoard[i]+8);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
-                ScoreBoard.Set(i, ScoreBoard[i]+10);
-            }
-        }
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
             FinalPlaneDisplay_RPC();
+            CalculateAndSyncScores();
         }
-        //ScoreDisplay_RPC();
-        FinalScoreDisplay_RPC();
         xxx = 0;
         yyy += 1;
     }
@@ -762,8 +748,7 @@ public class PlayerController : NetworkBehaviour
         rankingText.text="";
         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
         {
-            Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
-            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i];
+            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i] ;
         }      
     }
 
@@ -786,12 +771,36 @@ public class PlayerController : NetworkBehaviour
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
-        
-        for (int i = 0; i < FinalScoreBoard.Length; i++)
+        scoreText.text="";
+        for (int i = 0; i < playerCount; i++)
         {
-        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
-        scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"    "+ScoreBoard[i];
+            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i];
         }        
+    }
+    public void CalculateAndSyncScores()
+    {
+        for (int i = 0; i < playerCount && cc==0; i++)
+        {
+            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
+                arr[i] = arr[i]+4;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
+                arr[i] = arr[i]+6;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
+                arr[i] = arr[i]+8;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
+                arr[i] = arr[i]+10;
+                ScoreBoard.Set(i, arr[i]);
+            }
+        }
+        cc=cc+1;
+        // 調用 FinalScoreDisplay_RPC 以同步分數顯示
+        FinalScoreDisplay_RPC();
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
@@ -1027,15 +1036,6 @@ public class PlayerController : NetworkBehaviour
                             }
                             print(fouN+" Is The Fourth Place !! ");
                            
-                        }
-                        print("server:");
-                        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
-                        {
-                        Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
-                        }
-                        for (int i = 0; i < FinalScoreBoard.Length; ++i)
-                        {
-                        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
                         }
                 }
             }
