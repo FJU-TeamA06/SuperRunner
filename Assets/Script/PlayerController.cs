@@ -477,12 +477,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    // 在碰撞結束時恢復背景音樂音量
-    //    backgroundMusicSource.volume = originalBackgroundMusicVolume;
-    //}
-
     private void OnReachedFinish()
     {
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
@@ -506,6 +500,15 @@ public class PlayerController : NetworkBehaviour
         if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
         {
             networkCharacterController.transform.position = spawnPosition;
+            //if (spawnPosition > Vector3.zero) // 檢查是否大於 Vector3.zero
+            //{
+                // 根據具體需求設置另一個重生位置
+                //networkCharacterController.transform.position = new Vector3(145, 17, 0); // 這裡是示例位置
+            //}
+            //else
+            //{
+                //networkCharacterController.transform.position = spawnPosition; // 使用原來的重生位置
+            //}
         }
         else
         {
