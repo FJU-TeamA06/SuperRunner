@@ -48,6 +48,7 @@ public class PlayerController : NetworkBehaviour
     private float totalDistance;
     private Collider finishCollider;
     private GameObject finishObject;
+    private GameObject finishObjectTemp;
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
@@ -180,6 +181,8 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
+        
+        //ReloadLevel();
         //根據不同關卡去制定不同的終點
         if(basicSpawner.levelIndex==1)
         {
@@ -193,7 +196,6 @@ public class PlayerController : NetworkBehaviour
         {
             finishObject = GameObject.FindGameObjectWithTag("Finish3");
         }
-
         if (Object.HasInputAuthority)
         {
             if (SceneManager.GetActiveScene().name == "FPS")
@@ -255,7 +257,41 @@ public class PlayerController : NetworkBehaviour
     {
 
     }
-
+    public void ReloadLevel()//用來載入下一關，此已將兩個StartWall恢復原位
+    {
+        a=1;
+        wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+        Vector3 p = wallObject.transform.position;
+        p.y = 0f;
+        wallObject.transform.position = p;
+        print(wallObject.transform.position);
+        wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+        p = wallObject.transform.position;
+        p.y = 0f;
+        wallObject.transform.position = p;
+        print(wallObject.transform.position);
+    }
+    
+    public void ReloadFinish()//用來載入下一關，將終點位置恢復原位
+    {
+        finishObjectTemp = GameObject.FindGameObjectWithTag("Finish1");
+        //確保離得夠遠
+        while( Mathf.Abs(networkCharacterController.transform.position.x-finishObjectTemp.transform.position.x)<=2)
+        {
+            
+        }
+        Vector3 p = wallObject.transform.position;
+        finishObjectTemp = GameObject.FindGameObjectWithTag("Finish1");
+        p = finishObjectTemp.transform.position;
+        p.y = 1.17f;
+        finishObjectTemp.transform.position = p;
+        finishObjectTemp = GameObject.FindGameObjectWithTag("Finish2");
+        p = finishObjectTemp.transform.position;
+        p.y = 4.05f;
+        finishObjectTemp.transform.position = p;
+        
+    }
+    
     public override void FixedUpdateNetwork()
     {
         bulletCountObject = GameObject.FindGameObjectWithTag("BulletCount");
@@ -277,6 +313,7 @@ public class PlayerController : NetworkBehaviour
             if(isMainCamera)
             {
                 _yaw=0;
+                _pitch=0;
             }
             else
             {
@@ -382,7 +419,10 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject == finishObject)
         {
             OnReachedFinish();
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
+            Vector3 p = other.transform.position;
+            p.y = 50f;
+            other.transform.position = p;
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
@@ -503,7 +543,7 @@ public class PlayerController : NetworkBehaviour
     private void Respawn()
     {
         Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
-
+        print(spawnPosition);
         if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
         {
             networkCharacterController.transform.position = spawnPosition;
@@ -606,6 +646,7 @@ public class PlayerController : NetworkBehaviour
         MainCamera.enabled = currentCameraMode == 0;
         isMainCamera = currentCameraMode == 0;
         basicSpawner.SideInputToggle(currentCameraMode == 0);
+        
         SideCamera.enabled = currentCameraMode == 1;
         //FirstCamera.enabled = currentCameraMode == 2;
             
@@ -647,8 +688,11 @@ public class PlayerController : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Finish_RPC("XXX");            //For Testing! 
+            //Finish_RPC("XXX");            //For Testing! 
             ChangeColor_RPC(Color.red);
+            Reload_RPC();//測試:按R來Reload
+            
+            
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
         {
@@ -718,7 +762,12 @@ public class PlayerController : NetworkBehaviour
     {
         meshRenderer.material.color = newColor;
     }
-
+    [Rpc(RpcSources.All, RpcTargets.All)]                                               // 顏色更換_RPC
+    private void Reload_RPC()//所有關於重載的事情在此進行(包含牆壁重置和終點重置)
+    {
+        ReloadLevel();
+        ReloadFinish();
+    }
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                // 終點＿RPC
     public void Finish_RPC(string a)
     {
