@@ -49,6 +49,7 @@ public class PlayerController : NetworkBehaviour
     private Collider finishCollider;
     private GameObject finishObject;
     private GameObject finishObjectTemp;
+    private Vector3 spawnPosition = Vector3.zero;
     [SerializeField]
     private float moveSpeed = 15f;
     [SerializeField]
@@ -385,9 +386,17 @@ public class PlayerController : NetworkBehaviour
 
         //var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
-       
-    }
 
+       
+        if (followlevel==1)
+        {
+            basicSpawner.levelIndex = 3;
+            Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+            networkCharacterController.transform.position = spawnPosition;
+        }
+
+    }
+    int followlevel = 0;
     int a = 0;
     private bool ShouldRespawn()
     {
@@ -532,6 +541,7 @@ public class PlayerController : NetworkBehaviour
             //finishPlane.FinishClick();
             Finish_RPC(this.PlayerName.ToString());
             cc=0;
+            
         }
         
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -600,7 +610,8 @@ public class PlayerController : NetworkBehaviour
             print("Finally Finished");
             //Finish_RPC(this.PlayerName.ToString());
             isFinished=1;
-            
+            followlevel = 1;
+
         }
     }
 
@@ -780,6 +791,9 @@ public class PlayerController : NetworkBehaviour
             FinalPlaneDisplay_RPC();
             CalculateAndSyncScores();
         }
+
+        
+
         xxx = 0;
         yyy += 1;
     }

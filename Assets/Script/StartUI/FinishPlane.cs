@@ -8,7 +8,14 @@ using Fusion.Sockets;
 public class FinishPlane : MonoBehaviour
 {
     public GameObject finishPanel;
-    public Transform teleportDestination; // 設定要傳送到的目標位置
+    //public Vector3 teleportDestination; // 設定要傳送到的目標位置
+    public BasicSpawner basicSpawner;
+    //public NetworkCharacterControllerPrototype networkCharacterController;
+
+    void Awake()
+    {
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+    }
 
     void Start()
     {
@@ -18,7 +25,7 @@ public class FinishPlane : MonoBehaviour
     public void FinishClick()
     {
         finishPanel.SetActive(true);
-        StartCoroutine(DeactivateAfterDelay(5.0f)); // 啟動協程等待5秒後關閉面板
+        StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
     }
 
     private IEnumerator DeactivateAfterDelay(float delay)
@@ -27,8 +34,16 @@ public class FinishPlane : MonoBehaviour
 
         finishPanel.SetActive(false); // 關閉面板
 
+        /*basicSpawner.levelIndex = 3;
+        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+        
         // 檢查是否設定了傳送目標位置
-        if (teleportDestination != null)
+        if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
+        {
+            networkCharacterController.transform.position = spawnPosition;
+            
+        }*/
+        /*if (teleportDestination != null)
         {
             // 獲取所有擁有"Player"標籤的物體
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -37,6 +52,6 @@ public class FinishPlane : MonoBehaviour
                 // 將玩家傳送到指定位置
                 player.transform.position = teleportDestination.position;
             }
-        }
+        }*/
     }
 }
