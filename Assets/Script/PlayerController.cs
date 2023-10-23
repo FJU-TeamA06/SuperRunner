@@ -26,7 +26,6 @@ public class PlayerController : NetworkBehaviour
     private NetworkCharacterControllerPrototype networkCharacterController = null;
     [SerializeField]
     private Bullet bulletPrefab;
-    public NetworkPrefabRef finish3Prefab;
     //FPS關卡(專屬控制)的編號指定
     private int FPS_Level=3;
     
@@ -189,7 +188,6 @@ public class PlayerController : NetworkBehaviour
         {
             finishObject = GameObject.FindGameObjectWithTag("Finish2");
         }
-        
 
         if (Object.HasInputAuthority)
         {
@@ -213,23 +211,12 @@ public class PlayerController : NetworkBehaviour
             if(basicSpawner.levelIndex==1)
             {
                 finishObject = GameObject.FindGameObjectWithTag("Finish1");
-                finishCollider = finishObject.GetComponent<Collider>(); 
             }
             else if(basicSpawner.levelIndex==2)
             {
                 finishObject = GameObject.FindGameObjectWithTag("Finish2");
-                finishCollider = finishObject.GetComponent<Collider>(); 
             }
-            else if(basicSpawner.levelIndex==3)
-            {
-                while(GameObject.FindGameObjectWithTag("Finish3")==null)
-                {
-                    Runner.Spawn(finish3Prefab, new Vector3(34, 62.1f, -361.5f), Quaternion.identity);
-                }
-                finishObject = GameObject.FindGameObjectWithTag("Finish3");
-                finishCollider = finishObject.GetComponent<Collider>(); 
-            }
-            
+            finishCollider = finishObject.GetComponent<Collider>(); 
             
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
             InstantiateHUD_UI();
