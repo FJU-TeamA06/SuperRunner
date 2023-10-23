@@ -9093,6 +9093,8 @@ MonoBehaviour:
   playerNumber: 0
   levelIndex: 0
   SideInput: 1
+  bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
+  bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
 --- !u!1 &1526591986
 GameObject:
   m_ObjectHideFlags: 0
