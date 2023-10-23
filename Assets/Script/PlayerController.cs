@@ -62,7 +62,6 @@ public class PlayerController : NetworkBehaviour
     private float maxDist = 100;
     //AudioSource
     public GameObject AudioManagerPrefab;
-    //public AudioManager AudioManager;
 
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip seShoot;// 碰撞音效槍
@@ -130,14 +129,14 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        backgroundMusicSource.clip = bgmBackground;
-        backgroundMusicSource.loop = true;
-        backgroundMusicSource.Play();
+        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        //backgroundMusicSource.clip = bgmBackground;
+        //backgroundMusicSource.loop = true;
+        //backgroundMusicSource.Play();
 
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
 
-        originalBackgroundMusicVolume = backgroundMusicSource.volume;
+        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
@@ -293,7 +292,7 @@ public class PlayerController : NetworkBehaviour
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
 
-                    backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+                    //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
 
                 }
 
@@ -319,7 +318,7 @@ public class PlayerController : NetworkBehaviour
 
             if (!isPlayingSpecialMusic)
             {
-                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
             }
         }
         
@@ -419,7 +418,7 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
-                backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -452,7 +451,7 @@ public class PlayerController : NetworkBehaviour
 
             if (isPlayingSpecialMusic)
             {
-                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
             }
         }
     }
