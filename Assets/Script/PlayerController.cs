@@ -106,8 +106,14 @@ public class PlayerController : NetworkBehaviour
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
     MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名
-
-
+    [Networked()]
+    public int finish3PositionIndex { get; set; }
+    private Dictionary<int,Vector3> finish3SpawnPositions = new Dictionary<int,Vector3>() 
+    {
+        {1, new Vector3(27.40012f,58.84f,-350.8f)},
+        {2, new Vector3(-5.9f, 58.84f, -269f)}, 
+        {3, new Vector3(-2, 2, 0)}
+    };
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
@@ -660,28 +666,43 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            
-            timeObject = GameObject.FindGameObjectWithTag("Timer");
 
-            wallObject = GameObject.FindGameObjectWithTag("StartWall");
-            StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
-            if (startWallScript != null)
+            if(basicSpawner.levelIndex==1)
             {
-                StartM_RPC();     
-                startWallScript.RequestDespawnWall_RPC();
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+            }
+            if(basicSpawner.levelIndex==2)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+            }
+            print(wallObject.transform.position.y);
+            if(wallObject.transform.position.y<=20)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("Timer");
+                
+                
+                
+                StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
+                if (startWallScript != null)
+                {
+                    StartM_RPC();     
+                    
+                }
+                
+                timerUI timerScript = timeObject.GetComponent<timerUI>();
+                if (timerScript != null)
+                {
+                    //timerScript.StartTimer();
+                    // 在這裡訪問 timerScript 或執行相關操作
+                    //之後要實作timer相關的rpc呼叫
+                }
+                else
+                {
+                    print("錯誤");
+                }
             }
             
-            timerUI timerScript = timeObject.GetComponent<timerUI>();
-            if (timerScript != null)
-            {
-                //timerScript.StartTimer();
-                // 在這裡訪問 timerScript 或執行相關操作
-                //之後要實作timer相關的rpc呼叫
-            }
-            else
-            {
-                print("錯誤");
-            }
+            
             
             
         }
@@ -789,9 +810,34 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
     {
+        if(Object.HasStateAuthority)
+        {
+            finish3PositionIndex = Random.Range(1, 3); //Host隨機選擇Index值
+        }
         if(basicSpawner.levelIndex==3)
         {
-            finishObject.transform.position=new Vector3(27.40012f,58.84f,-350.8f);
+            finishObject.transform.position=finish3SpawnPositions[finish3PositionIndex];
+        }
+        else
+        {
+            if(basicSpawner.levelIndex==1)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+                Vector3 p = wallObject.transform.position;
+                p.y = 50f;
+                
+                wallObject.transform.position = p;
+                print(wallObject.transform.position);
+            }
+            if(basicSpawner.levelIndex==2)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+                Vector3 p = wallObject.transform.position;
+                p.y = 50f;
+                
+                wallObject.transform.position = p;
+                print(wallObject.transform.position);
+            }
         }
         timeObject = GameObject.FindGameObjectWithTag("timerText");
         CountdownTimer countdownTimer = FindObjectOfType<CountdownTimer>();

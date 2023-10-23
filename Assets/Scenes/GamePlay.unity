@@ -2180,7 +2180,7 @@ GameObject:
   - component: {fileID: 359177599}
   m_Layer: 0
   m_Name: StartWall_P1
-  m_TagString: StartWall
+  m_TagString: StartWall1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6459,7 +6459,7 @@ GameObject:
   - component: {fileID: 1070113612}
   m_Layer: 0
   m_Name: StartWall_P2
-  m_TagString: StartWall
+  m_TagString: StartWall2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9089,7 +9089,7 @@ MonoBehaviour:
     RawGuidValue: 0ddacb3c5e7ec8c40b492143c709ebaf
   PlayerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
-  gameMode: 5
+  gameMode: 6
   playerNumber: 0
   levelIndex: 0
   SideInput: 1
