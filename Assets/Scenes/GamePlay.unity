@@ -9132,7 +9132,7 @@ MonoBehaviour:
     RawGuidValue: 0ddacb3c5e7ec8c40b492143c709ebaf
   PlayerController: {fileID: 2662581809399784532, guid: 0ddacb3c5e7ec8c40b492143c709ebaf,
     type: 3}
-  gameMode: 6
+  gameMode: 4
   playerNumber: 0
   levelIndex: 0
   SideInput: 1
