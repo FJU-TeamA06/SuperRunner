@@ -207,7 +207,15 @@ public class PlayerController : NetworkBehaviour
             }
             
             SetPlayerName_RPC(PlayerPrefs.GetString("PlayerName"));
-            finishObject = GameObject.FindGameObjectWithTag("Finish1");
+            //根據不同關卡去制定不同的終點
+            if(basicSpawner.levelIndex==1)
+            {
+                finishObject = GameObject.FindGameObjectWithTag("Finish1");
+            }
+            else if(basicSpawner.levelIndex==2)
+            {
+                finishObject = GameObject.FindGameObjectWithTag("Finish2");
+            }
             finishCollider = finishObject.GetComponent<Collider>(); 
             
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
@@ -812,7 +820,7 @@ public class PlayerController : NetworkBehaviour
         {
             _pitch = 28;
         }
-        print(_pitch);
+        //print(_pitch);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
