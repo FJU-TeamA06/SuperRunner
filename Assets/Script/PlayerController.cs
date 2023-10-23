@@ -259,7 +259,19 @@ public class PlayerController : NetworkBehaviour
     {
 
     }
-
+    public void ReloadLevel()//用來載入下一關，此已將兩個StartWall恢復原位，預計將終點位置恢復原位
+    {
+        wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+        Vector3 p = wallObject.transform.position;
+        p.y = 0f;
+        wallObject.transform.position = p;
+        print(wallObject.transform.position);
+        wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+        p = wallObject.transform.position;
+        p.y = 0f;
+        wallObject.transform.position = p;
+        print(wallObject.transform.position);
+    }
     public override void FixedUpdateNetwork()
     {
         bulletCountObject = GameObject.FindGameObjectWithTag("BulletCount");
