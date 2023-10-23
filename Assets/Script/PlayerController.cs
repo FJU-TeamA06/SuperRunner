@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
     private int [] arr = {0,0,0,0};                                     // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
-    private int xxx = 0, yyy = 0 , pp = 0 ;
+    private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -106,8 +106,14 @@ public class PlayerController : NetworkBehaviour
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
     MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名
-
-
+    [Networked()]
+    public int finish3PositionIndex { get; set; }
+    private Dictionary<int,Vector3> finish3SpawnPositions = new Dictionary<int,Vector3>() 
+    {
+        {1, new Vector3(27.40012f,58.84f,-350.8f)},
+        {2, new Vector3(-5.9f, 58.84f, -269f)}, 
+        {3, new Vector3(-2, 2, 0)}
+    };
     [Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
@@ -376,6 +382,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject == finishObject)
         {
             OnReachedFinish();
+            Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
@@ -477,20 +484,14 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    // 在碰撞結束時恢復背景音樂音量
-    //    backgroundMusicSource.volume = originalBackgroundMusicVolume;
-    //}
-
     private void OnReachedFinish()
     {
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            finishPlane.FinishClick();
-            DistRutern_RPC();
-            FinalPlaneDisplay_RPC();
+            //finishPlane.FinishClick();
+            Finish_RPC(this.PlayerName.ToString());
+            cc=0;
         }
         
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -506,6 +507,15 @@ public class PlayerController : NetworkBehaviour
         if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
         {
             networkCharacterController.transform.position = spawnPosition;
+            //if (spawnPosition > Vector3.zero) // 檢查是否大於 Vector3.zero
+            //{
+                // 根據具體需求設置另一個重生位置
+                //networkCharacterController.transform.position = new Vector3(145, 17, 0); // 這裡是示例位置
+            //}
+            //else
+            //{
+                //networkCharacterController.transform.position = spawnPosition; // 使用原來的重生位置
+            //}
         }
         else
         {
@@ -548,7 +558,7 @@ public class PlayerController : NetworkBehaviour
         if(isFinished==0)
         {
             print("Finally Finished");
-            Finish_RPC(this.PlayerName.ToString());
+            //Finish_RPC(this.PlayerName.ToString());
             isFinished=1;
             
         }
@@ -656,28 +666,43 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            
-            timeObject = GameObject.FindGameObjectWithTag("Timer");
 
-            wallObject = GameObject.FindGameObjectWithTag("StartWall");
-            StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
-            if (startWallScript != null)
+            if(basicSpawner.levelIndex==1)
             {
-                StartM_RPC();     
-                startWallScript.RequestDespawnWall_RPC();
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+            }
+            if(basicSpawner.levelIndex==2)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+            }
+            print(wallObject.transform.position.y);
+            if(wallObject.transform.position.y<=20)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("Timer");
+                
+                
+                
+                StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
+                if (startWallScript != null)
+                {
+                    StartM_RPC();     
+                    
+                }
+                
+                timerUI timerScript = timeObject.GetComponent<timerUI>();
+                if (timerScript != null)
+                {
+                    //timerScript.StartTimer();
+                    // 在這裡訪問 timerScript 或執行相關操作
+                    //之後要實作timer相關的rpc呼叫
+                }
+                else
+                {
+                    print("錯誤");
+                }
             }
             
-            timerUI timerScript = timeObject.GetComponent<timerUI>();
-            if (timerScript != null)
-            {
-                //timerScript.StartTimer();
-                // 在這裡訪問 timerScript 或執行相關操作
-                //之後要實作timer相關的rpc呼叫
-            }
-            else
-            {
-                print("錯誤");
-            }
+            
             
             
         }
@@ -699,28 +724,13 @@ public class PlayerController : NetworkBehaviour
     {
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
-        for (int i = 0, eeee; i < playerCount && i < FinalScoreBoard.Length; i++){
-            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
-                ScoreBoard.Set(i, ScoreBoard[i]+4);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
-                ScoreBoard.Set(i, ScoreBoard[i]+6);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                ScoreBoard.Set(i, ScoreBoard[i]+8);
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
-                ScoreBoard.Set(i, ScoreBoard[i]+10);
-            }
-        }
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
             FinalPlaneDisplay_RPC();
+            CalculateAndSyncScores();
         }
-        //ScoreDisplay_RPC();
-        FinalScoreDisplay_RPC();
         xxx = 0;
         yyy += 1;
     }
@@ -734,8 +744,7 @@ public class PlayerController : NetworkBehaviour
         rankingText.text="";
         for (int i = 0; i < ScoreLeaderboard.Length; ++i)
         {
-            Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
-            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i];
+            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i] ;
         }      
     }
 
@@ -758,12 +767,36 @@ public class PlayerController : NetworkBehaviour
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
-        
-        for (int i = 0; i < FinalScoreBoard.Length; i++)
+        scoreText.text="";
+        for (int i = 0; i < playerCount; i++)
         {
-        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
-        scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+"    "+ScoreBoard[i];
+            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i];
         }        
+    }
+    public void CalculateAndSyncScores()
+    {
+        for (int i = 0; i < playerCount && cc==0; i++)
+        {
+            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
+                arr[i] = arr[i]+4;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
+                arr[i] = arr[i]+6;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
+                arr[i] = arr[i]+8;
+                ScoreBoard.Set(i, arr[i]);
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
+                arr[i] = arr[i]+10;
+                ScoreBoard.Set(i, arr[i]);
+            }
+        }
+        cc=cc+1;
+        // 調用 FinalScoreDisplay_RPC 以同步分數顯示
+        FinalScoreDisplay_RPC();
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
@@ -785,9 +818,34 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
     {
+        if(Object.HasStateAuthority)
+        {
+            finish3PositionIndex = Random.Range(1, 3); //Host隨機選擇Index值
+        }
         if(basicSpawner.levelIndex==3)
         {
-            finishObject.transform.position=new Vector3(27.40012f,58.84f,-350.8f);
+            finishObject.transform.position=finish3SpawnPositions[finish3PositionIndex];
+        }
+        else
+        {
+            if(basicSpawner.levelIndex==1)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+                Vector3 p = wallObject.transform.position;
+                p.y = 50f;
+                
+                wallObject.transform.position = p;
+                print(wallObject.transform.position);
+            }
+            if(basicSpawner.levelIndex==2)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+                Vector3 p = wallObject.transform.position;
+                p.y = 50f;
+                
+                wallObject.transform.position = p;
+                print(wallObject.transform.position);
+            }
         }
         timeObject = GameObject.FindGameObjectWithTag("timerText");
         CountdownTimer countdownTimer = FindObjectOfType<CountdownTimer>();
@@ -974,15 +1032,6 @@ public class PlayerController : NetworkBehaviour
                             }
                             print(fouN+" Is The Fourth Place !! ");
                            
-                        }
-                        print("server:");
-                        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
-                        {
-                        Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
-                        }
-                        for (int i = 0; i < FinalScoreBoard.Length; ++i)
-                        {
-                        Debug.Log($"{i}: '{FinalScoreBoard[i]}''");
                         }
                 }
             }

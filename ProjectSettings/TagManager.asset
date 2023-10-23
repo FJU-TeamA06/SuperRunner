@@ -27,6 +27,8 @@ TagManager:
   - Soundcactus
   - Finish2
   - Finish3
+  - StartWall1
+  - StartWall2
   layers:
   - Default
   - TransparentFX

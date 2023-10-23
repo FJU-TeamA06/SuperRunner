@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2259,7 +2259,7 @@ GameObject:
   - component: {fileID: 359177599}
   m_Layer: 0
   m_Name: StartWall_P1
-  m_TagString: StartWall
+  m_TagString: StartWall1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6538,7 +6538,7 @@ GameObject:
   - component: {fileID: 1070113612}
   m_Layer: 0
   m_Name: StartWall_P2
-  m_TagString: StartWall
+  m_TagString: StartWall2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
