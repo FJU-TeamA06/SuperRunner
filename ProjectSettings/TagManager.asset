@@ -25,6 +25,7 @@ TagManager:
   - RankingText
   - Soundtest
   - Soundcactus
+  - Finish2
   layers:
   - Default
   - TransparentFX

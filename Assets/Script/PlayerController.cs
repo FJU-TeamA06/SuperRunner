@@ -179,9 +179,15 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
-
-        
-        finishObject = GameObject.FindGameObjectWithTag("Finish1");
+        //根據不同關卡去制定不同的終點
+        if(basicSpawner.levelIndex==1)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish1");
+        }
+        else if(basicSpawner.levelIndex==2)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish2");
+        }
 
         if (Object.HasInputAuthority)
         {
