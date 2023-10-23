@@ -159,11 +159,7 @@ public class PlayerController : NetworkBehaviour
     public FinishPlane finishPlane;
     private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
-    //private void Awake()
-    //{
-    //    basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
-    //    firstCamera = FindObjectOfType<FirstCamera>();
-    //}
+    
 
     void Start()
     {
