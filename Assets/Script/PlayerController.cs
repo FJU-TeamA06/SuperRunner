@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
     private int [] arr = {0,0,0,0};                                     // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
-    private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0;
+    private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0 , ppp = 0;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -489,6 +489,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             CoinPoint_RPC(this.PlayerName.ToString());
+            cc=0;
             Debug.Log("Get Coin!");
             Destroy(other.gameObject);
         }
@@ -584,6 +585,7 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             //finishPlane.FinishClick();
+            ppp = playerCount;                                         // 限制次數
             Finish_RPC(this.PlayerName.ToString());
             cc=0;
             
@@ -852,7 +854,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         
-
+        cc = 0;
         xxx = 0;
         yyy += 1;
     }
@@ -892,28 +894,32 @@ public class PlayerController : NetworkBehaviour
         scoreText.text="";
         for (int i = 0; i < playerCount; i++)
         {
-            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i];
+            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] + "  "+ppp;
         }        
     }
     public void CalculateAndSyncScores()
     {
-        for (int i = 0; i < playerCount && cc==0; i++)
+        for (int i = 0; i < playerCount && cc==0 && ppp > 0; i++)
         {
-            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4){
+            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+4;
                 ScoreBoard.Set(i, arr[i]);
+                ppp--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
                 arr[i] = arr[i]+6;
                 ScoreBoard.Set(i, arr[i]);
+                ppp--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
                 arr[i] = arr[i]+8;
                 ScoreBoard.Set(i, arr[i]);
+                ppp--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 arr[i] = arr[i]+10;
                 ScoreBoard.Set(i, arr[i]);
+                ppp--;
             }
         }
         cc=cc+1;
@@ -923,17 +929,25 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
     {
-        if (FinalScoreBoard[0] == a){
-            ScoreBoard.Set(0, ScoreBoard[0] + 1);
+        if(yyy == 0)
+        {
+            DistRutern_RPC();
         }
-        else if (FinalScoreBoard[1] == a){
-            ScoreBoard.Set(1, ScoreBoard[1] + 1);
+        if (FinalScoreBoard[0] == a && cc == 0){
+            arr[0]++;
+            cc++;
         }
-        else if (FinalScoreBoard[2] == a){
-            ScoreBoard.Set(2, ScoreBoard[2] + 1);
+        else if (FinalScoreBoard[1] == a && cc == 0){
+            arr[1]++;
+            cc++;
         }
-        else if (FinalScoreBoard[3] == a){
-            ScoreBoard.Set(3, ScoreBoard[3] + 1);
+        else if (FinalScoreBoard[2] == a && cc == 0){
+            arr[2]++;
+            cc++;
+        }
+        else if (FinalScoreBoard[3] == a && cc == 0){
+            arr[3]++;
+            cc++;
         }
     }
 
