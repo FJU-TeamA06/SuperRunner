@@ -8999,7 +8999,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 348e33bc17d702b4e8af29ce874a2121,
         type: 3}
       propertyPath: m_TagString
-      value: Soundtest
+      value: middleSpawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9166,6 +9166,7 @@ MonoBehaviour:
   playerNumber: 0
   levelIndex: 0
   SideInput: 1
+  EnableInput: 1
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
   bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
 --- !u!1 &1526591986

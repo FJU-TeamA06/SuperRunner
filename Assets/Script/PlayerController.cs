@@ -160,7 +160,6 @@ public class PlayerController : NetworkBehaviour
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
             GameObject countDownInstance = Instantiate(countDownPrefab); //
             GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); //
-            //GameObject AudioManagerInstance = Instantiate(AudioManagerPrefab);
         }
     }
     public CountdownTimer countdownTimer;
@@ -171,9 +170,6 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
-        //audioSource.clip = soundEffect;
-
         audioClips.Add("shoot", seShoot);
         audioClips.Add("collision", seCollision);
         audioClips.Add("damage", seDamage);
@@ -254,10 +250,7 @@ public class PlayerController : NetworkBehaviour
         //Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
         return currentDistance;
     }
-    public void EnablePlayerControl()
-    {
 
-    }
     public void ReloadLevel()//用來載入下一關，此已將兩個StartWall恢復原位
     {
         a=1;
@@ -372,7 +365,12 @@ public class PlayerController : NetworkBehaviour
             Respawn();
             a = 0;
         }
-        if(frozen == 1)
+        if (MiddleRespawn() == true)
+        {
+            Respawn();
+            a = 2;
+        }
+        if (frozen == 1)
         {
             StartCoroutine(FreezePlayerForSeconds(5.0f));
             frozen = 0;
@@ -407,6 +405,16 @@ public class PlayerController : NetworkBehaviour
             return true;
        }
        else
+            return false;
+    }
+
+    private bool MiddleRespawn()
+    {
+        int a = 2;
+        if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
+            return true;
+        //上述if再加一個條件是超過中間的
+        else
             return false;
     }
 
@@ -482,7 +490,7 @@ public class PlayerController : NetworkBehaviour
 
             if (isPlayingSpecialMusic)
             {
-                backgroundMusicSource.volume = originalBackgroundMusicVolume;
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
             }
         }
 
@@ -499,11 +507,36 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
-                backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
             a = 1;
+
+            if (isPlayingSpecialMusic)
+            {
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
+            }
+        }
+
+        if (other.gameObject.CompareTag("middleSpawn"))
+        {
+            Debug.Log("middleSpawn object collision!");
+
+            string selectedSound = "collision";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                isPlayingSpecialMusic = true;
+
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = false;
+
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+            }
+
+            // Respawn();
+            a = 2;
 
             if (isPlayingSpecialMusic)
             {
