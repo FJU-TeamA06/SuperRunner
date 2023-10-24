@@ -134,6 +134,7 @@ public class PlayerController : NetworkBehaviour
     public bool isMainCamera=true;
     public bool isSideCamera = false;
     public bool isFirstCamera = false;
+    public bool gotonext = false;
     public int currentCameraMode = 0;
 
     private void Awake()
@@ -412,15 +413,21 @@ public class PlayerController : NetworkBehaviour
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
 
        
-        if (followlevel==1)
+        if (followlevel() == true)
         {
-            basicSpawner.levelIndex = 3;
-            Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
-            networkCharacterController.transform.position = spawnPosition;
+            gotoFPS();
         }
 
     }
-    int followlevel = 0;
+    private bool followlevel()
+    {
+        if (gotonext == true)
+            return true;
+        else
+            return false;
+    }
+
+    
     int a = 0;
     private bool ShouldRespawn()
     {
@@ -470,6 +477,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject == finishObject)
         {
             OnReachedFinish();
+            gotonext = true;
             //Destroy(other.gameObject);
             Vector3 p = other.transform.position;
             p.y = 50f;
@@ -596,6 +604,20 @@ public class PlayerController : NetworkBehaviour
         timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();
     }
+ 
+    private void gotoFPS()
+    {
+
+        //basicSpawner.levelIndex = 3;
+        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+        //networkCharacterController.transform.position = spawnPosition;
+        networkCharacterController.transform.position = new Vector3(0, 61, -200);
+        currentCameraMode = 1;
+        basicSpawner.EnableInput = true;
+        basicSpawner.SideInput = false;
+
+        //currentInputMode = InputMode.ModeFPS;
+    }
 
     private void Respawn()
     {
@@ -671,7 +693,7 @@ public class PlayerController : NetworkBehaviour
             print("Finally Finished");
             //Finish_RPC(this.PlayerName.ToString());
             isFinished=1;
-            followlevel = 1;
+            
 
         }
     }
@@ -828,7 +850,10 @@ public class PlayerController : NetworkBehaviour
             //CalculateDistancePercentage();
             timer = 0;
         }
+       
+
     }
+    
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                                               // 顏色更換_RPC
     private void ChangeColor_RPC(Color newColor)
     {

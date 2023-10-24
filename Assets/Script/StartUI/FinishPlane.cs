@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Fusion;
 using Fusion.Sockets;
 
@@ -9,17 +10,18 @@ public class FinishPlane : MonoBehaviour
 {
     public GameObject finishPanel;
     //public Vector3 teleportDestination; // 設定要傳送到的目標位置
-    public BasicSpawner basicSpawner;
+    //public BasicSpawner basicSpawner;
     //public NetworkCharacterControllerPrototype networkCharacterController;
 
     void Awake()
     {
-        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+        //basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
     }
 
     void Start()
     {
-
+        EventSystem.current.SetSelectedGameObject(null);
+        finishPanel.SetActive(false);
     }
 
     public void FinishClick()

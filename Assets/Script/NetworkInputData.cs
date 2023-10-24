@@ -6,7 +6,12 @@ using Fusion;
 public enum InputButtons
 {
     JUMP,
-    FIRE
+    FIRE,
+}
+public enum InputMode
+{
+    ModeA,
+    ModeFPS
 }
 
 

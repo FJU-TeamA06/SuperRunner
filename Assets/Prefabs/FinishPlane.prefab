@@ -343,9 +343,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finishPanel: {fileID: 9139750891692945944}
-  teleportDestination: {x: 0, y: 0, z: 0}
-  basicSpawner: {fileID: 0}
-  networkCharacterController: {fileID: 0}
 --- !u!114 &1056113841261848468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4430402, g: 0.7471446, b: 0.8962264, a: 1}
+  m_Color: {r: 0.4430402, g: 0.7471446, b: 0.8962264, a: 0.5176471}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -599,7 +596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.058098957, g: 0.22207537, b: 0.3018868, a: 1}
+  m_Color: {r: 0.058098957, g: 0.22207537, b: 0.3018868, a: 0.6392157}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -5,6 +5,7 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -29,6 +30,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     
     private void Start()
     {
+        EnableInputToggle(true);
+        SideInputToggle(true);
         //PlayerController playerController = GetComponent<PlayerController>();
         //playerController.SetBasicSpawner(this);   //傳遞
 
@@ -71,6 +74,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         //StartGame(gameMode);
     }
+   
 
     public async void StartServer(GameMode mode)
     {
@@ -175,7 +179,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
 
     }
-
+   
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         if (playerList.TryGetValue(player, out NetworkObject networkObject))
@@ -184,6 +188,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             playerList.Remove(player);
         }
     }
+
+   
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -201,7 +207,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             if(EnableInput)
             {
-                if(SideInput)
+                if(SideInput == true)
                 {
                     if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
                     if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
@@ -222,15 +228,22 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             
             
         }
-        
-
-        
 
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
         input.Set(data);
     }
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
+    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
+    {
+        // 在這裡添加處理缺失輸入的邏輯
+        // 例如提供一個預設的輸入
+        var defaultInput = new NetworkInputData();
+        input.Set(defaultInput);
+
+        // 或者記錄一個錯誤信息
+        Debug.LogError($"Input missing for player ");
+
+    }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
     public void OnDisconnectedFromServer(NetworkRunner runner) { }
