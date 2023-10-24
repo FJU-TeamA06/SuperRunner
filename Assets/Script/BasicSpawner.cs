@@ -26,12 +26,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private bool isServer = false;
     public bool SideInput=true;
     public bool EnableInput=true;
-    public AudioClip bgmBackground; // 背景音樂
-    public AudioClip bgmBackgroundFPS; // 背景音樂
-    private AudioSource backgroundMusicSource;
-
-    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-
+    
     private void Start()
     {
         //PlayerController playerController = GetComponent<PlayerController>();
@@ -65,8 +60,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             },
             { 5, new Dictionary<int, Vector3>()
                 {
-                    { 1, new Vector3(145, 2, 200) },
-                    { 2, new Vector3(145, 2, 202F) }
+                    { 1, new Vector3(145, 17, 200) },
+                    { 2, new Vector3(145, 17, 202F) }
                 }
             },
         };
@@ -75,53 +70,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             StartServer(gameMode);
         }
         //StartGame(gameMode);
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-
-        audioClips.Add("background", bgmBackground);
-        audioClips.Add("shootbackg", bgmBackgroundFPS);
     }
-
-    public void SomeMethod(Dictionary<int, Dictionary<int, Vector3>> spawnPositions)
-    {
-        // 在這裡使用 spawnPositions 字典
-        if (spawnPositions.ContainsKey(1))
-        {
-            // 如果是前兩關
-            Dictionary<int, Vector3> level1SpawnPositions = spawnPositions[1];
-            string selectedSound = "background";
-            if (audioClips.ContainsKey(selectedSound))
-            {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
-                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-                GetComponent<AudioSource>().loop = true;
-            }
-        }
-        else if (spawnPositions.ContainsKey(2))
-        {
-            // 如果是前兩關
-            Dictionary<int, Vector3> level1SpawnPositions = spawnPositions[2];
-            string selectedSound = "background";
-            if (audioClips.ContainsKey(selectedSound))
-            {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
-                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-                GetComponent<AudioSource>().loop = true;
-            }
-        }
-        else if (spawnPositions.ContainsKey(3))
-        {
-            // 如果是最後一關
-            Dictionary<int, Vector3> level3SpawnPositions = spawnPositions[3];
-            string selectedSound = "shootbackg";
-            if (audioClips.ContainsKey(selectedSound))
-            {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
-                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-                GetComponent<AudioSource>().loop = true;
-            }
-        }
-    }
-
 
     public async void StartServer(GameMode mode)
     {
@@ -204,27 +153,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 //Debug.Log(playerSpawnPosition);//P1 or P2
                 NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, playerSpawnPosition, Quaternion.identity, player);
                 playerList.Add(player, networkPlayerObject);
-
-                if (levelIndex == 1 || levelIndex == 2)
-                {
-                    string selectedSound = "background";
-                    if (audioClips.ContainsKey(selectedSound))
-                    {
-                        GetComponent<AudioSource>().clip = audioClips[selectedSound];
-                        GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-                        GetComponent<AudioSource>().loop = true;
-                    }
-                }
-                else if (levelIndex == 3)
-                {
-                    string selectedSound = "shootbackg";
-                    if (audioClips.ContainsKey(selectedSound))
-                    {
-                        GetComponent<AudioSource>().clip = audioClips[selectedSound];
-                        GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-                        GetComponent<AudioSource>().loop = true;
-                    }
-                }
             }
 
             else

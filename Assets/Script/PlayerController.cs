@@ -66,6 +66,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject AudioManagerPrefab;
 
     public AudioClip bgmBackground; // 背景音樂
+    public AudioClip bgmBackgroundFPS; // 背景音樂
     public AudioClip seShoot;// 碰撞音效槍
     public AudioClip seCollision;// 碰撞音效
     public AudioClip seDamage;// 碰撞音效被打到
@@ -139,9 +140,7 @@ public class PlayerController : NetworkBehaviour
     {
         //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         //backgroundMusicSource.clip = bgmBackground;
-        //backgroundMusicSource.loop = true;
-        //backgroundMusicSource.Play();
-
+        
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
 
         //originalBackgroundMusicVolume = backgroundMusicSource.volume;
@@ -170,10 +169,38 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
+        audioClips.Add("background", bgmBackground);
+        audioClips.Add("shootbackg", bgmBackgroundFPS);
         audioClips.Add("shoot", seShoot);
         audioClips.Add("collision", seCollision);
         audioClips.Add("damage", seDamage);
         audioClips.Add("cactus", seCactus);
+    }
+
+    public void SomeMethod(Dictionary<int, Dictionary<int, Vector3>> spawnPositions)
+    {
+        if (basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2)
+        {
+            // 如果是前兩關
+            string selectedSound = "background";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = true;
+            }
+        }
+        else if (basicSpawner.levelIndex == 3)
+        {
+            // 如果是最後一關
+            string selectedSound = "shootbackg";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = true;
+            }
+        }
     }
 
     public override void Spawned()
@@ -323,8 +350,7 @@ public class PlayerController : NetworkBehaviour
                 string selectedSound = "shoot";
                 if (audioClips.ContainsKey(selectedSound))
                 {
-                    isPlayingSpecialMusic = true;
-                    // 播放特定音樂                    
+                    isPlayingSpecialMusic = true;                    
                     GetComponent<AudioSource>().clip = audioClips[selectedSound];
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
@@ -404,16 +430,24 @@ public class PlayerController : NetworkBehaviour
        {
             return true;
        }
-       else
+       if (a == 3)
+       {
+           return true;
+       }
+        else
             return false;
     }
 
     private bool MiddleRespawn()
     {
         int a = 2;
-        if (Hp <= 0 || networkCharacterController.transform.position.y <= -5f)
+        if (Hp <= 145 && networkCharacterController.transform.position.y <= -5f)
             return true;
         //上述if再加一個條件是超過中間的
+        if (a == 3)
+        {
+            return true;
+        }
         else
             return false;
     }
@@ -477,7 +511,6 @@ public class PlayerController : NetworkBehaviour
             if (audioClips.ContainsKey(selectedSound))
             {
                 isPlayingSpecialMusic = true;
-
                 GetComponent<AudioSource>().clip = audioClips[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
@@ -536,33 +569,12 @@ public class PlayerController : NetworkBehaviour
             }
 
             // Respawn();
-            a = 2;
+            a = 3;
 
             if (isPlayingSpecialMusic)
             {
                 //backgroundMusicSource.volume = originalBackgroundMusicVolume;
             }
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        string selectedSound = "";
-        if (collision.gameObject.tag == "bullet") // 假設碰撞到的是標記為 "Player" 的物體
-        {
-            selectedSound = "shoot"; // 如果碰撞到了 "Player"，選擇 sound1
-        }
-        else if (collision.gameObject.tag == "Soundtest")
-        {
-            selectedSound = "collision"; // 否則選擇 sound2
-        }
-
-        if (audioClips.ContainsKey(selectedSound))
-        {
-            GetComponent<AudioSource>().clip = audioClips[selectedSound];
-            GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
-
-            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
         }
     }
 
@@ -589,16 +601,30 @@ public class PlayerController : NetworkBehaviour
         print(spawnPosition);
         if (spawnPosition != Vector3.zero) // 檢查是否成功獲取重生位置
         {
-            networkCharacterController.transform.position = spawnPosition;
-            //if (spawnPosition > Vector3.zero) // 檢查是否大於 Vector3.zero
-            //{
-                // 根據具體需求設置另一個重生位置
-                //networkCharacterController.transform.position = new Vector3(145, 17, 0); // 這裡是示例位置
-            //}
-            //else
-            //{
-                //networkCharacterController.transform.position = spawnPosition; // 使用原來的重生位置
-            //}
+            if (basicSpawner.levelIndex == 1&& networkCharacterController.transform.position.x >= 145 && networkCharacterController.transform.position.y <= -5f)
+            {
+                networkCharacterController.transform.position = new Vector3(145, 17, 0);
+            }
+            else if(basicSpawner.levelIndex == 1 && a == 3)
+            {
+                networkCharacterController.transform.position = new Vector3(145, 17, 0);
+            }
+            else if (basicSpawner.levelIndex == 2 && networkCharacterController.transform.position.x >= 105 && networkCharacterController.transform.position.y <= -5f)
+            {
+                networkCharacterController.transform.position = new Vector3(105, 17, 200);
+            }
+            else if (basicSpawner.levelIndex == 2 && a == 3)
+            {
+                networkCharacterController.transform.position = new Vector3(105, 17, 200);
+            }
+            else if (basicSpawner.levelIndex == 3)
+            {
+                networkCharacterController.transform.position = spawnPosition;
+            }
+            else
+            {
+                networkCharacterController.transform.position = spawnPosition; // 使用原來的重生位置
+            }
         }
         else
         {
