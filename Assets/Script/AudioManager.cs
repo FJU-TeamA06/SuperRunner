@@ -37,8 +37,6 @@ public class AudioManager : MonoBehaviour
         collisionSoundSource2.loop = false;
         collisionSoundSource3.loop = false;
 
-        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -47,30 +45,17 @@ public class AudioManager : MonoBehaviour
         {
             collisionSoundSource2.clip = seCollision;
             collisionSoundSource2.Play();
-
-            // 降低背景音樂的音量
-            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
         else if (collision.collider.CompareTag("bullet") && collision.other.gameObject.CompareTag("Player"))
         {
             collisionSoundSource3.clip = seDamage;
             collisionSoundSource3.Play();
-
-            // 降低背景音樂的音量
-            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
 
         //if (!backgroundMusicSource.isPlaying)
         //{
         //    //backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
         //}
-    }
-
-
-    private void OnCollisionExit(Collision collision)
-    {
-        // 在碰撞結束時恢復背景音樂音量
-        //backgroundMusicSource.volume = originalBackgroundMusicVolume;
     }
 
 }
