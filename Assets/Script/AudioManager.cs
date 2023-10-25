@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioClip bgmBackground; // 背景音樂
+    //public AudioClip bgmBackground; // 背景音樂
     //public AudioClip[] collisionSounds;// 碰撞音效
     public AudioClip seShoot;// 碰撞音效槍
     public AudioClip seCollision;// 碰撞音效
     public AudioClip seDamage;// 碰撞音效被打到
 
-    private AudioSource backgroundMusicSource;
+    //private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource1;
     private AudioSource collisionSoundSource2;
     private AudioSource collisionSoundSource3;
@@ -21,10 +21,10 @@ public class AudioManager : MonoBehaviour
     public void Awake()
     {
         // 添加背景音樂的AudioSource
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        backgroundMusicSource.clip = bgmBackground;
-        backgroundMusicSource.loop = true;
-        backgroundMusicSource.Play();
+        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        //backgroundMusicSource.clip = bgmBackground;
+        //backgroundMusicSource.loop = true;
+        //backgroundMusicSource.Play();
 
         // 添加碰撞音效的AudioSource
         collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
         collisionSoundSource2.loop = false;
         collisionSoundSource3.loop = false;
 
-        originalBackgroundMusicVolume = backgroundMusicSource.volume;
+        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
     }
 
@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
             collisionSoundSource2.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
+            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
         else if (collision.collider.CompareTag("bullet") && collision.other.gameObject.CompareTag("Player"))
         {
@@ -57,20 +57,20 @@ public class AudioManager : MonoBehaviour
             collisionSoundSource3.Play();
 
             // 降低背景音樂的音量
-            backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
+            //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.05f;
         }
 
-        if (!backgroundMusicSource.isPlaying)
-        {
-            backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
-        }
+        //if (!backgroundMusicSource.isPlaying)
+        //{
+        //    //backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
+        //}
     }
 
 
     private void OnCollisionExit(Collision collision)
     {
         // 在碰撞結束時恢復背景音樂音量
-        backgroundMusicSource.volume = originalBackgroundMusicVolume;
+        //backgroundMusicSource.volume = originalBackgroundMusicVolume;
     }
 
 }

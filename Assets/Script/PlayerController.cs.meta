@@ -3,7 +3,39 @@ guid: aa72ac489a701c643b3bc18029252148
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Runner: {instanceID: 0}
+  - Object: {instanceID: 0}
+  - MainCameraObject: {instanceID: 0}
+  - SideCameraObject: {instanceID: 0}
+  - FirstCameraObject: {instanceID: 0}
+  - MainCamera: {instanceID: 0}
+  - SideCamera: {instanceID: 0}
+  - FirstCamera: {instanceID: 0}
+  - networkCharacterController: {instanceID: 0}
+  - bulletPrefab: {instanceID: 0}
+  - scoreObject: {instanceID: 0}
+  - wallObject: {instanceID: 0}
+  - rankingObject: {instanceID: 0}
+  - countdownTimerObject: {instanceID: 0}
+  - bulletCountObject: {instanceID: 0}
+  - AudioManagerObject: {instanceID: 0}
+  - UIname: {instanceID: 0}
+  - hpBar: {instanceID: 0}
+  - AudioManagerPrefab: {instanceID: 0}
+  - bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
+  - bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
+  - seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
+  - seCollision: {fileID: 8300000, guid: d230ce4259a33cd4cbd4c3e4be22cbcd, type: 3}
+  - seDamage: {fileID: 8300000, guid: 7cd4f1803ddf8204d866a1aad1ddc139, type: 3}
+  - seCactus: {fileID: 8300000, guid: 20682ede17e816b428f1f3eea1749bdc, type: 3}
+  - timerPrefab: {instanceID: 0}
+  - bulletCountPrefab: {instanceID: 0}
+  - countDownPrefab: {instanceID: 0}
+  - FinishPlanePrefab: {instanceID: 0}
+  - meshRenderer: {instanceID: 0}
+  - countdownTimer: {instanceID: 0}
+  - finishPlane: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
