@@ -668,7 +668,20 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
+        MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
+        FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+        MainCamera = MainCameraObject.GetComponent<Camera>();
+        FirstCamera = FirstCameraObject.GetComponent<Camera>();
+        SideCamera = SideCameraObject.GetComponent<Camera>();
+        MainCamera.enabled = currentCameraMode == 0;
+        isMainCamera = currentCameraMode == 0;
+        basicSpawner.SideInputToggle(currentCameraMode == 0);
+
+        SideCamera.enabled = currentCameraMode == 1;
+        //FirstCamera.enabled = currentCameraMode == 2;
+
+        if (basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
         {
             
         }
@@ -735,6 +748,33 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
+
+       
+            
+        if (isFirstCamera)
+        {
+            FirstCamera.enabled = false;
+            SideCamera.enabled = false;
+            MainCamera.enabled = true;
+            //isMainCamera = true;
+            currentCameraMode = 0;
+        }
+
+        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+                FirstCamera = FirstCameraObject.GetComponent<Camera>();
+                //currentCameraMode = 2;
+                isFirstCamera = true;
+                MainCamera.enabled = false;
+                SideCamera.enabled = false;
+                FirstCamera.enabled = true;
+                
+            }
+        }
+
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
