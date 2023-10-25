@@ -414,6 +414,7 @@ public class PlayerController : NetworkBehaviour
         if (followlevel() == true)
         {
             gotoFPS();
+            gotonext = false;
         }
 
     }
@@ -594,7 +595,6 @@ public class PlayerController : NetworkBehaviour
         //networkCharacterController.transform.position = spawnPosition;
         networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
-        basicSpawner.EnableInput = true;
         basicSpawner.SideInput = false;
 
         //currentInputMode = InputMode.ModeFPS;

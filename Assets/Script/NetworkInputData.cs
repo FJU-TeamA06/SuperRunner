@@ -8,11 +8,6 @@ public enum InputButtons
     JUMP,
     FIRE,
 }
-public enum InputMode
-{
-    ModeA,
-    ModeFPS
-}
 
 
 

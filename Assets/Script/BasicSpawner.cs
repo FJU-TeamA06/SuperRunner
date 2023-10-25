@@ -31,14 +31,11 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public bool PersonalTestMode=false;
     private string MySessionName="Fusion Room";
     private void Awake() {
-        if(PersonalTestMode)//個人測試模式:顧名思義，是為了讓開發者測試時不讓其他開發者干擾的模式
-        {
-            print("Personal Test Mode Enabled");
-            MySessionName="Fusion Room"+UnityEngine.Random.Range(1, 50).ToString();
-        }
+        
     }
     private void Start()
     {
+        
         EnableInputToggle(true);
         SideInputToggle(true);
         myActions.Enable();
@@ -86,6 +83,11 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
     public async void StartGame(GameMode mode, int selectedLevel, int PlayerNum)
     {//初始化房間和自動配對
+        if(PersonalTestMode)//個人測試模式:顧名思義，是為了讓開發者測試時不讓其他開發者干擾的模式
+        {
+            print("Personal Test Mode Enabled");
+            MySessionName="Fusion Room"+UnityEngine.Random.Range(1, 50).ToString();
+        }
         if (playerPrefab == null)
         {
             Debug.LogError("Player prefab not set.");
