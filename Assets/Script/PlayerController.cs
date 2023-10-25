@@ -777,7 +777,7 @@ public class PlayerController : NetworkBehaviour
         {
             
             ChangeColor_RPC(Color.red);
-            Reload_RPC();//測試:按R來Reload
+            //Reload_RPC();//測試:按R來Reload
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
         {
