@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
+using System.Runtime.InteropServices;
+
 public class PlayerController : NetworkBehaviour
 {
     public GameObject MainCameraObject;
@@ -412,7 +414,7 @@ public class PlayerController : NetworkBehaviour
         if(HasInputAuthority)
         if (gotonext == true)
         {
-
+            Print("gotonext == true");
             gotoFPS_RPC();
             gotonext = false;
         }
@@ -578,15 +580,17 @@ public class PlayerController : NetworkBehaviour
         timerScript.StopTimer();
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void gotoFPS_RPC()
     {
+        print("gotoFPS work");
         //basicSpawner.levelIndex = 3;
         //networkCharacterController.transform.position = spawnPosition;
         networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
         basicSpawner.SideInput = false;
 
+        //photonView.RPC("gotoFPS", RpcTarget.All);
         //currentInputMode = InputMode.ModeFPS;
     }
 
