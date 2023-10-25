@@ -670,7 +670,20 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
+        MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
+        FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
+        MainCamera = MainCameraObject.GetComponent<Camera>();
+        FirstCamera = FirstCameraObject.GetComponent<Camera>();
+        SideCamera = SideCameraObject.GetComponent<Camera>();
+        MainCamera.enabled = currentCameraMode == 0;
+        isMainCamera = currentCameraMode == 0;
+        basicSpawner.SideInputToggle(currentCameraMode == 0);
+
+        SideCamera.enabled = currentCameraMode == 1;
+        //FirstCamera.enabled = currentCameraMode == 2;
+
+        if (basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
         {
             
         }
@@ -742,18 +755,8 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
-        MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
-        SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
-        FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
-        MainCamera = MainCameraObject.GetComponent<Camera>();
-        FirstCamera = FirstCameraObject.GetComponent<Camera>();
-        SideCamera = SideCameraObject.GetComponent<Camera>();
-        MainCamera.enabled = currentCameraMode == 0;
-        isMainCamera = currentCameraMode == 0;
-        basicSpawner.SideInputToggle(currentCameraMode == 0);
-        
-        SideCamera.enabled = currentCameraMode == 1;
-        //FirstCamera.enabled = currentCameraMode == 2;
+
+       
             
         if (isFirstCamera)
         {
@@ -763,14 +766,7 @@ public class PlayerController : NetworkBehaviour
             //isMainCamera = true;
             currentCameraMode = 0;
         }
-        /*
-        if(isFirstCamera)
-        {
-            FirstCamera.enabled = false;
-            SideCamera.enabled = false;
-            MainCamera.enabled = true;
-            isMainCamera = true;
-        }*/
+
         if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
         {
             if (Input.GetKeyDown(KeyCode.V))
@@ -785,12 +781,7 @@ public class PlayerController : NetworkBehaviour
                 
             }
         }
-        else
-        {
-            // 在其他場景中禁用這些功能
-            // 例如：playerObject.SetActive(false);
-        }
-        
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             //Finish_RPC("XXX");            //For Testing! 
