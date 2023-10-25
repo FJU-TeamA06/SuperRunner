@@ -871,6 +871,9 @@ public class PlayerController : NetworkBehaviour
         rankingObject = GameObject.FindGameObjectWithTag("RankingText");
         TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
         rankingText.text="";
+        scoreObject = GameObject.FindGameObjectWithTag("scoreText");
+        TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+        scoreText.text="";
         for (int i = 0; i < playerCount; i++)
         {
             if(i == 0)
