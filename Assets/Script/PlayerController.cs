@@ -410,7 +410,7 @@ public class PlayerController : NetworkBehaviour
 
        
         if(HasInputAuthority)
-        if (followlevel() == true)
+        if (gotonext == true)
         {
 
             gotoFPS_RPC();
@@ -418,14 +418,7 @@ public class PlayerController : NetworkBehaviour
         }
 
     }
-    private bool followlevel()
-    {
-        if (gotonext == true)
-            return true;
-        else
-            return false;
-    }
-
+    
     
     int a = 0;
     private bool ShouldRespawn()
