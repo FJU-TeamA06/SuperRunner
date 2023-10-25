@@ -29,7 +29,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public bool EnableInput=true;
     public InputActionAsset myActions;
     public bool PersonalTestMode=false;
-    private string MySessionName="Fusion Room";
+    public string MySessionName="Fusion Room";
     private void Awake() {
         
     }

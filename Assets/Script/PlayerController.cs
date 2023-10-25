@@ -589,13 +589,14 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS_RPC()
     {
-        basicSpawner.levelIndex = 3;
+        //basicSpawner.levelIndex = 3;
+        print(basicSpawner.levelIndex);
         Hp=0;
         //networkCharacterController.transform.position = spawnPosition;
         /*networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
         basicSpawner.SideInput = false;*/
-        a = 1;
+        //a = 1;
         //currentInputMode = InputMode.ModeFPS;
     }
 
@@ -800,6 +801,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                // 終點＿RPC
     public void Finish_RPC(string a)
     {
+
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
@@ -817,6 +819,7 @@ public class PlayerController : NetworkBehaviour
                 TotalScoreDisplay_RPC();
             }
         }
+        basicSpawner.levelIndex =3;
 
         
         cc = 0;
