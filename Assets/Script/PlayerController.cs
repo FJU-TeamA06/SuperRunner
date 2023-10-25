@@ -578,7 +578,7 @@ public class PlayerController : NetworkBehaviour
         timerScript.StopTimer();
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS_RPC()
     {
         //basicSpawner.levelIndex = 3;
