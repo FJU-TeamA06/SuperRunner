@@ -588,9 +588,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS_RPC()
     {
-
         //basicSpawner.levelIndex = 3;
-        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
         //networkCharacterController.transform.position = spawnPosition;
         networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
@@ -821,6 +819,7 @@ public class PlayerController : NetworkBehaviour
         cc = 0;
         xxx = 0;
         yyy += 1;
+        gotonext = true;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
