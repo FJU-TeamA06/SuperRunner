@@ -21,7 +21,6 @@ public class SquareScript : NetworkBehaviour
                 //Debug.Log("Square A touched by ID: " + playerID);
                 print("Someone Finished "+ "Is " + player.PlayerName);
 
-                //player.OnFinished();
                 
             }
         }
