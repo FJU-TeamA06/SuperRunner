@@ -575,10 +575,8 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();
-            ppp = playerCount;                                         // 限制次數
+            DistRutern_RPC();                                        // 限制次數
             Finish_RPC(this.PlayerName.ToString());
-            cc=0;
             
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -803,6 +801,7 @@ public class PlayerController : NetworkBehaviour
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        ppp=playerCount;
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
