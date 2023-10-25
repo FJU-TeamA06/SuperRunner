@@ -332,10 +332,10 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            if(isFinish==0)
-            {
+            //if(isFinish==0)
+            //{
                 networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            }
+            //}
             if(isMainCamera)
             {
                 _yaw=0;
@@ -602,7 +602,7 @@ public class PlayerController : NetworkBehaviour
         basicSpawner.SideInput = false;*/
         //a = 1;
         //currentInputMode = InputMode.ModeFPS;
-        isFinish=0;
+        //isFinish=0;
     }
 
     private void Respawn()
@@ -763,7 +763,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
         if (Input.GetKeyDown(KeyCode.K))
-            if(isFinish==1)
+            //if(isFinish==1)
                 gotoFPS();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
@@ -838,7 +838,7 @@ public class PlayerController : NetworkBehaviour
         }
         basicSpawner.levelIndex =3;
 
-        isFinish=1;
+        //isFinish=1;
         cc = 0;
         xxx = 0;
         yyy += 1;
