@@ -409,9 +409,11 @@ public class PlayerController : NetworkBehaviour
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
 
        
+        if(HasInputAuthority)
         if (followlevel() == true)
         {
-            gotoFPS();
+
+            gotoFPS_RPC();
             gotonext = false;
         }
 
@@ -584,8 +586,9 @@ public class PlayerController : NetworkBehaviour
         timerUI timerScript = timeObject.GetComponent<timerUI>();
         timerScript.StopTimer();
     }
- 
-    private void gotoFPS()
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void gotoFPS_RPC()
     {
 
         //basicSpawner.levelIndex = 3;
