@@ -674,7 +674,7 @@ public class PlayerController : NetworkBehaviour
         {
             
         }
-        else if(basicSpawner.levelIndex==FPS_Level)//為了同個.unity檔案的FPS模式(具體為哪個level要再討論，目前為2)做準備，預設會是正朝向模式
+        else if(basicSpawner.levelIndex==FPS_Level)//為了同個.unity檔案的FPS模式(具體為哪個level要再討論，目前為3)做準備，預設會是正朝向模式
         {
             currentCameraMode = 1;
             isMainCamera=false;
@@ -700,6 +700,43 @@ public class PlayerController : NetworkBehaviour
             else
             {
 
+            }
+        }
+        void StartGame()
+        {
+            if(basicSpawner.levelIndex==1)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+            }
+            if(basicSpawner.levelIndex==2)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
+            }
+            print(wallObject.transform.position.y);
+            if(wallObject.transform.position.y<=20)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("Timer");
+                
+                
+                
+                StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
+                if (startWallScript != null)
+                {
+                    StartM_RPC();     
+                    
+                }
+                
+                timerUI timerScript = timeObject.GetComponent<timerUI>();
+                if (timerScript != null)
+                {
+                    //timerScript.StartTimer();
+                    // 在這裡訪問 timerScript 或執行相關操作
+                    //之後要實作timer相關的rpc呼叫
+                }
+                else
+                {
+                    print("錯誤");
+                }
             }
         }
         //切換鏡頭模式
@@ -778,43 +815,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
             StartGame();
-        void StartGame()
-        {
-            if(basicSpawner.levelIndex==1)
-            {
-                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
-            }
-            if(basicSpawner.levelIndex==2)
-            {
-                wallObject = GameObject.FindGameObjectWithTag("StartWall2");
-            }
-            print(wallObject.transform.position.y);
-            if(wallObject.transform.position.y<=20)
-            {
-                timeObject = GameObject.FindGameObjectWithTag("Timer");
-                
-                
-                
-                StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
-                if (startWallScript != null)
-                {
-                    StartM_RPC();     
-                    
-                }
-                
-                timerUI timerScript = timeObject.GetComponent<timerUI>();
-                if (timerScript != null)
-                {
-                    //timerScript.StartTimer();
-                    // 在這裡訪問 timerScript 或執行相關操作
-                    //之後要實作timer相關的rpc呼叫
-                }
-                else
-                {
-                    print("錯誤");
-                }
-            }
-        }
+        
         timer += Time.deltaTime;
         if (timer >= 1)
         {
