@@ -413,7 +413,7 @@ public class PlayerController : NetworkBehaviour
         if (followlevel() == true)
         {
 
-            gotoFPS_RPC();
+            gotoFPS();
             gotonext = false;
         }
 
@@ -586,8 +586,8 @@ public class PlayerController : NetworkBehaviour
         timerScript.StopTimer();
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    public void gotoFPS_RPC()
+    //[Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void gotoFPS()
     {
         //basicSpawner.levelIndex = 3;
         print(basicSpawner.levelIndex);
@@ -747,7 +747,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
         if (Input.GetKeyDown(KeyCode.K))
-            gotoFPS_RPC();
+            gotoFPS();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
