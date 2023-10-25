@@ -576,6 +576,7 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             DistRutern_RPC();                                        // 限制次數
+            SetCount_RPC();
             Finish_RPC(this.PlayerName.ToString());
             
         }
@@ -802,7 +803,6 @@ public class PlayerController : NetworkBehaviour
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
-        ppp=playerCount;
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
@@ -823,6 +823,11 @@ public class PlayerController : NetworkBehaviour
         xxx = 0;
         yyy += 1;
         gotonext = true;
+    }   
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
+    public void SetCount_RPC()
+    {
+        ppp = playerCount;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
