@@ -804,7 +804,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
     
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                                               // 顏色更換_RPC
+    [Rpc(RpcSources.All, RpcTargets.All)]                                               // 顏色更換_RPC
     private void ChangeColor_RPC(Color newColor)
     {
         meshRenderer.material.color = newColor;
@@ -829,6 +829,7 @@ public class PlayerController : NetworkBehaviour
             {
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores();
+                basicSpawner.levelIndex =3;
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
@@ -836,7 +837,7 @@ public class PlayerController : NetworkBehaviour
                 TotalScoreDisplay_RPC();
             }
         }
-        basicSpawner.levelIndex =3;
+        
 
         //isFinish=1;
         cc = 0;
