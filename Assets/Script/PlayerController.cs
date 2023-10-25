@@ -79,6 +79,7 @@ public class PlayerController : NetworkBehaviour
     private bool isPlayingSpecialMusic = false;
 
     private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> backAudios = new Dictionary<string, AudioClip>();
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
@@ -111,7 +112,7 @@ public class PlayerController : NetworkBehaviour
     MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名
     [Networked()]
     public int finish3PositionIndex { get; set; }
-    private Dictionary<int,Vector3> finish3SpawnPositions = new Dictionary<int,Vector3>() 
+    private Dictionary<int,Vector3> finish3SpawnPositions = new Dictionary<int,Vector3>()
     {
         {1, new Vector3(27.40012f,58.84f,-350.8f)},
         {2, new Vector3(-5.9f, 58.84f, -269f)}, 
@@ -172,39 +173,43 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        audioClips.Add("background", bgmBackground);
-        audioClips.Add("shootbackg", bgmBackgroundFPS);
+        backAudios.Add("background", bgmBackground);
+        backAudios.Add("shootbackg", bgmBackgroundFPS);
         audioClips.Add("shoot", seShoot);
         audioClips.Add("collision", seCollision);
         audioClips.Add("damage", seDamage);
         audioClips.Add("cactus", seCactus);
     }
 
-    public void SomeMethod(Dictionary<int, Dictionary<int, Vector3>> spawnPositions)
+    public void SomeMethod(Dictionary<string, AudioClip> spawnPositions)
     {
-        if (basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2)
+        // 確保你有有效的索引來訪問陣列中的值
+        int levelIndex = basicSpawner.levelIndex;
+
+        if (levelIndex == 1 || levelIndex == 2)
         {
             // 如果是前兩關
             string selectedSound = "background";
-            if (audioClips.ContainsKey(selectedSound))
+            if (backAudios.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = backAudios[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = true;
             }
         }
-        else if (basicSpawner.levelIndex == 3)
+        else if (levelIndex == 3)
         {
             // 如果是最後一關
             string selectedSound = "shootbackg";
-            if (audioClips.ContainsKey(selectedSound))
+            if (backAudios.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = backAudios[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = true;
             }
         }
     }
+
 
     public override void Spawned()
     {
@@ -595,6 +600,7 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             //finishPlane.FinishClick();
+            DistRutern_RPC();
             ppp = playerCount;                                         // 限制次數
             Finish_RPC(this.PlayerName.ToString());
             cc=0;
@@ -922,7 +928,7 @@ public class PlayerController : NetworkBehaviour
         scoreText.text="";
         for (int i = 0; i < playerCount; i++)
         {
-            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] + "  "+ppp;
+            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] ;
         }        
     }
     public void CalculateAndSyncScores()
