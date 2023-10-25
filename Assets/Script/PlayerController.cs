@@ -748,33 +748,6 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
-
-       
-            
-        if (isFirstCamera)
-        {
-            FirstCamera.enabled = false;
-            SideCamera.enabled = false;
-            MainCamera.enabled = true;
-            //isMainCamera = true;
-            currentCameraMode = 0;
-        }
-
-        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
-        {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
-                FirstCamera = FirstCameraObject.GetComponent<Camera>();
-                //currentCameraMode = 2;
-                isFirstCamera = true;
-                MainCamera.enabled = false;
-                SideCamera.enabled = false;
-                FirstCamera.enabled = true;
-                
-            }
-        }
-
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
