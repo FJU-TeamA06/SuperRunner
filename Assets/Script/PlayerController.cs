@@ -132,7 +132,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject timerInstance;
     public bool isMainCamera=true;
     public bool isSideCamera = false;
-    public bool isFirstCamera = false;
     public bool gotonext = false;
     public int currentCameraMode = 0;
     public InputActionAsset myActions;
@@ -230,7 +229,6 @@ public class PlayerController : NetworkBehaviour
         {
             if (SceneManager.GetActiveScene().name == "FPS")
             {
-                isFirstCamera = true;
                 MainCamera.enabled = false;
                 SideCamera.enabled = false;
                 FirstCamera.enabled = true;
@@ -679,7 +677,6 @@ public class PlayerController : NetworkBehaviour
             currentCameraMode = 1;
             isMainCamera=false;
             isSideCamera = true;
-            isFirstCamera = false;
         }
         InputAction View = myActions.FindAction("View");
         View.started += ctx=>switchView();
@@ -713,19 +710,15 @@ public class PlayerController : NetworkBehaviour
                 wallObject = GameObject.FindGameObjectWithTag("StartWall2");
             }
             print(wallObject.transform.position.y);
-            if(wallObject.transform.position.y<=20)
+            if(wallObject.transform.position.y<=20)//當牆還在原位
             {
                 timeObject = GameObject.FindGameObjectWithTag("Timer");
-                
-                
-                
                 StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
                 if (startWallScript != null)
                 {
                     StartM_RPC();     
                     
                 }
-                
                 timerUI timerScript = timeObject.GetComponent<timerUI>();
                 if (timerScript != null)
                 {
@@ -744,60 +737,17 @@ public class PlayerController : NetworkBehaviour
             switchView();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
-        FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
-        FirstCamera = FirstCameraObject.GetComponent<Camera>();
         SideCamera = SideCameraObject.GetComponent<Camera>();
         MainCamera.enabled = currentCameraMode == 0;
         isMainCamera = currentCameraMode == 0;
         basicSpawner.SideInputToggle(currentCameraMode == 0);
-        
         SideCamera.enabled = currentCameraMode == 1;
-        //FirstCamera.enabled = currentCameraMode == 2;
-            
-        if (isFirstCamera)
-        {
-            FirstCamera.enabled = false;
-            SideCamera.enabled = false;
-            MainCamera.enabled = true;
-            //isMainCamera = true;
-            currentCameraMode = 0;
-        }
-        /*
-        if(isFirstCamera)
-        {
-            FirstCamera.enabled = false;
-            SideCamera.enabled = false;
-            MainCamera.enabled = true;
-            isMainCamera = true;
-        }*/
-        if (SceneManager.GetActiveScene().name == "FPS") // 指定場景的名稱
-        {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
-                FirstCamera = FirstCameraObject.GetComponent<Camera>();
-                //currentCameraMode = 2;
-                isFirstCamera = true;
-                MainCamera.enabled = false;
-                SideCamera.enabled = false;
-                FirstCamera.enabled = true;
-                
-            }
-        }
-        else
-        {
-            // 在其他場景中禁用這些功能
-            // 例如：playerObject.SetActive(false);
-        }
-        
         if (Input.GetKeyDown(KeyCode.R))
         {
             //Finish_RPC("XXX");            //For Testing! 
             ChangeColor_RPC(Color.red);
             Reload_RPC();//測試:按R來Reload
-            
-            
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
         {
@@ -822,8 +772,6 @@ public class PlayerController : NetworkBehaviour
             //CalculateDistancePercentage();
             timer = 0;
         }
-       
-
     }
     
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                                               // 顏色更換_RPC
