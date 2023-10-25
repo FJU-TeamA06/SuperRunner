@@ -75,7 +75,6 @@ public class PlayerController : NetworkBehaviour
     private AudioSource collisionSoundSource;
 
     private float originalBackgroundMusicVolume;
-    private bool isPlayingSpecialMusic = false;
 
     private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
     private Dictionary<string, AudioClip> backAudios = new Dictionary<string, AudioClip>();
@@ -85,7 +84,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
     public GameObject FinishPlanePrefab; 
-    [Networked(OnChanged = nameof(OnDistChanged))] public float Dist { get; set; }
+    [Networked] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
     public int Hp { get; set; }
@@ -355,8 +354,7 @@ public class PlayerController : NetworkBehaviour
             {
                 string selectedSound = "shoot";
                 if (audioClips.ContainsKey(selectedSound))
-                {
-                    isPlayingSpecialMusic = true;                    
+                {                
                     GetComponent<AudioSource>().clip = audioClips[selectedSound];
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
@@ -385,10 +383,7 @@ public class PlayerController : NetworkBehaviour
 
             }
 
-            if (!isPlayingSpecialMusic)
-            {
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
-            }
+            
         }
         
 
@@ -524,7 +519,6 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
-                isPlayingSpecialMusic = true;
                 GetComponent<AudioSource>().clip = audioClips[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
@@ -535,10 +529,7 @@ public class PlayerController : NetworkBehaviour
             // Respawn();
             a = 1;
 
-            if (isPlayingSpecialMusic)
-            {
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
-            }
+            
         }
 
         if (other.gameObject.CompareTag("Soundcactus"))
@@ -548,8 +539,6 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
             {
-                isPlayingSpecialMusic = true;
-
                 GetComponent<AudioSource>().clip = audioClips[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
@@ -560,10 +549,7 @@ public class PlayerController : NetworkBehaviour
             // Respawn();
             a = 1;
 
-            if (isPlayingSpecialMusic)
-            {
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
-            }
+            
         }
 
         if (other.gameObject.CompareTag("middleSpawn"))
@@ -573,8 +559,6 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
-                isPlayingSpecialMusic = true;
-
                 GetComponent<AudioSource>().clip = audioClips[selectedSound];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
@@ -584,11 +568,6 @@ public class PlayerController : NetworkBehaviour
 
             // Respawn();
             a = 3;
-
-            if (isPlayingSpecialMusic)
-            {
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume;
-            }
         }
     }
 
@@ -687,10 +666,7 @@ public class PlayerController : NetworkBehaviour
     {
         changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Hp / changed.Behaviour.maxHp;
     }
-    private static void OnDistChanged(Changed<PlayerController> changed)
-    {
-        //changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Dist / changed.Behaviour.maxDist;
-    }
+    
 
     private void Update()
     {
