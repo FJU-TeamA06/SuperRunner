@@ -593,6 +593,7 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             //finishPlane.FinishClick();
+            DistRutern_RPC();
             ppp = playerCount;                                         // 限制次數
             Finish_RPC(this.PlayerName.ToString());
             cc=0;
@@ -919,7 +920,7 @@ public class PlayerController : NetworkBehaviour
         scoreText.text="";
         for (int i = 0; i < playerCount; i++)
         {
-            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] + "  "+ppp;
+            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] ;
         }        
     }
     public void CalculateAndSyncScores()
