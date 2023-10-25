@@ -588,12 +588,12 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS_RPC()
     {
-        //basicSpawner.levelIndex = 3;
+        basicSpawner.levelIndex = 3;
         //networkCharacterController.transform.position = spawnPosition;
-        networkCharacterController.transform.position = new Vector3(0, 61, -200);
+        /*networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
-        basicSpawner.SideInput = false;
-
+        basicSpawner.SideInput = false;*/
+        a = 1;
         //currentInputMode = InputMode.ModeFPS;
     }
 
@@ -743,6 +743,8 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
+        if (Input.GetKeyDown(KeyCode.K))
+            gotoFPS_RPC();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
