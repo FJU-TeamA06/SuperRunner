@@ -33,7 +33,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private void Awake() {
         if(PersonalTestMode)
         {
-            MySessionName="Fusion Room1";
+            MySessionName="Fusion Room"+UnityEngine.Random.Range(1, 50).ToString();
         }
     }
     private void Start()
@@ -94,6 +94,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         playerNumber = PlayerNum;
         networkRunner.ProvideInput = true;  //tell runner we provide input
         //print("OK");
+        print("Session Name:"+MySessionName);
         await networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
