@@ -32,7 +32,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
     private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                         // 分數用
-    private int [] arr = {0,0,0,0};                                     // 分數用
+    private int [] arr = {0,0,0,0};                                                               // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
     private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0 , ppp = 0;
@@ -574,7 +574,6 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            //finishPlane.FinishClick();
             DistRutern_RPC();
             ppp = playerCount;                                         // 限制次數
             Finish_RPC(this.PlayerName.ToString());
@@ -730,7 +729,6 @@ public class PlayerController : NetworkBehaviour
                 if (startWallScript != null)
                 {
                     StartM_RPC();     
-                    
                 }
                 timerUI timerScript = timeObject.GetComponent<timerUI>();
                 if (timerScript != null)
@@ -758,7 +756,7 @@ public class PlayerController : NetworkBehaviour
         SideCamera.enabled = currentCameraMode == 1;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            //Finish_RPC("XXX");            //For Testing! 
+            
             ChangeColor_RPC(Color.red);
             Reload_RPC();//測試:按R來Reload
         }
@@ -807,8 +805,16 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             finishPlane.FinishClick();
-            FinalPlaneDisplay_RPC();
-            CalculateAndSyncScores();
+            if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
+            {
+                FinalPlaneDisplay_RPC();
+                CalculateAndSyncScores();
+            }
+            else if( basicSpawner.levelIndex == 3 )                              //在第三關
+            {
+                CalculateAndSyncScores();
+                TotalScoreDisplay_RPC();
+            }
         }
 
         
@@ -831,17 +837,32 @@ public class PlayerController : NetworkBehaviour
     }
 
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                     // 排名顯示＿RPC___停用
-    public void ScoreDisplay_RPC()
+
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 最終排名顯示＿RPC
+    public void TotalScoreDisplay_RPC()
     {
-        timeObject = GameObject.FindGameObjectWithTag("timerText");
-        Text timerText = timeObject.GetComponent<Text>();
-        for (int i = 0; i < playerCount; ++i)
+        rankingObject = GameObject.FindGameObjectWithTag("RankingText");
+        TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
+        rankingText.text="";
+        for (int i = 0; i < playerCount; i++)
         {
-        Debug.Log($"{i}: '{ScoreLeaderboard[i]}''");
-        timerText.text=timerText.text+"\n"+i+":"+ScoreLeaderboard[i];
-        }
-        
+            if(i == 0)
+            {
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
+            }
+            else if(i == 1)
+            {
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+            }
+            else if(i == 2)
+            {
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+            }
+            else if(i == 3)
+            {
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+            }
+        }        
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
@@ -855,6 +876,7 @@ public class PlayerController : NetworkBehaviour
             scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] ;
         }        
     }
+
     public void CalculateAndSyncScores()
     {
         for (int i = 0; i < playerCount && cc==0 && ppp > 0; i++)
@@ -881,8 +903,10 @@ public class PlayerController : NetworkBehaviour
             }
         }
         cc=cc+1;
-        // 調用 FinalScoreDisplay_RPC 以同步分數顯示
-        FinalScoreDisplay_RPC();
+        if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )        // 第一關第二關時，調用 FinalScoreDisplay_RPC
+        {
+            FinalScoreDisplay_RPC();
+        }
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
