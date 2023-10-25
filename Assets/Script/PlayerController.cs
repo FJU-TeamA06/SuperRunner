@@ -74,8 +74,6 @@ public class PlayerController : NetworkBehaviour
     private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource;
 
-    private float originalBackgroundMusicVolume;
-
     private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
     private Dictionary<string, AudioClip> backAudios = new Dictionary<string, AudioClip>();
     //本地計時器
