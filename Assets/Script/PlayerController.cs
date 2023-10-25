@@ -414,7 +414,7 @@ public class PlayerController : NetworkBehaviour
         if(HasInputAuthority)
         if (gotonext == true)
         {
-            Print("gotonext == true");
+            print("gotonext == true");
             gotoFPS_RPC();
             gotonext = false;
         }
