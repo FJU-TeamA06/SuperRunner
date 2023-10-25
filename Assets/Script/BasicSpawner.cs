@@ -31,8 +31,9 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public bool PersonalTestMode=false;
     private string MySessionName="Fusion Room";
     private void Awake() {
-        if(PersonalTestMode)
+        if(PersonalTestMode)//個人測試模式:顧名思義，是為了讓開發者測試時不讓其他開發者干擾的模式
         {
+            print("Personal Test Mode Enabled");
             MySessionName="Fusion Room"+UnityEngine.Random.Range(1, 50).ToString();
         }
     }

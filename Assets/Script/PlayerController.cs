@@ -15,7 +15,6 @@ public class PlayerController : NetworkBehaviour
     public Camera MainCamera;
     public Camera SideCamera;
     public Camera FirstCamera;
-    [Networked] public int isFinished { get; set; }
     [Networked]
     private Angle _yaw { get; set; }
     [SerializeField]
@@ -273,7 +272,6 @@ public class PlayerController : NetworkBehaviour
             bulletCount=maxBullet;
             Hp = maxHp;
         }
-        isFinished = 0;
         
 
 
@@ -606,7 +604,6 @@ public class PlayerController : NetworkBehaviour
             cc=0;
             
         }
-        
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         timeObject = GameObject.FindGameObjectWithTag("Timer");
         timerUI timerScript = timeObject.GetComponent<timerUI>();
@@ -693,17 +690,6 @@ public class PlayerController : NetworkBehaviour
     private static void OnDistChanged(Changed<PlayerController> changed)
     {
         //changed.Behaviour.hpBar.fillAmount = (float)changed.Behaviour.Dist / changed.Behaviour.maxDist;
-    }
-    public void OnFinished()
-    {
-        if(isFinished==0)
-        {
-            print("Finally Finished");
-            //Finish_RPC(this.PlayerName.ToString());
-            isFinished=1;
-            
-
-        }
     }
 
     private void Update()
