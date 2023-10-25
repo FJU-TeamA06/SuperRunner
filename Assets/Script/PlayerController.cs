@@ -5,7 +5,7 @@ using Fusion;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
     public GameObject MainCameraObject;
@@ -136,6 +136,7 @@ public class PlayerController : NetworkBehaviour
     public bool isFirstCamera = false;
     public bool gotonext = false;
     public int currentCameraMode = 0;
+    public InputActionAsset myActions;
 
     private void Awake()
     {
@@ -148,6 +149,7 @@ public class PlayerController : NetworkBehaviour
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
+        myActions.Enable();
     }
 
 
@@ -698,7 +700,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    
     private void Update()
     {
         if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
@@ -712,8 +713,11 @@ public class PlayerController : NetworkBehaviour
             isSideCamera = true;
             isFirstCamera = false;
         }
-        //切換鏡頭模式
-        if (Input.GetKeyDown(KeyCode.C))
+        InputAction View = myActions.FindAction("View");
+        View.started += ctx=>switchView();
+        InputAction Start = myActions.FindAction("Start");
+        Start.started += ctx=>StartGame();
+        void switchView()
         {
             if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在第一關或第二關，按鍵切換模式
             {
@@ -729,8 +733,10 @@ public class PlayerController : NetworkBehaviour
             {
 
             }
-            
         }
+        //切換鏡頭模式
+        if (Input.GetKeyDown(KeyCode.C))
+            switchView();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         FirstCameraObject = GameObject.FindGameObjectWithTag("FirstCamera");
@@ -803,8 +809,9 @@ public class PlayerController : NetworkBehaviour
             ChangeColor_RPC(Color.blue);
         }
         if (Input.GetKeyDown(KeyCode.Return))
+            StartGame();
+        void StartGame()
         {
-
             if(basicSpawner.levelIndex==1)
             {
                 wallObject = GameObject.FindGameObjectWithTag("StartWall1");
@@ -839,10 +846,6 @@ public class PlayerController : NetworkBehaviour
                     print("錯誤");
                 }
             }
-            
-            
-            
-            
         }
         timer += Time.deltaTime;
         if (timer >= 1)

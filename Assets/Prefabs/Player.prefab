@@ -358,7 +358,10 @@ MonoBehaviour:
   isMainCamera: 1
   isSideCamera: 0
   isFirstCamera: 0
+  gotonext: 0
   currentCameraMode: 0
+  myActions: {fileID: -944628639613478452, guid: 5841815708f5a8044ad379b08389ebf3,
+    type: 3}
   countdownTimer: {fileID: 1638254891748018496, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   finishPlane: {fileID: 8075821973780585517, guid: f34ff5ec5b04194479eb4824dadaee3e,

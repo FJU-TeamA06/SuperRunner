@@ -8893,6 +8893,9 @@ MonoBehaviour:
   levelIndex: 0
   SideInput: 1
   EnableInput: 1
+  myActions: {fileID: -944628639613478452, guid: 5841815708f5a8044ad379b08389ebf3,
+    type: 3}
+  PersonalTestMode: 0
 --- !u!1 &1526591986
 GameObject:
   m_ObjectHideFlags: 0

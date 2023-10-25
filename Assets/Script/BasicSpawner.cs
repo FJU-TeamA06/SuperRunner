@@ -6,7 +6,7 @@ using Fusion.Sockets;
 using System;
 using UnityEngine.SceneManagement;
 using System.Reflection;
-
+using UnityEngine.InputSystem;
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] 
@@ -27,11 +27,20 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private bool isServer = false;
     public bool SideInput=true;
     public bool EnableInput=true;
-    
+    public InputActionAsset myActions;
+    public bool PersonalTestMode=false;
+    private string MySessionName="Fusion Room";
+    private void Awake() {
+        if(PersonalTestMode)
+        {
+            MySessionName="Fusion Room1";
+        }
+    }
     private void Start()
     {
         EnableInputToggle(true);
         SideInputToggle(true);
+        myActions.Enable();
         //PlayerController playerController = GetComponent<PlayerController>();
         //playerController.SetBasicSpawner(this);   //傳遞
 
@@ -81,7 +90,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         await networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
-            SessionName = "Fusion Room",
+            SessionName = MySessionName,
             Scene = SceneManager.GetActiveScene().buildIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
@@ -100,7 +109,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         await networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
-            SessionName = "Fusion Room",
+            SessionName = MySessionName,
             Scene = SceneManager.GetActiveScene().buildIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
@@ -194,7 +203,14 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
-        
+        InputAction Up = myActions.FindAction("Up");
+        float UpValue = Up.ReadValue<float>();
+        InputAction Down = myActions.FindAction("Down");
+        float DownValue = Down.ReadValue<float>();
+        InputAction Left = myActions.FindAction("Left");
+        float LeftValue = Left.ReadValue<float>();
+        InputAction Right = myActions.FindAction("Right");
+        float RightValue = Right.ReadValue<float>();
         if (SceneManager.GetActiveScene().name == "FPS")
         {
             if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
@@ -210,27 +226,41 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 if(SideInput == true)
                 {
                     if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.up; }
+                    if (RightValue>0){ data.MoveInput += Vector2.up; }
                     if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.down; }
+                    if (LeftValue>0){ data.MoveInput += Vector2.down; }
                     if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.left; }
+                    if (DownValue>0) { data.MoveInput += Vector2.left; }
                     if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.right; }
+                    if (UpValue>0) { data.MoveInput += Vector2.right; }
                 }
                 else
                 {
                     if (Input.GetKey(KeyCode.W)) { data.MoveInput += Vector2.up; }
+                    if (UpValue>0){data.MoveInput += new Vector2(0,UpValue);}
                     if (Input.GetKey(KeyCode.S)) { data.MoveInput += Vector2.down; }
+                    if (DownValue>0){data.MoveInput += new Vector2(0,DownValue*-1);}
                     if (Input.GetKey(KeyCode.D)) { data.MoveInput += Vector2.left; }
+                    if (LeftValue>0){data.MoveInput += new Vector2(LeftValue,0);}
                     if (Input.GetKey(KeyCode.A)) { data.MoveInput += Vector2.right; }
-                    data.Pitch = Input.GetAxis("Mouse Y") * _mouseSensitivity;
-                    data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity ;
+                    if (RightValue>0){data.MoveInput += new Vector2(RightValue*-1,0);}
+
+                    InputAction RightPitch = myActions.FindAction("RightPitch");
+                    //print(RightPitch.ReadValue<float>());
+                    InputAction RightYaw = myActions.FindAction("RightYaw");
+                    data.Pitch = (Input.GetAxis("Mouse Y") * _mouseSensitivity)+RightPitch.ReadValue<float>();
+                    data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity+RightYaw.ReadValue<float>() ;
                 }
             }
             
             
             
         }
-
-        data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
-        data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
+        
+        InputAction JUMP = myActions.FindAction("A");
+        InputAction Fire = myActions.FindAction("B");
+        data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space)||JUMP.ReadValue<float>() > 0.5f);
+        data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0)||Fire.ReadValue<float>() > 0.5f);
         input.Set(data);
     }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
