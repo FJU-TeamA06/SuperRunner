@@ -30,6 +30,7 @@ TagManager:
   - StartWall1
   - StartWall2
   - middleSpawn
+  - StartWall3
   layers:
   - Default
   - TransparentFX

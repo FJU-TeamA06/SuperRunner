@@ -63,7 +63,8 @@ public class PlayerController : NetworkBehaviour
     private float maxDist = 100;
     //AudioSource
     public GameObject AudioManagerPrefab;
-
+    [SerializeField]
+    private int isFinish=0;
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip bgmBackgroundFPS; // 背景音樂
     public AudioClip seShoot;// 碰撞音效槍
@@ -409,13 +410,13 @@ public class PlayerController : NetworkBehaviour
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
 
        
-        if(HasInputAuthority)
+        /*if(HasInputAuthority)
         if (followlevel() == true)
         {
 
             gotoFPS();
             gotonext = false;
-        }
+        }*/
 
     }
     private bool followlevel()
@@ -598,6 +599,7 @@ public class PlayerController : NetworkBehaviour
         basicSpawner.SideInput = false;*/
         //a = 1;
         //currentInputMode = InputMode.ModeFPS;
+        isFinish=0;
     }
 
     private void Respawn()
@@ -721,6 +723,10 @@ public class PlayerController : NetworkBehaviour
             {
                 wallObject = GameObject.FindGameObjectWithTag("StartWall2");
             }
+            if(basicSpawner.levelIndex==3)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall1");
+            }
             print(wallObject.transform.position.y);
             if(wallObject.transform.position.y<=20)//當牆還在原位
             {
@@ -742,12 +748,20 @@ public class PlayerController : NetworkBehaviour
                     print("錯誤");
                 }
             }
+            else
+            {
+                if(basicSpawner.levelIndex==3)
+                {
+                    StartM_RPC();  
+                }
+            }
         }
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
         if (Input.GetKeyDown(KeyCode.K))
-            gotoFPS();
+            if(isFinish==1)
+                gotoFPS();
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
@@ -821,7 +835,7 @@ public class PlayerController : NetworkBehaviour
         }
         basicSpawner.levelIndex =3;
 
-        
+        isFinish=1;
         cc = 0;
         xxx = 0;
         yyy += 1;
