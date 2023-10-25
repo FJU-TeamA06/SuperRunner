@@ -589,6 +589,7 @@ public class PlayerController : NetworkBehaviour
     public void gotoFPS_RPC()
     {
         basicSpawner.levelIndex = 3;
+        Hp=0;
         //networkCharacterController.transform.position = spawnPosition;
         /*networkCharacterController.transform.position = new Vector3(0, 61, -200);
         currentCameraMode = 1;
