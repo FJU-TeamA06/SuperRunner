@@ -29,7 +29,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public bool EnableInput=true;
     public InputActionAsset myActions;
     public bool PersonalTestMode=false;
-    public string MySessionName="Fusion Room";
+    public string MySessionName="";
     private void Awake() {
         
     }
@@ -87,6 +87,10 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             print("Personal Test Mode Enabled");
             MySessionName="Fusion Room"+UnityEngine.Random.Range(1, 50).ToString();
+        }
+        else
+        {
+            MySessionName=PlayerPrefs.GetString("SessionName");
         }
         if (playerPrefab == null)
         {

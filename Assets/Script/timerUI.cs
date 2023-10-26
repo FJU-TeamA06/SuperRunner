@@ -1,19 +1,20 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Fusion;
 
 public class timerUI : MonoBehaviour
 {
     public Text timerText;
     private float timeElapsed;
     private bool timerActive;
-    
+    public Text sessionName;
 
     void Start()
     {
         timerActive = false;
         ResetTimer();
+        sessionName.text="房間名稱: "+PlayerPrefs.GetString("SessionName");
     }
 
     void Update()
