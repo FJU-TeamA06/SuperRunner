@@ -12,6 +12,8 @@ public class NameInputHandler : MonoBehaviour
     private string playerName = "";
     public BasicSpawner basicSpawner;
     public GameMode gameMode;
+    public GameObject sessionInput;
+    public GameObject loadingOverlay;
     public GameObject levelSelectionPanel; // 添加一个新的游戏对象，用于显示关卡选择界面
     public GameObject nameInputPanel; // 添加一个新的游戏对象，用于表示名字输入面板
 
@@ -25,7 +27,7 @@ public class NameInputHandler : MonoBehaviour
         playerName = nameInputField.text;
         Debug.Log("玩家名字: " + playerName);
         PlayerPrefs.SetString("PlayerName", nameInputField.text);
-        //levelSelectionPanel.SetActive(true); // 显示关卡选择界面
+        sessionInput.SetActive(true); 
         nameInputPanel.SetActive(false); // 隐藏名字输入面板
         // 将下面这行代码移动到新的方法中，当用户选择关卡后才开始游戏
         // basicSpawner.StartGame(basicSpawner.gameMode);
@@ -36,6 +38,7 @@ public class NameInputHandler : MonoBehaviour
     {
         // 在这里设置关卡信息，您可以根据需要进行修改
         basicSpawner.StartGame(basicSpawner.gameMode, selectedLevel,PlayerNum);
+        loadingOverlay.SetActive(true);
         Destroy(gameObject);
     }
 }

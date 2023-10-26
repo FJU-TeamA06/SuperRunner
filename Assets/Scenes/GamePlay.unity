@@ -812,6 +812,7 @@ MonoBehaviour:
   okButton: {fileID: 361680552}
   basicSpawner: {fileID: 1510189104}
   gameMode: 6
+  sessionInput: {fileID: 1256845080}
   levelSelectionPanel: {fileID: 1208955023}
   nameInputPanel: {fileID: 106834932}
 --- !u!1 &115611196
@@ -7815,7 +7816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1256845082
 Transform:
   m_ObjectHideFlags: 0

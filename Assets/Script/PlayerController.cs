@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
+    public GameObject loadingOverlay;
     public GameObject MainCameraObject;
     public GameObject SideCameraObject;
     public GameObject FirstCameraObject;
@@ -175,6 +176,7 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("collision", seCollision);
         audioClips.Add("damage", seDamage);
         audioClips.Add("cactus", seCactus);
+        
     }
 
     public void SomeMethod(Dictionary<string, AudioClip> spawnPositions)
@@ -209,7 +211,8 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
-        
+        loadingOverlay=GameObject.FindGameObjectWithTag("LoadingOverlay");
+        Destroy(loadingOverlay);
         //ReloadLevel();
         //根據不同關卡去制定不同的終點
         if(basicSpawner.levelIndex==1)
