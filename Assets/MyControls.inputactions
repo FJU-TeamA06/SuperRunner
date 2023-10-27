@@ -43,39 +43,39 @@
                 },
                 {
                     "name": "A",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "e004d6c7-d047-4089-9a15-c1b71358d315",
-                    "expectedControlType": "Digital",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "B",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "f1d048dd-2fe4-42e9-886d-dc9296928550",
-                    "expectedControlType": "Digital",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Start",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "f576d7d0-86cf-42bf-9d79-1d77aa274831",
-                    "expectedControlType": "Digital",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "View",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "b2c95316-c2ed-49c7-9970-448561b97900",
-                    "expectedControlType": "Digital",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RightPitch",
@@ -121,6 +121,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a7f8d223-32ea-4633-a308-a9af1961043b",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cff68c2a-c3cd-4586-91b4-8be9ff44ff69",
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
@@ -143,6 +154,17 @@
                 },
                 {
                     "name": "",
+                    "id": "689b3a03-3df2-47b3-93a0-1dd58d12aa9f",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1c0aa983-0e63-4237-b739-1da6430ec32d",
                     "path": "<Gamepad>/dpad/left",
                     "interactions": "",
@@ -155,7 +177,7 @@
                 {
                     "name": "",
                     "id": "db557d14-d1f2-4124-9919-b3cd6a71a80f",
-                    "path": "",
+                    "path": "<Joystick>/stick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -198,9 +220,31 @@
                 },
                 {
                     "name": "",
+                    "id": "60ea1f94-d4fd-4ba0-834e-4b8e10efc69e",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "18319c99-9d66-4a4d-be8c-60abbade39e2",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "A",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da8c7c17-af2c-4206-9b57-686793e0af7f",
+                    "path": "<HID::usb gamepad           >/button2",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "A",
@@ -220,6 +264,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b100decc-301c-4d11-875f-47471f92ede8",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "B",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2637a0fc-fd45-47e5-a8f0-7e56195359ba",
                     "path": "<Gamepad>/start",
                     "interactions": "Tap",
@@ -231,9 +286,31 @@
                 },
                 {
                     "name": "",
+                    "id": "ff6d563d-3562-49e6-a961-6f34d0022346",
+                    "path": "<HID::usb gamepad           >/button10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9f96f646-a605-43f5-9172-10e069da5180",
                     "path": "<Gamepad>/select",
                     "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "View",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ce6cf4b-50bc-4f80-b8e5-3e79a4948153",
+                    "path": "<HID::usb gamepad           >/button9",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "View",
