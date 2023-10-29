@@ -116,6 +116,15 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""036476aa-fe37-4030-9f9d-13fe265f2618"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -404,6 +413,17 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
                     ""action"": ""RightYaw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78912077-a2dd-415d-8d1e-272464bfad30"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -422,6 +442,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         m_Gamepad_View = m_Gamepad.FindAction("View", throwIfNotFound: true);
         m_Gamepad_RightPitch = m_Gamepad.FindAction("RightPitch", throwIfNotFound: true);
         m_Gamepad_RightYaw = m_Gamepad.FindAction("RightYaw", throwIfNotFound: true);
+        m_Gamepad_Reset = m_Gamepad.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -493,6 +514,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gamepad_View;
     private readonly InputAction m_Gamepad_RightPitch;
     private readonly InputAction m_Gamepad_RightYaw;
+    private readonly InputAction m_Gamepad_Reset;
     public struct GamepadActions
     {
         private @MyControls m_Wrapper;
@@ -507,6 +529,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         public InputAction @View => m_Wrapper.m_Gamepad_View;
         public InputAction @RightPitch => m_Wrapper.m_Gamepad_RightPitch;
         public InputAction @RightYaw => m_Wrapper.m_Gamepad_RightYaw;
+        public InputAction @Reset => m_Wrapper.m_Gamepad_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Gamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -546,6 +569,9 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
             @RightYaw.started += instance.OnRightYaw;
             @RightYaw.performed += instance.OnRightYaw;
             @RightYaw.canceled += instance.OnRightYaw;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
         }
 
         private void UnregisterCallbacks(IGamepadActions instance)
@@ -580,6 +606,9 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
             @RightYaw.started -= instance.OnRightYaw;
             @RightYaw.performed -= instance.OnRightYaw;
             @RightYaw.canceled -= instance.OnRightYaw;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
         }
 
         public void RemoveCallbacks(IGamepadActions instance)
@@ -609,5 +638,6 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         void OnView(InputAction.CallbackContext context);
         void OnRightPitch(InputAction.CallbackContext context);
         void OnRightYaw(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

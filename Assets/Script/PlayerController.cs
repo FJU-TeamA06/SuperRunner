@@ -702,6 +702,8 @@ public class PlayerController : NetworkBehaviour
         View.started += ctx=>switchView();
         InputAction Start = myActions.FindAction("Start");
         Start.started += ctx=>StartGame();
+        InputAction Reset = myActions.FindAction("Reset");
+        Reset.started += ctx=>gotoFPS();
         void switchView()
         {
             if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在第一關或第二關，按鍵切換模式
