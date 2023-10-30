@@ -134,7 +134,8 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 0.5
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: 9f151d361277e2e4294ddb6f97cf695c, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -797,6 +798,7 @@ PlayerSettings:
     Android: FUSION_WEAVER
     Server: FUSION_WEAVER
     Standalone: FUSION_WEAVER
+    Windows Store Apps: FUSION_WEAVER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -817,11 +819,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: com.unity.template-starter-kit
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: FJUA06
+  metroCertificateIssuer: FJUA06
+  metroCertificateNotAfter: 80c3a0f6d729db01
   metroApplicationDescription: com.unity.template-starter-kit
   wsaImages: {}
   metroTileShortName: 
