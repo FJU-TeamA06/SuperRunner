@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Ｓｔａｒｔ : MonoBehaviour
+public class Start : MonoBehaviour
 {
-
+    public GameObject loadingPanel; 
     public void playgame()
     {
+        loadingPanel.SetActive(true); 
         SceneManager.LoadScene(1);
     }
 }
