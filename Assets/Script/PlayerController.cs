@@ -838,7 +838,7 @@ public class PlayerController : NetworkBehaviour
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
-                CalculateAndSyncScores();
+                CalculateAndSyncScoreL3();
                 TotalScoreDisplay_RPC();
             }
         }
@@ -915,7 +915,7 @@ public class PlayerController : NetworkBehaviour
 
     public void CalculateAndSyncScores()
     {
-        for (int i = 0; i < playerCount && cc==0 && ppp > 0; i++)
+        for (int i = 0; i < playerCount && cc==0 && ppp > 0 ; i++)
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+4;
@@ -943,6 +943,33 @@ public class PlayerController : NetworkBehaviour
         {
             FinalScoreDisplay_RPC();
         }
+    }
+    public void CalculateAndSyncScoreL3()                                                              // 第3
+    {
+        for (int i = 0; i < playerCount && cc==0 && ppp > 0 ; i++)
+        {
+            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
+                arr[i] = arr[i]+1;
+                ScoreBoard.Set(i, arr[i]);
+                ppp--;
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
+                arr[i] = arr[i]+1;
+                ScoreBoard.Set(i, arr[i]);
+                ppp--;
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
+                arr[i] = arr[i]+1;
+                ScoreBoard.Set(i, arr[i]);
+                ppp--;
+            }
+            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
+                arr[i] = arr[i]+5;
+                ScoreBoard.Set(i, arr[i]);
+                ppp--;
+            }
+        }
+        cc=cc+1;
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
