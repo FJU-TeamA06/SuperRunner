@@ -624,11 +624,11 @@ public class PlayerController : NetworkBehaviour
             }
             else if (basicSpawner.levelIndex == 2 && networkCharacterController.transform.position.x >= 105 && networkCharacterController.transform.position.y <= -5f)
             {
-                networkCharacterController.transform.position = new Vector3(105, 17, 200);
+                networkCharacterController.transform.position = new Vector3(117, 17, 195);
             }
             else if (basicSpawner.levelIndex == 2 && a == 3)
             {
-                networkCharacterController.transform.position = new Vector3(105, 17, 200);
+                networkCharacterController.transform.position = new Vector3(117, 17, 195);
             }
             else if (basicSpawner.levelIndex == 3)
             {

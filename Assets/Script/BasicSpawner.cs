@@ -52,8 +52,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             },
             { 2, new Dictionary<int, Vector3>()
                 {
-                    { 1, new Vector3(0, 2, 200) },
-                    { 2, new Vector3(0, 2, 202F) }
+                    { 1, new Vector3(0, 2, 195) },
+                    { 2, new Vector3(0, 2, 200F) }
                 }
             },
             { 3, new Dictionary<int, Vector3>()

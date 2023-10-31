@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b402daff5e69e724eb56cb3f7a3c3a1c
+guid: 4aa0aec3bda035e47942c9024217134e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,9 +33,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Cylinder.007|Cube.003Action
-      takeName: Cylinder.007|Cube.003Action
-      internalID: -6868025786896607849
+      name: Cube.028|Cube.003Action
+      takeName: Cube.028|Cube.003Action
+      internalID: 2682225982133248089
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -62,9 +62,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cylinder.007|Cube.024Action.001
-      takeName: Cylinder.007|Cube.024Action.001
-      internalID: -3469989474769576617
+      name: Cube.028|Cube.024Action.001
+      takeName: Cube.028|Cube.024Action.001
+      internalID: 3070675152570237228
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -91,9 +91,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cylinder.007|Cube.028Action.001
-      takeName: Cylinder.007|Cube.028Action.001
-      internalID: -7620539287977081362
+      name: Cube.028|Cube.028Action.001
+      takeName: Cube.028|Cube.028Action.001
+      internalID: -2886798689573511315
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -102,7 +102,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -120,9 +120,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cylinder.007|Cylinder.004Action
-      takeName: Cylinder.007|Cylinder.004Action
-      internalID: 6618985373740156742
+      name: Cube.028|Cylinder.004Action
+      takeName: Cube.028|Cylinder.004Action
+      internalID: 4640234221684123476
       firstFrame: 0
       lastFrame: 80
       wrapMode: 0
@@ -149,9 +149,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cylinder.007|Cylinder.007Action.001
-      takeName: Cylinder.007|Cylinder.007Action.001
-      internalID: 1094779659809409219
+      name: Cube.028|Cylinder.007Action.001
+      takeName: Cube.028|Cylinder.007Action.001
+      internalID: -8338680580230971194
       firstFrame: 0
       lastFrame: 130
       wrapMode: 0
@@ -160,7 +160,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
