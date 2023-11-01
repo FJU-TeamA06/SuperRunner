@@ -489,10 +489,17 @@ public class PlayerController : NetworkBehaviour
         {
             OnReachedFinish();
             gotonext = true;
-            //Destroy(other.gameObject);
-            Vector3 p = other.transform.position;
-            p.y = 50f;
-            other.transform.position = p;
+            if(basicSpawner.levelIndex==3)
+            {
+                Destroy(other.gameObject);
+            }
+            else
+            {
+                Vector3 p = other.transform.position;
+                p.y = 50f;
+                other.transform.position = p;
+            }
+            
         }
         if (other.gameObject.CompareTag("trapdead"))
         {
