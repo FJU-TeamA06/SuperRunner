@@ -27,7 +27,7 @@ public class FinishPlane : MonoBehaviour
     public void FinishClick()
     {
         finishPanel.SetActive(true);
-        StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
+        StartCoroutine(DeactivateAfterDelay(5.0f)); // 啟動協程等待5秒後關閉面板
     }
 
     private IEnumerator DeactivateAfterDelay(float delay)
