@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cebe350350dccaf43911518cf6a92430
+guid: a1c573398df31a043b486145f7f541e1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -153,7 +153,7 @@ ModelImporter:
       takeName: Cube.024|Cylinder.007Action.001
       internalID: 4747555059961249554
       firstFrame: 0
-      lastFrame: 130
+      lastFrame: 138
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
