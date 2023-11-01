@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0e37b79a440b7ea418e4a4be600a64b1
+guid: e724e9e31cf8abb4cbd48e6bc8ae16a3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,9 +33,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: wood.001|bbb
-      takeName: wood.001|bbb
-      internalID: 4438624473180679235
+      name: trap.up.001|bbb
+      takeName: trap.up.001|bbb
+      internalID: -6391344907708917570
       firstFrame: 0
       lastFrame: 131
       wrapMode: 0
@@ -62,9 +62,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|bombAction
-      takeName: wood.001|bombAction
-      internalID: -6482363959856357683
+      name: trap.up.001|bombAction
+      takeName: trap.up.001|bombAction
+      internalID: 6051591768328494268
       firstFrame: 0
       lastFrame: 131
       wrapMode: 0
@@ -91,9 +91,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|corret greenAction
-      takeName: wood.001|corret greenAction
-      internalID: -3996972936339061730
+      name: trap.up.001|corret greenAction
+      takeName: trap.up.001|corret greenAction
+      internalID: -7961892682750433376
       firstFrame: 0
       lastFrame: 1
       wrapMode: 0
@@ -120,9 +120,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|eye.001Action
-      takeName: wood.001|eye.001Action
-      internalID: 6159879999830979992
+      name: trap.up.001|eye.001Action
+      takeName: trap.up.001|eye.001Action
+      internalID: -1363665484547892691
       firstFrame: 0
       lastFrame: 1
       wrapMode: 0
@@ -149,9 +149,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|Fish001.001Action.001
-      takeName: wood.001|Fish001.001Action.001
-      internalID: 6625523714896352216
+      name: trap.up.001|Fish001.001Action.001
+      takeName: trap.up.001|Fish001.001Action.001
+      internalID: -2860541379050377594
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -178,9 +178,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|FishAction.001
-      takeName: wood.001|FishAction.001
-      internalID: 8424489308293877805
+      name: trap.up.001|FishAction.001
+      takeName: trap.up.001|FishAction.001
+      internalID: 2658330374588557506
       firstFrame: 0
       lastFrame: 140
       wrapMode: 0
@@ -207,9 +207,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|jumpAction
-      takeName: wood.001|jumpAction
-      internalID: -3625777094678803997
+      name: trap.up.001|jumpAction
+      takeName: trap.up.001|jumpAction
+      internalID: 4717834857343363914
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -236,9 +236,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moneyaction
-      takeName: wood.001|moneyaction
-      internalID: -9034552970994276133
+      name: trap.up.001|moneyaction
+      takeName: trap.up.001|moneyaction
+      internalID: 7831763303503650794
       firstFrame: 0
       lastFrame: 120
       wrapMode: 0
@@ -265,9 +265,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moonAction
-      takeName: wood.001|moonAction
-      internalID: -8050913614496371709
+      name: trap.up.001|moonAction
+      takeName: trap.up.001|moonAction
+      internalID: 6428578742752259099
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -294,9 +294,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moonAction.001
-      takeName: wood.001|moonAction.001
-      internalID: -8468368001186834385
+      name: trap.up.001|moonAction.001
+      takeName: trap.up.001|moonAction.001
+      internalID: 7240314512428078733
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -323,9 +323,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moonAction.002
-      takeName: wood.001|moonAction.002
-      internalID: -476385493214628251
+      name: trap.up.001|moonAction.002
+      takeName: trap.up.001|moonAction.002
+      internalID: 4133963827497441472
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -352,9 +352,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moonAction.003
-      takeName: wood.001|moonAction.003
-      internalID: 2535742640351347175
+      name: trap.up.001|moonAction.003
+      takeName: trap.up.001|moonAction.003
+      internalID: -3578151494612682159
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -381,9 +381,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|moonAction.004
-      takeName: wood.001|moonAction.004
-      internalID: 9151013231844053350
+      name: trap.up.001|moonAction.004
+      takeName: trap.up.001|moonAction.004
+      internalID: 3252990080241078358
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -410,9 +410,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|pinkjumpAction
-      takeName: wood.001|pinkjumpAction
-      internalID: 548001782626581697
+      name: trap.up.001|pinkjumpAction
+      takeName: trap.up.001|pinkjumpAction
+      internalID: 7921832774275820235
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -439,9 +439,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|pinkTorusAction
-      takeName: wood.001|pinkTorusAction
-      internalID: 2089391983772261923
+      name: trap.up.001|pinkTorusAction
+      takeName: trap.up.001|pinkTorusAction
+      internalID: -1395619499246709203
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -468,9 +468,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|pinkTorusAction.001
-      takeName: wood.001|pinkTorusAction.001
-      internalID: 7206867532222322382
+      name: trap.up.001|pinkTorusAction.001
+      takeName: trap.up.001|pinkTorusAction.001
+      internalID: -6573930168889902662
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -497,9 +497,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|PlaneAction.001
-      takeName: wood.001|PlaneAction.001
-      internalID: 762940952988848192
+      name: trap.up.001|PlaneAction.001
+      takeName: trap.up.001|PlaneAction.001
+      internalID: 2561373021317690139
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -526,9 +526,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|rocckAction
-      takeName: wood.001|rocckAction
-      internalID: 3139323615305482173
+      name: trap.up.001|rocckAction
+      takeName: trap.up.001|rocckAction
+      internalID: -5098323881488680712
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -555,9 +555,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|rocckAction.001
-      takeName: wood.001|rocckAction.001
-      internalID: -390165508257858462
+      name: trap.up.001|rocckAction.001
+      takeName: trap.up.001|rocckAction.001
+      internalID: 9065728096615818008
       firstFrame: 0
       lastFrame: 150
       wrapMode: 0
@@ -584,9 +584,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|trap.down.001
-      takeName: wood.001|trap.down.001
-      internalID: 1547179675538477827
+      name: trap.up.001|trap.down.001
+      takeName: trap.up.001|trap.down.001
+      internalID: -2629002457744819934
       firstFrame: 0
       lastFrame: 130
       wrapMode: 0
@@ -613,9 +613,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|trap.downAction
-      takeName: wood.001|trap.downAction
-      internalID: 4820037981852977738
+      name: trap.up.001|trap.downAction
+      takeName: trap.up.001|trap.downAction
+      internalID: 860374935709201198
       firstFrame: 0
       lastFrame: 121
       wrapMode: 0
@@ -642,69 +642,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|trap.up.001
-      takeName: wood.001|trap.up.001
-      internalID: -5251740685193399943
+      name: trap.up.001|trap.up.001
+      takeName: trap.up.001|trap.up.001
+      internalID: -3419345798757020432
       firstFrame: 0
       lastFrame: 130
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: wood.001|trap.upAction
-      takeName: wood.001|trap.upAction
-      internalID: 9061926842037894547
-      firstFrame: 0
-      lastFrame: 121
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: wood.001|wood.001Action.001
-      takeName: wood.001|wood.001Action.001
-      internalID: -2546840996039190807
-      firstFrame: 0
-      lastFrame: 160
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -729,9 +671,67 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: wood.001|wood.001Action.002
-      takeName: wood.001|wood.001Action.002
-      internalID: -2772045271515458557
+      name: trap.up.001|trap.upAction
+      takeName: trap.up.001|trap.upAction
+      internalID: 4465668441584648440
+      firstFrame: 0
+      lastFrame: 121
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: trap.up.001|wood.001Action.001
+      takeName: trap.up.001|wood.001Action.001
+      internalID: 4113156769059664359
+      firstFrame: 0
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: trap.up.001|wood.001Action.002
+      takeName: trap.up.001|wood.001Action.002
+      internalID: 6579354569911240846
       firstFrame: 0
       lastFrame: 160
       wrapMode: 0
