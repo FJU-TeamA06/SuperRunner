@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cebe350350dccaf43911518cf6a92430
+guid: 360066ff2b812ae4fb1b235d9f00e9a7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,9 +33,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Cube.024|Cube.003Action
-      takeName: Cube.024|Cube.003Action
-      internalID: -2690921193185456610
+      name: Cube.028|Cube.003Action
+      takeName: Cube.028|Cube.003Action
+      internalID: 2682225982133248089
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -62,9 +62,38 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cube.024|Cube.024Action.001
-      takeName: Cube.024|Cube.024Action.001
-      internalID: -9181344181590686878
+      name: Cube.028|Cube.024Action.001
+      takeName: Cube.028|Cube.024Action.001
+      internalID: 3070675152570237228
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Cube.028|Cube.028Action.001
+      takeName: Cube.028|Cube.028Action.001
+      internalID: -2886798689573511315
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -91,38 +120,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cube.024|Cube.028Action.001
-      takeName: Cube.024|Cube.028Action.001
-      internalID: 8555593315367455133
-      firstFrame: 0
-      lastFrame: 60
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Cube.024|Cylinder.004Action
-      takeName: Cube.024|Cylinder.004Action
-      internalID: -8121961989343647242
+      name: Cube.028|Cylinder.004Action
+      takeName: Cube.028|Cylinder.004Action
+      internalID: 4640234221684123476
       firstFrame: 0
       lastFrame: 80
       wrapMode: 0
@@ -149,11 +149,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Cube.024|Cylinder.007Action.001
-      takeName: Cube.024|Cylinder.007Action.001
-      internalID: 4747555059961249554
+      name: Cube.028|Cylinder.007Action.001
+      takeName: Cube.028|Cylinder.007Action.001
+      internalID: -8338680580230971194
       firstFrame: 0
-      lastFrame: 130
+      lastFrame: 138
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
