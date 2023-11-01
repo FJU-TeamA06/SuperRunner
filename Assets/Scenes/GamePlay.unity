@@ -7274,11 +7274,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3338723341350938710, guid: 094f976460c02c1468bfd0f6c95cc79a, type: 3}
 --- !u!64 &614198365
@@ -8784,12 +8784,12 @@ PrefabInstance:
     - target: {fileID: -7271449666460269675, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Soundtest
       objectReference: {fileID: 0}
     - target: {fileID: -4906838889796845047, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Soundtest
       objectReference: {fileID: 0}
     - target: {fileID: -3195828791156449804, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8864,7 +8864,7 @@ PrefabInstance:
     - target: {fileID: 2964867767552281969, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Soundtest
       objectReference: {fileID: 0}
     - target: {fileID: 4321514657177891973, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8874,7 +8874,7 @@ PrefabInstance:
     - target: {fileID: 4356877828898064976, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Soundtest
       objectReference: {fileID: 0}
     - target: {fileID: 6745302439343835087, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8884,7 +8884,7 @@ PrefabInstance:
     - target: {fileID: 8485173162082002552, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Soundtest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24826,6 +24826,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fish002
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 094f976460c02c1468bfd0f6c95cc79a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Soundtest
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24939,6 +24944,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: trap_down1031
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6ca9631e9b1bdc64a82ca57aa7aef843,
+        type: 3}
+      propertyPath: m_TagString
+      value: Soundtest
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24999,11 +25009,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1523144379775395192, guid: 6ca9631e9b1bdc64a82ca57aa7aef843, type: 3}
 --- !u!1001 &1702728111
