@@ -1023,6 +1023,7 @@ public class PlayerController : NetworkBehaviour
         }
         if(basicSpawner.levelIndex==3)
         {
+            finishObject = GameObject.FindGameObjectWithTag("Finish3");
             finishObject.transform.position=finish3SpawnPositions[finish3PositionIndex];
         }
         else
