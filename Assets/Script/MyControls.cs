@@ -125,6 +125,15 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5db58d7-62d2-4b76-9472-67634adbf419"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -424,6 +433,17 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b781c56-4b87-4d47-84e6-0570ac7b78ff"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -443,6 +463,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         m_Gamepad_RightPitch = m_Gamepad.FindAction("RightPitch", throwIfNotFound: true);
         m_Gamepad_RightYaw = m_Gamepad.FindAction("RightYaw", throwIfNotFound: true);
         m_Gamepad_Reset = m_Gamepad.FindAction("Reset", throwIfNotFound: true);
+        m_Gamepad_SwitchColor = m_Gamepad.FindAction("SwitchColor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,6 +536,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gamepad_RightPitch;
     private readonly InputAction m_Gamepad_RightYaw;
     private readonly InputAction m_Gamepad_Reset;
+    private readonly InputAction m_Gamepad_SwitchColor;
     public struct GamepadActions
     {
         private @MyControls m_Wrapper;
@@ -530,6 +552,7 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         public InputAction @RightPitch => m_Wrapper.m_Gamepad_RightPitch;
         public InputAction @RightYaw => m_Wrapper.m_Gamepad_RightYaw;
         public InputAction @Reset => m_Wrapper.m_Gamepad_Reset;
+        public InputAction @SwitchColor => m_Wrapper.m_Gamepad_SwitchColor;
         public InputActionMap Get() { return m_Wrapper.m_Gamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -572,6 +595,9 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
             @Reset.started += instance.OnReset;
             @Reset.performed += instance.OnReset;
             @Reset.canceled += instance.OnReset;
+            @SwitchColor.started += instance.OnSwitchColor;
+            @SwitchColor.performed += instance.OnSwitchColor;
+            @SwitchColor.canceled += instance.OnSwitchColor;
         }
 
         private void UnregisterCallbacks(IGamepadActions instance)
@@ -609,6 +635,9 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
             @Reset.started -= instance.OnReset;
             @Reset.performed -= instance.OnReset;
             @Reset.canceled -= instance.OnReset;
+            @SwitchColor.started -= instance.OnSwitchColor;
+            @SwitchColor.performed -= instance.OnSwitchColor;
+            @SwitchColor.canceled -= instance.OnSwitchColor;
         }
 
         public void RemoveCallbacks(IGamepadActions instance)
@@ -639,5 +668,6 @@ public partial class @MyControls: IInputActionCollection2, IDisposable
         void OnRightPitch(InputAction.CallbackContext context);
         void OnRightYaw(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnSwitchColor(InputAction.CallbackContext context);
     }
 }

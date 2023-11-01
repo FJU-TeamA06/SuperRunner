@@ -6,8 +6,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
+using System;
 public class PlayerController : NetworkBehaviour
 {
+    private Dictionary<int, Color> colorsDict;
     public GameObject loadingOverlay;
     public GameObject MainCameraObject;
     public GameObject SideCameraObject;
@@ -135,6 +137,7 @@ public class PlayerController : NetworkBehaviour
     public bool gotonext = false;
     public int currentCameraMode = 0;
     public InputActionAsset myActions;
+    public int ColorNum=0;
 
     private void Awake()
     {
@@ -259,12 +262,14 @@ public class PlayerController : NetworkBehaviour
             InstantiateHUD_UI();
             maxDist = CalculateDistancePercentage();
             //EnablePlayerControl_RPC();
+            
         }
         else
         {
             firstCamera.enabled = false;
             firstCamera.GetComponent<AudioListener>().enabled = false;
         }
+        //ChangeColor_RPC(ColorNum);
         if (Object.HasStateAuthority)
         {
             playerCount=pp;
@@ -704,6 +709,17 @@ public class PlayerController : NetworkBehaviour
         Start.started += ctx=>StartGame();
         InputAction Reset = myActions.FindAction("Reset");
         Reset.started += ctx=>gotoFPS();
+        InputAction SwitchColor = myActions.FindAction("SwitchColor");
+        SwitchColor.started += ctx=> SwitchColorButtonPressed();
+        void SwitchColorButtonPressed()
+        {
+            ChangeColor_RPC(ColorNum);
+            ColorNum++;
+            if(ColorNum>=9)
+            {
+                ColorNum=0;
+            }
+        }
         void switchView()
         {
             if(basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在第一關或第二關，按鍵切換模式
@@ -721,8 +737,10 @@ public class PlayerController : NetworkBehaviour
 
             }
         }
+        
         void StartGame()
         {
+            
             if(basicSpawner.levelIndex==1)
             {
                 wallObject = GameObject.FindGameObjectWithTag("StartWall1");
@@ -780,23 +798,12 @@ public class PlayerController : NetworkBehaviour
         SideCamera.enabled = currentCameraMode == 1;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            
-            ChangeColor_RPC(Color.red);
+            SwitchColorButtonPressed();
             //Reload_RPC();//測試:按R來Reload
         }
         if (HasInputAuthority && Input.GetKeyDown(KeyCode.U))
         {
             print(distance);
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            ChangeColor_RPC(Color.green);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ChangeColor_RPC(Color.blue);
         }
         if (Input.GetKeyDown(KeyCode.Return))
             StartGame();
@@ -809,10 +816,21 @@ public class PlayerController : NetworkBehaviour
         }
     }
     
-    [Rpc(RpcSources.All, RpcTargets.All)]                                               // 顏色更換_RPC
-    private void ChangeColor_RPC(Color newColor)
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]                                               // 顏色更換_RPC
+    private void ChangeColor_RPC(int ColorNumber)
     {
-        meshRenderer.material.color = newColor;
+        colorsDict =new Dictionary<int, Color>() {
+        {0, Color.red},
+        {1, Color.blue},
+        {2, Color.green},
+        {3, Color.white},
+        {4, Color.black},
+        {5, Color.yellow},
+        {6, Color.cyan} ,
+        {7, Color.magenta},
+        {8, Color.gray}
+        };
+        meshRenderer.material.color = colorsDict[ColorNumber%9];
     }
     [Rpc(RpcSources.All, RpcTargets.All)]                                               // 顏色更換_RPC
     private void Reload_RPC()//所有關於重載的事情在此進行(包含牆壁重置和終點重置)
@@ -1001,7 +1019,7 @@ public class PlayerController : NetworkBehaviour
     {
         if(Object.HasStateAuthority)
         {
-            finish3PositionIndex = Random.Range(1, 3); //Host隨機選擇Index值
+            finish3PositionIndex = UnityEngine.Random.Range(1, 3); //Host隨機選擇Index值
         }
         if(basicSpawner.levelIndex==3)
         {

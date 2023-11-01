@@ -267,7 +267,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         input.Set(defaultInput);
 
         // 或者記錄一個錯誤信息
-        Debug.LogError($"Input missing for player ");
+        //Debug.LogError($"Input missing for player ");
 
     }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }

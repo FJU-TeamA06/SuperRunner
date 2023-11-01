@@ -124,7 +124,10 @@ namespace Fusion {
 
       switch (logType) {
         case LogType.Error:
-          Debug.LogError(fullMessage, obj);
+          if(!fullMessage.Contains("Local simulation is not allowed to send this RPC"))
+          {
+            Debug.LogError(fullMessage, obj);
+          }
           break;
         case LogType.Warn:
           Debug.LogWarning(fullMessage, obj);
