@@ -138,7 +138,7 @@ public class PlayerController : NetworkBehaviour
     public int currentCameraMode = 0;
     public InputActionAsset myActions;
     public int ColorNum=0;
-
+    private int isTriggedRedCubeTips=0;
     private void Awake()
     {
         //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
@@ -698,6 +698,14 @@ public class PlayerController : NetworkBehaviour
         basicSpawner.SideInputToggle(currentCameraMode == 0);
 
         SideCamera.enabled = currentCameraMode == 1;
+        if(transform.position.x>165&&basicSpawner.levelIndex==1&&isTriggedRedCubeTips==0)//提示碰到紅方塊會死人
+        {
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text="You'll die by touching red cubes";
+            Invoke("C0", 5 );
+            isTriggedRedCubeTips=1;
+        }
         //FirstCamera.enabled = currentCameraMode == 2;
 
         if (basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
