@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 2
+  loadingOverlay: {fileID: 0}
   MainCameraObject: {fileID: 6209884809161383694, guid: 34363131b51ad524bb84c5d969517a67,
     type: 3}
   SideCameraObject: {fileID: 2066052007386740931, guid: a581b387685d58844ab4ec3d6aa9f81a,
@@ -304,7 +305,6 @@ MonoBehaviour:
   SideCamera: {fileID: 3478467336335800805, guid: a581b387685d58844ab4ec3d6aa9f81a,
     type: 3}
   FirstCamera: {fileID: 5070783983854351187}
-  _isFinished: 0
   _speed: 5
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
@@ -330,6 +330,7 @@ MonoBehaviour:
   maxDist: 0
   AudioManagerPrefab: {fileID: 7270766955060539352, guid: baa31c895b8b6a342825b516a83dcf65,
     type: 3}
+  isFinish: 0
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
   bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
   seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
@@ -357,11 +358,11 @@ MonoBehaviour:
   meshRenderer: {fileID: 2662581808552290347}
   isMainCamera: 1
   isSideCamera: 0
-  isFirstCamera: 0
   gotonext: 0
   currentCameraMode: 0
   myActions: {fileID: -944628639613478452, guid: 5841815708f5a8044ad379b08389ebf3,
     type: 3}
+  ColorNum: 0
   countdownTimer: {fileID: 1638254891748018496, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
   finishPlane: {fileID: 8075821973780585517, guid: f34ff5ec5b04194479eb4824dadaee3e,
@@ -420,7 +421,7 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
-  gravity: -20
+  gravity: -15
   jumpImpulse: 13
   acceleration: 10
   braking: 10
