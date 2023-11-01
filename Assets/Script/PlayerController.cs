@@ -407,7 +407,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (frozen == 1)
         {
-            StartCoroutine(FreezePlayerForSeconds(5.0f));
+            StartCoroutine(FreezePlayerForSeconds(3.0f));
             frozen = 0;
         }
 
