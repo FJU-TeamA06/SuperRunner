@@ -702,7 +702,7 @@ public class PlayerController : NetworkBehaviour
         {
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text="You'll die by touching red cubes";
+            timerText.text="避開紅方塊而行 !";
             Invoke("C0", 5 );
             isTriggedRedCubeTips=1;
         }
