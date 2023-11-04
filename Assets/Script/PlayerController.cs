@@ -515,7 +515,11 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             CoinPoint_RPC(this.PlayerName.ToString());
-            cc=0;
+            Setcc_RPC();
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text="Coin Good !";
+            Invoke("C0", 5 );
             Debug.Log("Get Coin!");
             Destroy(other.gameObject);
         }
@@ -866,12 +870,12 @@ public class PlayerController : NetworkBehaviour
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
             {
                 FinalPlaneDisplay_RPC();
-                CalculateAndSyncScores();
+                CalculateAndSyncScores_RPC();
                 basicSpawner.levelIndex =3;
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
-                CalculateAndSyncScoreL3();
+                CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
         }
@@ -902,38 +906,6 @@ public class PlayerController : NetworkBehaviour
         }      
     }
 
-
-
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 最終排名顯示＿RPC
-    public void TotalScoreDisplay_RPC()
-    {
-        rankingObject = GameObject.FindGameObjectWithTag("RankingText");
-        TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
-        rankingText.text="";
-        scoreObject = GameObject.FindGameObjectWithTag("scoreText");
-        TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
-        scoreText.text="";
-        for (int i = 0; i < playerCount; i++)
-        {
-            if(i == 0)
-            {
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
-            }
-            else if(i == 1)
-            {
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-            }
-            else if(i == 2)
-            {
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-            }
-            else if(i == 3)
-            {
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-            }
-        }        
-    }
-
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
     public void FinalScoreDisplay_RPC()
     {
@@ -945,8 +917,8 @@ public class PlayerController : NetworkBehaviour
             scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] ;
         }        
     }
-
-    public void CalculateAndSyncScores()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CalculateAndSyncScores_RPC()
     {
         for (int i = 0; i < playerCount && cc==0 && ppp > 0 ; i++)
         {
@@ -977,9 +949,9 @@ public class PlayerController : NetworkBehaviour
             FinalScoreDisplay_RPC();
         }
     }
-    public void CalculateAndSyncScoreL3()                                                              // 第3
+    public void CalculateAndSyncScoreL3_RPC()                                                              // 第3
     {
-        for (int i = 0; i < playerCount && cc==0 && ppp > 0 ; i++)
+        for (int i = 0; i < playerCount && ppp > 0 ; i++)
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+1;
@@ -992,7 +964,7 @@ public class PlayerController : NetworkBehaviour
                 ppp--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                arr[i] = arr[i]+1;
+                arr[i] = arr[i]+6;
                 ScoreBoard.Set(i, arr[i]);
                 ppp--;
             }
@@ -1002,7 +974,6 @@ public class PlayerController : NetworkBehaviour
                 ppp--;
             }
         }
-        cc=cc+1;
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
@@ -1027,6 +998,11 @@ public class PlayerController : NetworkBehaviour
             arr[3]++;
             cc++;
         }
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void Setcc_RPC()
+    {
+        cc=0;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -1248,6 +1224,212 @@ public class PlayerController : NetworkBehaviour
                             print(fouN+" Is The Fourth Place !! ");
                            
                         }
+                }
+            }
+        }
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 最終排名顯示＿RPC
+    public void TotalScoreDisplay_RPC()
+    {
+        rankingObject = GameObject.FindGameObjectWithTag("RankingText");
+        TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
+        rankingText.text="";
+        scoreObject = GameObject.FindGameObjectWithTag("scoreText");
+        TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+        scoreText.text="";   
+        if(playerCount == 1){
+            rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
+        }
+        else if(playerCount == 2){
+            if(arr[0] >= arr[1]){     // 2p 2
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+            }
+            else if(arr[1] >= arr[0]){ // 2p 1
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+            }
+        }
+        else if(playerCount == 3){
+            if(arr[2] >= arr[0] && arr[2] >= arr[1]){ // 3p 3
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" WIN ! : " + arr[2] + " Points" ;
+                if(arr[0] >= arr[1]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                }
+                else if(arr[1] >= arr[0]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                }
+            }
+            else if(arr[1] >= arr[0] && arr[1] >= arr[2]){  // 3p 2
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
+                if(arr[0] >= arr[2]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                }
+                else if(arr[2] >= arr[0]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                }
+            }
+            else if(arr[0] >= arr[1] && arr[0] >= arr[2]){  // 3p 1
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
+                if(arr[1] >= arr[2]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                }
+                else if(arr[2] >= arr[1]){
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                }
+            }
+        }
+        else if(playerCount == 4){
+            if(arr[3] >= arr[0] &&  arr[3] >= arr[1] && arr[3] >= arr[2] ){   // 4p 4
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" WIN ! : " + arr[3] + " Points" ;
+                if(arr[2] >= arr[0] && arr[2] >= arr[1]){ // 3p 3
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
+                    if(arr[0] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                    else if(arr[1] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[1] >= arr[0] && arr[1] >= arr[2]){  // 3p 2
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+                    if(arr[0] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
+                    else if(arr[2] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[0] >= arr[1] && arr[0] >= arr[2]){  // 3p 1
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+                    if(arr[1] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
+                    else if(arr[2] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                }
+            }
+            else if(arr[2] >= arr[0] &&  arr[2] >= arr[1] && arr[2] >= arr[3] ){   // 4p 3
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" WIN ! : " + arr[2] + " Points" ;
+                if(arr[3] >= arr[0] && arr[3] >= arr[1]){ // 3p 4
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
+                    if(arr[0] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                    else if(arr[1] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[1] >= arr[0] && arr[1] >= arr[3]){  // 3p 2
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+                    if(arr[0] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[0] >= arr[1] && arr[0] >= arr[3]){  // 3p 1
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+                    if(arr[1] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                }
+            }
+            else if(arr[1] >= arr[0] &&  arr[1] >= arr[3] && arr[1] >= arr[2] ){   // 4p 2
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
+                if(arr[3] >= arr[0] && arr[3] >= arr[2]){ // 3p 4
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
+                    if(arr[0] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
+                    else if(arr[2] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[2] >= arr[0] && arr[2] >= arr[3]){  // 3p 3
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
+                    if(arr[0] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[0]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
+                    }
+                }
+                else if(arr[0] >= arr[2] && arr[0] >= arr[3]){  // 3p 0
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
+                    if(arr[2] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
+                }
+            }
+            else if(arr[0] >= arr[3] &&  arr[0] >= arr[1] && arr[0] >= arr[2] ){   // 4p 1
+                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
+                if(arr[3] >= arr[2] && arr[3] >= arr[1]){ // 3p 4
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
+                    if(arr[2] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                    else if(arr[1] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
+                }
+                else if(arr[2] >= arr[1] && arr[2] >= arr[3]){  // 3p 3
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
+                    if(arr[1] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[1]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
+                    }
+                }
+                else if(arr[1] >= arr[2] && arr[1] >= arr[3]){  // 3p 2
+                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
+                    if(arr[2] >= arr[3]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
+                    }
+                    else if(arr[3] >= arr[2]){
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
+                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
+                    }
                 }
             }
         }
