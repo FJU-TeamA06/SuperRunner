@@ -638,7 +638,7 @@ public class PlayerController : NetworkBehaviour
     //[Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS()
     {
-        //basicSpawner.levelIndex = 3;
+        basicSpawner.levelIndex = 3;
         print(basicSpawner.levelIndex);
         Hp=0;
         //networkCharacterController.transform.position = spawnPosition;
@@ -831,7 +831,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
         if (Input.GetKeyDown(KeyCode.K)){
-            basicSpawner.levelIndex =3;
+            
             gotoFPS();
         }
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
