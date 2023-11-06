@@ -143,7 +143,7 @@ public class PlayerController : NetworkBehaviour
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         //backgroundMusicSource.clip = bgmBackground;
-        SomeMethod();
+        //SomeMethod();
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
