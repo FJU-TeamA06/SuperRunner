@@ -421,6 +421,7 @@ public class PlayerController : NetworkBehaviour
         if (frozen == 1)
         {
             StartCoroutine(FreezePlayerForSeconds(3.0f));
+            Debug.Log("Frozen!");
             frozen = 0;
         }
 
@@ -488,7 +489,7 @@ public class PlayerController : NetworkBehaviour
             yield return new WaitForSeconds(seconds); // 等待指定的秒數
             moveSpeed = 13f; // 恢復移動速度
         }
-        frozen = 0;
+        //frozen = 0;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -510,12 +511,12 @@ public class PlayerController : NetworkBehaviour
             }
             
         }
-        if (other.gameObject.CompareTag("trapdead"))
-        {
-            Debug.Log("Trapdead object collision!");
-            // Respawn();
-            a = 1;
-        }
+        //if (other.gameObject.CompareTag("trapdead"))
+        //{
+        //    Debug.Log("Trapdead object collision!");
+        //    // Respawn();
+        //    a = 1;
+        //}
         if (other.gameObject.CompareTag("Frozen"))
         {
             Debug.Log("Trapdead frozen!");
@@ -601,9 +602,9 @@ public class PlayerController : NetworkBehaviour
             x = 1;
         }
 
-        if (other.gameObject.CompareTag("middleSpawn"))
+        if (other.gameObject.CompareTag("middleSpawn2"))
         {
-            Debug.Log("middleSpawn object collision!");
+            Debug.Log("middleSpawn2 object collision!");
 
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
