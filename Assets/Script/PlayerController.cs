@@ -496,6 +496,7 @@ public class PlayerController : NetworkBehaviour
         // 檢查是否已經抵達終點
         if (other.gameObject == finishObject)
         {
+            print("Touched finish");
             OnReachedFinish();
             gotonext = true;
             if(basicSpawner.levelIndex==3)
@@ -912,6 +913,7 @@ public class PlayerController : NetworkBehaviour
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
                 finishPlane.Finish3Click();
+                ppp=playerCount;
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
