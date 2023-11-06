@@ -799,7 +799,7 @@ public class PlayerController : NetworkBehaviour
                 wallObject = GameObject.FindGameObjectWithTag("StartWall1");
             }
             print(wallObject.transform.position.y);
-            if(wallObject.transform.position.y<=20)//當牆還在原位
+            if(wallObject.transform.position.y<=20||basicSpawner.levelIndex==3)//當牆還在原位
             {
                 timeObject = GameObject.FindGameObjectWithTag("Timer");
                 StartWall startWallScript = wallObject.GetComponent<StartWall>(); 
