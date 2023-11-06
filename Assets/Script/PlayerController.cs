@@ -520,6 +520,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Frozen"))
         {
             Debug.Log("Trapdead frozen!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Be Frozen !";
             frozen = 1;
@@ -538,6 +539,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Clip"))
         {
             Debug.Log("Get Clip!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Clip Get !";
             bulletCount +=5;
@@ -546,6 +548,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.tag == "Treasure")
         {
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Nice!";
             Destroy(other.gameObject);
@@ -553,6 +556,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Soundtest"))
         {
             Debug.Log("Soundtest object collision!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "collision";
@@ -573,6 +577,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Soundcactus"))
         {
             Debug.Log("Soundcactus object collision!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "cactus";
@@ -594,6 +599,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("middleSpawn"))
         {
             Debug.Log("middleSpawn object collision!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "collision";
@@ -613,6 +619,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("middleSpawn2"))
         {
             Debug.Log("middleSpawn2 object collision!");
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "cactus";
