@@ -496,6 +496,7 @@ public class PlayerController : NetworkBehaviour
         // 檢查是否已經抵達終點
         if (other.gameObject == finishObject)
         {
+            print("Touched finish");
             OnReachedFinish();
             gotonext = true;
             if(basicSpawner.levelIndex==3)
