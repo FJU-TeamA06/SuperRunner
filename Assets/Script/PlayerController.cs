@@ -903,6 +903,7 @@ public class PlayerController : NetworkBehaviour
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
                 finishPlane.Finish3Click();
+                ppp=playerCount;
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
