@@ -519,6 +519,8 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Frozen"))
         {
             Debug.Log("Trapdead frozen!");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "Be Frozen !";
             frozen = 1;
         }
         if (other.gameObject.CompareTag("Coin"))
@@ -527,26 +529,31 @@ public class PlayerController : NetworkBehaviour
             Setcc_RPC();
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text="Coin Good !";
+            timerText.text="Coin Get !";
             Invoke("C0", 5 );
             Debug.Log("Get Coin!");
             Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("Clip"))
         {
-            Debug.Log("Clip Get!");
-            bulletCount+=5;
+            Debug.Log("Get Clip!");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "Clip Get !";
+            bulletCount +=5;
             print("bulletCount:"+bulletCount);
             Destroy(other.gameObject);
         }
         if (other.gameObject.tag == "Treasure")
         {
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "Nice!";
             Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("Soundtest"))
         {
             Debug.Log("Soundtest object collision!");
-
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "You died!";
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
@@ -559,14 +566,14 @@ public class PlayerController : NetworkBehaviour
 
             // Respawn();
             a = 1;
-
             
         }
 
         if (other.gameObject.CompareTag("Soundcactus"))
         {
             Debug.Log("Soundcactus object collision!");
-
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "You died!";
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
             {
@@ -586,7 +593,8 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("middleSpawn"))
         {
             Debug.Log("middleSpawn object collision!");
-
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "You died!";
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
@@ -604,7 +612,8 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("middleSpawn2"))
         {
             Debug.Log("middleSpawn2 object collision!");
-
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "You died!";
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
             {
