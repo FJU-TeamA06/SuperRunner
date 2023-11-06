@@ -8168,6 +8168,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789837043}
   m_CullTransparentMesh: 1
+--- !u!1 &802522905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2829333810493571341, guid: 947175d8fe067944a93b8524519d4675,
+    type: 3}
+  m_PrefabInstance: {fileID: 1354688479}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &802522909
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802522905}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6539473898289611233, guid: 947175d8fe067944a93b8524519d4675, type: 3}
+--- !u!54 &802522910
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802522905}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!64 &809596526
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8784,12 +8839,12 @@ PrefabInstance:
     - target: {fileID: -7271449666460269675, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Soundtest
+      value: middleSpawn
       objectReference: {fileID: 0}
     - target: {fileID: -4906838889796845047, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Soundtest
+      value: middleSpawn
       objectReference: {fileID: 0}
     - target: {fileID: -3195828791156449804, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8829,7 +8884,7 @@ PrefabInstance:
     - target: {fileID: -466329591000292508, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: middleSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8874,7 +8929,7 @@ PrefabInstance:
     - target: {fileID: 4356877828898064976, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Soundtest
+      value: middleSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 6745302439343835087, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
@@ -8884,7 +8939,7 @@ PrefabInstance:
     - target: {fileID: 8485173162082002552, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       propertyPath: m_TagString
-      value: Soundtest
+      value: middleSpawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9065,7 +9120,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2964867767552281969, guid: e1611b9442a58a345afb97b9d9b0f050,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1100144526}
+      addedObject: {fileID: 1100144531}
   m_SourcePrefab: {fileID: 100100000, guid: e1611b9442a58a345afb97b9d9b0f050, type: 3}
 --- !u!1 &836341247
 GameObject:
@@ -9518,6 +9573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rock1031
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1431841de77dfe549a1b3e2751fd20c4,
+        type: 3}
+      propertyPath: m_TagString
+      value: middleSpawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18241,7 +18301,29 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 835084384}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &1100144526
+--- !u!64 &1100144527
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100144522}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4304731402250168811, guid: e1611b9442a58a345afb97b9d9b0f050, type: 3}
+--- !u!54 &1100144531
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18268,28 +18350,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &1100144527
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100144522}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4304731402250168811, guid: e1611b9442a58a345afb97b9d9b0f050, type: 3}
 --- !u!1 &1102517867 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -208595431880416365, guid: e1611b9442a58a345afb97b9d9b0f050,
@@ -21456,6 +21516,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1354688492}
+    - targetCorrespondingSourceObject: {fileID: 2829333810493571341, guid: 947175d8fe067944a93b8524519d4675,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 802522910}
+    - targetCorrespondingSourceObject: {fileID: 2829333810493571341, guid: 947175d8fe067944a93b8524519d4675,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 802522909}
     - targetCorrespondingSourceObject: {fileID: -7640558969779515294, guid: 947175d8fe067944a93b8524519d4675,
         type: 3}
       insertIndex: -1
