@@ -67,6 +67,8 @@ public class PlayerController : NetworkBehaviour
     private float maxDist = 100;
     [SerializeField]
     private int isFinish = 0;
+    [SerializeField]
+    private int frozen = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
 
@@ -420,7 +422,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (frozen == 1)
         {
-            StartCoroutine(FreezePlayerForSeconds(3.0f));
+            StartCoroutine(FreezePlayerForSeconds(5.0f));
             Debug.Log("Frozen!");
             frozen = 0;
         }
@@ -480,7 +482,7 @@ public class PlayerController : NetworkBehaviour
             return false;
     }
 
-    int frozen = 0; 
+    
     private IEnumerator FreezePlayerForSeconds(float seconds)
     {
         if (frozen == 1)
