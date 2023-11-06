@@ -887,7 +887,7 @@ public class PlayerController : NetworkBehaviour
             
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
             {   
-                finishPlane.FinishClick();
+                finishPlane.Finish3Click();
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
                 basicSpawner.levelIndex =3;
