@@ -64,10 +64,11 @@ public class PlayerController : NetworkBehaviour
     private int maxBullet = 5;
     [SerializeField]
     private float maxDist = 100;
+    [SerializeField]
+    private int isFinish = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
-    [SerializeField]
-    private int isFinish=0;
+
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip bgmBackgroundFPS; // 背景音樂
     public AudioClip seShoot;// 碰撞音效槍
@@ -77,9 +78,9 @@ public class PlayerController : NetworkBehaviour
 
     private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource;
-
-    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-    private Dictionary<string, AudioClip> backAudios = new Dictionary<string, AudioClip>();
+    
+    private Dictionary<string, List<AudioClip>> audioClips = new Dictionary<string, List<AudioClip>>();
+    private Dictionary<string, List<AudioClip>> backAudios = new Dictionary<string, List<AudioClip>>();
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
@@ -144,6 +145,7 @@ public class PlayerController : NetworkBehaviour
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         //backgroundMusicSource.clip = bgmBackground;
         //SomeMethod();
+        //SomeMethod();
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
@@ -167,17 +169,14 @@ public class PlayerController : NetworkBehaviour
     public FinishPlane finishPlane;
     private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
-    
 
     void Start()
     {
-        backAudios.Add("background", bgmBackground);
-        backAudios.Add("shootbackg", bgmBackgroundFPS);
-        audioClips.Add("shoot", seShoot);
-        audioClips.Add("collision", seCollision);
-        audioClips.Add("damage", seDamage);
-        audioClips.Add("cactus", seCactus);
-        
+        backAudios.Add("background", new List<AudioClip> { bgmBackground });
+        backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
+        audioClips.Add("shoot", new List<AudioClip> { seShoot });
+        audioClips.Add("collision", new List<AudioClip> { seCollision, seDamage });
+        audioClips.Add("cactus", new List<AudioClip> { seCactus });
     }
 
     public void SomeMethod()
@@ -192,7 +191,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "background";
             if (backAudios.ContainsKey(selectedSound))
             {
-                backgroundMusicSource.clip = backAudios[selectedSound];
+                backgroundMusicSource.clip = backAudios[selectedSound][0];
                 backgroundMusicSource.Play(); // 播放所選擇的音檔
                 backgroundMusicSource.loop = true;
             }
@@ -203,7 +202,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "shootbackg";
             if (backAudios.ContainsKey(selectedSound))
             {
-                backgroundMusicSource.clip = backAudios[selectedSound];
+                backgroundMusicSource.clip = backAudios[selectedSound][1];
                 backgroundMusicSource.Play(); // 播放所選擇的音檔
                 backgroundMusicSource.loop = true;
             }
@@ -374,7 +373,7 @@ public class PlayerController : NetworkBehaviour
                 string selectedSound = "shoot";
                 if (audioClips.ContainsKey(selectedSound))
                 {                
-                    GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                    GetComponent<AudioSource>().clip = audioClips[selectedSound][0];
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
 
@@ -545,7 +544,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = audioClips[selectedSound][1];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
@@ -564,7 +563,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
@@ -583,7 +582,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "collision";
             if (audioClips.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = audioClips[selectedSound][1];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
@@ -600,7 +599,7 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "cactus";
             if (audioClips.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
