@@ -10,13 +10,13 @@ public class FinishPlane : MonoBehaviour
 {
     private Vector3 spawnPosition = Vector3.zero;
     public GameObject finishPanel;
-    //public Vector3 teleportDestination; // è¨­å®šè¦å‚³é€åˆ°çš„ç›®æ¨™ä½ç½®
+    //public Vector3 teleportDestination; // ³]©w­n¶Ç°e¨ìªº¥Ø¼Ğ¦ì¸m
     public BasicSpawner basicSpawner;
     public NetworkCharacterControllerPrototype networkCharacterController;
 
     void Awake()
     {
-        basicSpawner = FindObjectOfType<BasicSpawner>(); // å–å¾— BasicSpawner çš„å¯¦ä¾‹
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // ¨ú±o BasicSpawner ªº¹ê¨Ò
     }
 
     void Start()
@@ -31,37 +31,37 @@ public class FinishPlane : MonoBehaviour
         finishPanel.SetActive(true);
         if (basicSpawner.levelIndex == 3)
         {
-            StartCoroutine(DeactivateAfterDelay(3.0f)); // å•Ÿå‹•å”ç¨‹ç­‰å¾…5ç§’å¾Œé—œé–‰é¢æ¿
+            StartCoroutine(DeactivateAfterDelay(3.0f)); // ±Ò°Ê¨óµ{µ¥«İ5¬í«áÃö³¬­±ªO
         }
         else
         {
-            //StartCoroutine(DeactivateAfterDelay(3.0f)); // å•Ÿå‹•å”ç¨‹ç­‰å¾…5ç§’å¾Œé—œé–‰é¢æ¿
+            //StartCoroutine(DeactivateAfterDelay(3.0f)); // ±Ò°Ê¨óµ{µ¥«İ5¬í«áÃö³¬­±ªO
         }
 
     }
 
     private IEnumerator DeactivateAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay); // ç­‰å¾…æŒ‡å®šçš„ç§’æ•¸
+        yield return new WaitForSeconds(delay); // µ¥«İ«ü©wªº¬í¼Æ
 
-        finishPanel.SetActive(false); // é—œé–‰é¢æ¿
+        finishPanel.SetActive(false); // Ãö³¬­±ªO
 
         /*basicSpawner.levelIndex = 3;
         Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
         
-        // æª¢æŸ¥æ˜¯å¦è¨­å®šäº†å‚³é€ç›®æ¨™ä½ç½®
-        if (spawnPosition != Vector3.zero) // æª¢æŸ¥æ˜¯å¦æˆåŠŸç²å–é‡ç”Ÿä½ç½®
+        // ÀË¬d¬O§_³]©w¤F¶Ç°e¥Ø¼Ğ¦ì¸m
+        if (spawnPosition != Vector3.zero) // ÀË¬d¬O§_¦¨¥\Àò¨ú­«¥Í¦ì¸m
         {
             networkCharacterController.transform.position = spawnPosition;
             
         }*/
         /*if (teleportDestination != null)
         {
-            // ç²å–æ‰€æœ‰æ“æœ‰"Player"æ¨™ç±¤çš„ç‰©é«”
+            // Àò¨ú©Ò¦³¾Ö¦³"Player"¼ĞÅÒªºª«Åé
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject player in players)
             {
-                // å°‡ç©å®¶å‚³é€åˆ°æŒ‡å®šä½ç½®
+                // ±Nª±®a¶Ç°e¨ì«ü©w¦ì¸m
                 player.transform.position = teleportDestination.position;
             }
         }*/

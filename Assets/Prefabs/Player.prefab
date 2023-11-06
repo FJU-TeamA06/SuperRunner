@@ -337,13 +337,13 @@ MonoBehaviour:
   seCollision: {fileID: 8300000, guid: d230ce4259a33cd4cbd4c3e4be22cbcd, type: 3}
   seDamage: {fileID: 8300000, guid: 7cd4f1803ddf8204d866a1aad1ddc139, type: 3}
   seCactus: {fileID: 8300000, guid: 20682ede17e816b428f1f3eea1749bdc, type: 3}
-  timerPrefab: {fileID: 2486445090344242733, guid: 22b920d68bac71149859c67ac38ce14f,
+  timerPrefab: {fileID: 5621207746315784279, guid: 22b920d68bac71149859c67ac38ce14f,
     type: 3}
   bulletCountPrefab: {fileID: 3634676630446003616, guid: 6a21cecb9419b7a4b80f9e0baa63b471,
     type: 3}
   countDownPrefab: {fileID: 6169238286707200031, guid: 307d1cfaad8519b4c84c1c583a771d15,
     type: 3}
-  FinishPlanePrefab: {fileID: 6447074698340776515, guid: f34ff5ec5b04194479eb4824dadaee3e,
+  FinishPlanePrefab: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
     type: 3}
   _Dist: 0
   _Hp: 0
