@@ -6,17 +6,19 @@ using UnityEngine.EventSystems;
 using Fusion;
 using Fusion.Sockets;
 
+
 public class FinishPlane : MonoBehaviour
 {
-    private Vector3 spawnPosition = Vector3.zero;
+    //private Vector3 spawnPosition = Vector3.zero;
     public GameObject finishPanel;
+    public GameObject finish3;
     //public Vector3 teleportDestination; // 設定要傳送到的目標位置
-    public BasicSpawner basicSpawner;
-    public NetworkCharacterControllerPrototype networkCharacterController;
+    //public BasicSpawner basicSpawner;
+    //public NetworkCharacterControllerPrototype networkCharacterController;
 
     void Awake()
     {
-        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+       // basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
     }
 
     void Start()
@@ -25,20 +27,26 @@ public class FinishPlane : MonoBehaviour
         finishPanel.SetActive(false);
     }
 
-    public void FinishClick()
+    
+    
+    public void Finish3Click()
     {
-        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+
         finishPanel.SetActive(true);
-        if (basicSpawner.levelIndex == 3)
-        {
-            StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
-        }
-        else
-        {
-            //StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
-        }
+        //StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
+
 
     }
+
+    public void FinishClick()
+    {
+
+        finishPanel.SetActive(true);
+        StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
+
+
+    }
+
 
     private IEnumerator DeactivateAfterDelay(float delay)
     {

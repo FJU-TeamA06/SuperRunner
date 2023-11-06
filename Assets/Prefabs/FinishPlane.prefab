@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finishPanel: {fileID: 9139750891692945944}
+  finish3: {fileID: 1567133274864925528, guid: c8c698f134ba7fb4484522f181507df7, type: 3}
 --- !u!114 &1056113841261848468
 MonoBehaviour:
   m_ObjectHideFlags: 0

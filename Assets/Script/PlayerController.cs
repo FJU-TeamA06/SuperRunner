@@ -894,15 +894,17 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            finishPlane.FinishClick();
+            
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
-            {
+            {   
+                finishPlane.FinishClick();
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
                 basicSpawner.levelIndex =3;
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
+                finishPlane.Finish3Click();
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
