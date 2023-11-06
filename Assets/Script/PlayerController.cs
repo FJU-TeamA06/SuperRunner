@@ -617,7 +617,6 @@ public class PlayerController : NetworkBehaviour
         if (finishPlane != null)
         {
             DistRutern_RPC();                                        // 限制次數
-            SetCount_RPC();
             Finish_RPC(this.PlayerName.ToString());
             
         }
@@ -888,6 +887,7 @@ public class PlayerController : NetworkBehaviour
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
             {   
                 finishPlane.Finish3Click();
+                ppp=playerCount;
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
                 basicSpawner.levelIndex =3;
@@ -895,6 +895,7 @@ public class PlayerController : NetworkBehaviour
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
                 finishPlane.Finish3Click();
+                ppp=playerCount;
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
@@ -969,6 +970,7 @@ public class PlayerController : NetworkBehaviour
             FinalScoreDisplay_RPC();
         }
     }
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateAndSyncScoreL3_RPC()                                                              // 第3
     {
         for (int i = 0; i < playerCount && ppp > 0 ; i++)
@@ -984,7 +986,7 @@ public class PlayerController : NetworkBehaviour
                 ppp--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                arr[i] = arr[i]+6;
+                arr[i] = arr[i]+1;
                 ScoreBoard.Set(i, arr[i]);
                 ppp--;
             }
