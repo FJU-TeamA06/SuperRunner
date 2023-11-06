@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
 using System;
+
 public class PlayerController : NetworkBehaviour
 {
     private Dictionary<int, Color> colorsDict;
@@ -868,7 +869,25 @@ public class PlayerController : NetworkBehaviour
             print(distance);
         }
         if (Input.GetKeyDown(KeyCode.Return))
-            StartGame();
+        {
+
+            if (basicSpawner.levelIndex == 3)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall3");
+                StartWall startWallScript = wallObject.GetComponent<StartWall>();
+                if (startWallScript != null)
+                {
+                    // 呼叫RPC來消除物件
+                    startWallScript.RequestDespawnWall_RPC();
+                    Debug.Log("wall3!");
+                }
+                //StartGame();
+            }
+            else
+            {
+                StartGame();
+            }
+        }
         
         timer += Time.deltaTime;
         if (timer >= 1)
