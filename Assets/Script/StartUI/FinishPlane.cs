@@ -6,9 +6,10 @@ using UnityEngine.EventSystems;
 using Fusion;
 using Fusion.Sockets;
 
+
 public class FinishPlane : MonoBehaviour
 {
-    private Vector3 spawnPosition = Vector3.zero;
+    //private Vector3 spawnPosition = Vector3.zero;
     public GameObject finishPanel;
     //public Vector3 teleportDestination; // 設定要傳送到的目標位置
     public BasicSpawner basicSpawner;
@@ -25,9 +26,11 @@ public class FinishPlane : MonoBehaviour
         finishPanel.SetActive(false);
     }
 
-    public void FinishClick()
+    
+    
+    public void Finish3Click()
     {
-        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+
         finishPanel.SetActive(true);
         if (basicSpawner.levelIndex == 3)
         {
@@ -39,6 +42,16 @@ public class FinishPlane : MonoBehaviour
         }
 
     }
+
+    public void FinishClick()
+    {
+
+        finishPanel.SetActive(true);
+        StartCoroutine(DeactivateAfterDelay(3.0f)); // �Ұʨ�{����5�����������O
+
+
+    }
+
 
     private IEnumerator DeactivateAfterDelay(float delay)
     {
