@@ -588,6 +588,24 @@ public class PlayerController : NetworkBehaviour
             // Respawn();
             x = 1;
         }
+
+        if (other.gameObject.CompareTag("middleSpawn"))
+        {
+            Debug.Log("middleSpawn object collision!");
+
+            string selectedSound = "cactus";
+            if (audioClips.ContainsKey(selectedSound))
+            {
+                GetComponent<AudioSource>().clip = audioClips[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = false;
+
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+            }
+
+            // Respawn();
+            x = 1;
+        }
     }
 
     private void OnReachedFinish()
