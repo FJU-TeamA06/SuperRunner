@@ -8,14 +8,15 @@ using Fusion.Sockets;
 
 public class FinishPlane : MonoBehaviour
 {
+    private Vector3 spawnPosition = Vector3.zero;
     public GameObject finishPanel;
     //public Vector3 teleportDestination; // 設定要傳送到的目標位置
-    //public BasicSpawner basicSpawner;
-    //public NetworkCharacterControllerPrototype networkCharacterController;
+    public BasicSpawner basicSpawner;
+    public NetworkCharacterControllerPrototype networkCharacterController;
 
     void Awake()
     {
-        //basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
     }
 
     void Start()
@@ -26,8 +27,17 @@ public class FinishPlane : MonoBehaviour
 
     public void FinishClick()
     {
+        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
         finishPanel.SetActive(true);
-        StartCoroutine(DeactivateAfterDelay(5.0f)); // 啟動協程等待5秒後關閉面板
+        if (basicSpawner.levelIndex == 3)
+        {
+            StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
+        }
+        else
+        {
+            //StartCoroutine(DeactivateAfterDelay(3.0f)); // 啟動協程等待5秒後關閉面板
+        }
+
     }
 
     private IEnumerator DeactivateAfterDelay(float delay)

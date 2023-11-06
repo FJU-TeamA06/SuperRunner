@@ -281,11 +281,23 @@ public class PlayerController : NetworkBehaviour
     }
     private float CalculateDistancePercentage()
     {
-        //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
-        float currentDistance = Vector3.Distance(transform.position, finishObject.transform.position);
-        //Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
-        return currentDistance;
+        if (finishObject != null)
+        {
+            //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
+            float currentDistance = Vector3.Distance(transform.position, finishObject.transform.position);
+            // 在這裡訪問 finishObject 的屬性和方法
+            //Debug.Log($"Absolute distance to the finish edge: {currentDistance}");
+            return currentDistance;
+        }
+        else
+        {
+            // finishObject 是 null，可能已經被銷毀
+            // 做相應的處理，例如返回一個特殊值或顯示錯誤訊息
+            return -1f; // 返回一個特殊值表示錯誤情況
+        }
     }
+
+  
 
     public void ReloadLevel()//用來載入下一關，此已將兩個StartWall恢復原位
     {
