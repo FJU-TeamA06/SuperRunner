@@ -820,9 +820,10 @@ public class PlayerController : NetworkBehaviour
         //切換鏡頭模式
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
-        if (Input.GetKeyDown(KeyCode.K))
-            //if(isFinish==1)
-                gotoFPS();
+        if (Input.GetKeyDown(KeyCode.K)){
+            basicSpawner.levelIndex =3;
+            gotoFPS();
+        }
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
         MainCamera = MainCameraObject.GetComponent<Camera>();
@@ -889,7 +890,6 @@ public class PlayerController : NetworkBehaviour
                 ppp=playerCount;
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
-                basicSpawner.levelIndex =3;
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
