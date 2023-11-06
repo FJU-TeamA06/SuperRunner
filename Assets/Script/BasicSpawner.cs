@@ -244,8 +244,17 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
                     InputAction RightPitch = myActions.FindAction("RightPitch");
                     //print(RightPitch.ReadValue<float>());
                     InputAction RightYaw = myActions.FindAction("RightYaw");
-                    data.Pitch = (Input.GetAxis("Mouse Y") * _mouseSensitivity)+RightPitch.ReadValue<float>();
-                    data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity+RightYaw.ReadValue<float>() ;
+                    if(Application.isMobilePlatform)
+                    {
+                        data.Pitch = RightPitch.ReadValue<float>();
+                        data.Yaw = RightYaw.ReadValue<float>() ;
+                    }
+                    else
+                    {
+                        data.Pitch = (Input.GetAxis("Mouse Y") * _mouseSensitivity)+RightPitch.ReadValue<float>();
+                        data.Yaw = Input.GetAxis("Mouse X") * _mouseSensitivity+RightYaw.ReadValue<float>() ;
+                    }
+                    
                 }
             }
             
@@ -256,7 +265,15 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         InputAction JUMP = myActions.FindAction("A");
         InputAction Fire = myActions.FindAction("B");
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space)||JUMP.ReadValue<float>() > 0.5f);
-        data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0)||Fire.ReadValue<float>() > 0.5f);
+        if(Application.isMobilePlatform)
+        {
+            data.buttons.Set(InputButtons.FIRE, Fire.ReadValue<float>() > 0.5f);
+        }
+        else
+        {
+            data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0)||Fire.ReadValue<float>() > 0.5f);
+        }
+        
         input.Set(data);
     }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
