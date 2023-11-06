@@ -403,7 +403,8 @@ public class PlayerController : NetworkBehaviour
         if (MiddleRespawn() == true)
         {
             Respawn();
-            a = 2;
+            Debug.Log("middleRespawn Respawn!");
+            x = 0;
         }
         if (frozen == 1)
         {
@@ -448,21 +449,17 @@ public class PlayerController : NetworkBehaviour
        {
             return true;
        }
-       if (a == 3)
-       {
-           return true;
-       }
         else
             return false;
     }
 
+    int x = 0;
     private bool MiddleRespawn()
     {
-        int a = 2;
-        if (Hp <= 145 && networkCharacterController.transform.position.y <= -5f)
-            return true;
-        //上述if再加一個條件是超過中間的
-        if (a == 3)
+        
+        //if (networkCharacterController.transform.position.x >= 145 && networkCharacterController.transform.position.y <= -5f)
+            //return true;
+        if (x == 1)
         {
             return true;
         }
@@ -589,7 +586,7 @@ public class PlayerController : NetworkBehaviour
             }
 
             // Respawn();
-            a = 3;
+            x = 1;
         }
     }
 
@@ -634,7 +631,7 @@ public class PlayerController : NetworkBehaviour
             {
                 networkCharacterController.transform.position = new Vector3(145, 17, 0);
             }
-            else if(basicSpawner.levelIndex == 1 && a == 3)
+            else if(basicSpawner.levelIndex == 1 && x == 1)
             {
                 networkCharacterController.transform.position = new Vector3(145, 17, 0);
             }
@@ -642,7 +639,7 @@ public class PlayerController : NetworkBehaviour
             {
                 networkCharacterController.transform.position = new Vector3(117, 17, 195);
             }
-            else if (basicSpawner.levelIndex == 2 && a == 3)
+            else if (basicSpawner.levelIndex == 2 && x == 1)
             {
                 networkCharacterController.transform.position = new Vector3(117, 17, 195);
             }
