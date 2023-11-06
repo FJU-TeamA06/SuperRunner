@@ -6,17 +6,18 @@ using UnityEngine.EventSystems;
 using Fusion;
 using Fusion.Sockets;
 
+
 public class FinishPlane : MonoBehaviour
 {
-    private Vector3 spawnPosition = Vector3.zero;
+    //private Vector3 spawnPosition = Vector3.zero;
     public GameObject finishPanel;
-    //public Vector3 teleportDestination; // ³]©w­n¶Ç°e¨ìªº¥Ø¼Ğ¦ì¸m
+    //public Vector3 teleportDestination; // è¨­å®šè¦å‚³é€åˆ°çš„ç›®æ¨™ä½ç½®
     public BasicSpawner basicSpawner;
     public NetworkCharacterControllerPrototype networkCharacterController;
 
     void Awake()
     {
-        basicSpawner = FindObjectOfType<BasicSpawner>(); // ¨ú±o BasicSpawner ªº¹ê¨Ò
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // å–å¾— BasicSpawner çš„å¯¦ä¾‹
     }
 
     void Start()
@@ -25,43 +26,55 @@ public class FinishPlane : MonoBehaviour
         finishPanel.SetActive(false);
     }
 
-    public void FinishClick()
+    
+    
+    public void Finish3Click()
     {
-        Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
+
         finishPanel.SetActive(true);
         if (basicSpawner.levelIndex == 3)
         {
-            StartCoroutine(DeactivateAfterDelay(3.0f)); // ±Ò°Ê¨óµ{µ¥«İ5¬í«áÃö³¬­±ªO
+            StartCoroutine(DeactivateAfterDelay(3.0f)); // å•Ÿå‹•å”ç¨‹ç­‰å¾…5ç§’å¾Œé—œé–‰é¢æ¿
         }
         else
         {
-            //StartCoroutine(DeactivateAfterDelay(3.0f)); // ±Ò°Ê¨óµ{µ¥«İ5¬í«áÃö³¬­±ªO
+            //StartCoroutine(DeactivateAfterDelay(3.0f)); // å•Ÿå‹•å”ç¨‹ç­‰å¾…5ç§’å¾Œé—œé–‰é¢æ¿
         }
 
     }
 
+    public void FinishClick()
+    {
+
+        finishPanel.SetActive(true);
+        StartCoroutine(DeactivateAfterDelay(3.0f)); // ï¿½Ò°Ê¨ï¿½{ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
+
+
+    }
+
+
     private IEnumerator DeactivateAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay); // µ¥«İ«ü©wªº¬í¼Æ
+        yield return new WaitForSeconds(delay); // ç­‰å¾…æŒ‡å®šçš„ç§’æ•¸
 
-        finishPanel.SetActive(false); // Ãö³¬­±ªO
+        finishPanel.SetActive(false); // é—œé–‰é¢æ¿
 
         /*basicSpawner.levelIndex = 3;
         Vector3 spawnPosition = basicSpawner.GetSpawnPosition(basicSpawner.levelIndex, basicSpawner.playerNumber);
         
-        // ÀË¬d¬O§_³]©w¤F¶Ç°e¥Ø¼Ğ¦ì¸m
-        if (spawnPosition != Vector3.zero) // ÀË¬d¬O§_¦¨¥\Àò¨ú­«¥Í¦ì¸m
+        // æª¢æŸ¥æ˜¯å¦è¨­å®šäº†å‚³é€ç›®æ¨™ä½ç½®
+        if (spawnPosition != Vector3.zero) // æª¢æŸ¥æ˜¯å¦æˆåŠŸç²å–é‡ç”Ÿä½ç½®
         {
             networkCharacterController.transform.position = spawnPosition;
             
         }*/
         /*if (teleportDestination != null)
         {
-            // Àò¨ú©Ò¦³¾Ö¦³"Player"¼ĞÅÒªºª«Åé
+            // ç²å–æ‰€æœ‰æ“æœ‰"Player"æ¨™ç±¤çš„ç‰©é«”
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject player in players)
             {
-                // ±Nª±®a¶Ç°e¨ì«ü©w¦ì¸m
+                // å°‡ç©å®¶å‚³é€åˆ°æŒ‡å®šä½ç½®
                 player.transform.position = teleportDestination.position;
             }
         }*/
