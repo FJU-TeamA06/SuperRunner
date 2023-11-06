@@ -141,10 +141,12 @@ public class PlayerController : NetworkBehaviour
     private int isTriggedRedCubeTips=0;
     private void Awake()
     {
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         //backgroundMusicSource.clip = bgmBackground;
-        //SomeMethod();
+        
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
+
+        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
 
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
@@ -180,9 +182,8 @@ public class PlayerController : NetworkBehaviour
         
     }
 
-    public void SomeMethod()
+    public void SomeMethod(Dictionary<string, AudioClip> spawnPositions)
     {
-        //Dictionary<string, AudioClip> spawnPositions
         // 確保你有有效的索引來訪問陣列中的值
         int levelIndex = basicSpawner.levelIndex;
 
@@ -192,9 +193,9 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "background";
             if (backAudios.ContainsKey(selectedSound))
             {
-                backgroundMusicSource.clip = backAudios[selectedSound];
-                backgroundMusicSource.Play(); // 播放所選擇的音檔
-                backgroundMusicSource.loop = true;
+                GetComponent<AudioSource>().clip = backAudios[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = true;
             }
         }
         else if (levelIndex == 3)
@@ -203,9 +204,9 @@ public class PlayerController : NetworkBehaviour
             string selectedSound = "shootbackg";
             if (backAudios.ContainsKey(selectedSound))
             {
-                backgroundMusicSource.clip = backAudios[selectedSound];
-                backgroundMusicSource.Play(); // 播放所選擇的音檔
-                backgroundMusicSource.loop = true;
+                GetComponent<AudioSource>().clip = backAudios[selectedSound];
+                GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                GetComponent<AudioSource>().loop = true;
             }
         }
     }
@@ -378,6 +379,8 @@ public class PlayerController : NetworkBehaviour
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
 
+                    //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
+
                 }
 
                 //發射子彈(子彈數量的檢測)
@@ -466,6 +469,9 @@ public class PlayerController : NetworkBehaviour
     int x = 0;
     private bool MiddleRespawn()
     {
+        
+        //if (networkCharacterController.transform.position.x >= 145 && networkCharacterController.transform.position.y <= -5f)
+            //return true;
         if (x == 1)
         {
             return true;
@@ -549,6 +555,7 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -568,6 +575,7 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -587,6 +595,7 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -604,6 +613,7 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
 
+                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -884,17 +894,15 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            
+            finishPlane.FinishClick();
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
-            {   
-                finishPlane.FinishClick();
+            {
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
                 basicSpawner.levelIndex =3;
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
-                finishPlane.Finish3Click();
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
