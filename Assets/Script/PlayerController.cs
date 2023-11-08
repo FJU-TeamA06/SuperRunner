@@ -38,8 +38,7 @@ public class PlayerController : NetworkBehaviour
     private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                         // 分數用
     private int [] arr = {0,0,0,0};                                                               // 分數用
     private string firN, secN, thiN, fouN, chaN;
-    private string firN_2, secN_2, thiN_2, fouN_2, chaN_2;
-    private int xxx = 0, yyy = 0 , pp = 0 ,cc = 0 , ppp = 0;
+    private int xCount = 0, yCount = 0 ,cCount = 0 , ppCount = 0;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -274,7 +273,7 @@ public class PlayerController : NetworkBehaviour
         //ChangeColor_RPC(ColorNum);
         if (Object.HasStateAuthority)
         {
-            playerCount=pp;
+            playerCount=0;
             bulletCount=maxBullet;
             Hp = maxHp;
         }
@@ -934,14 +933,14 @@ public class PlayerController : NetworkBehaviour
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
             {   
                 finishPlane.FinishClick();
-                ppp=playerCount;
+                ppCount=playerCount;
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
                 finishPlane.Finish3Click();
-                ppp=playerCount;
+                ppCount=playerCount;
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
@@ -949,9 +948,9 @@ public class PlayerController : NetworkBehaviour
         
 
         //isFinish=1;
-        cc = 0;
-        xxx = 0;
-        yyy += 1;
+        cCount = 0;
+        xCount = 0;
+        yCount += 1;
         gotonext = true;
     }   
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
@@ -962,7 +961,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
     public void SetCount_RPC()
     {
-        ppp = playerCount;
+        ppCount = playerCount;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
@@ -992,30 +991,30 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateAndSyncScores_RPC()
     {
-        for (int i = 0; i < playerCount && cc==0 && ppp > 0 ; i++)
+        for (int i = 0; i < playerCount && cCount==0 && ppCount > 0 ; i++)
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+4;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
                 arr[i] = arr[i]+6;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
                 arr[i] = arr[i]+8;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 arr[i] = arr[i]+10;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
         }
-        cc=cc+1;
+        cCount=cCount+1;
         if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )        // 第一關第二關時，調用 FinalScoreDisplay_RPC
         {
             FinalScoreDisplay_RPC();
@@ -1024,58 +1023,58 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateAndSyncScoreL3_RPC()                                                              // 第3
     {
-        for (int i = 0; i < playerCount && ppp > 0 ; i++)
+        for (int i = 0; i < playerCount && ppCount > 0 ; i++)
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+1;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
                 arr[i] = arr[i]+1;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
                 arr[i] = arr[i]+1;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 arr[i] = arr[i]+5;
                 ScoreBoard.Set(i, arr[i]);
-                ppp--;
+                ppCount--;
             }
         }
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
     public void CoinPoint_RPC(string a)
     {
-        if(yyy == 0)
+        if(yCount == 0)
         {
             DistRutern_RPC();
         }
-        if (FinalScoreBoard[0] == a && cc == 0){
+        if (FinalScoreBoard[0] == a && cCount == 0){
             arr[0]++;
-            cc++;
+            cCount++;
         }
-        else if (FinalScoreBoard[1] == a && cc == 0){
+        else if (FinalScoreBoard[1] == a && cCount == 0){
             arr[1]++;
-            cc++;
+            cCount++;
         }
-        else if (FinalScoreBoard[2] == a && cc == 0){
+        else if (FinalScoreBoard[2] == a && cCount == 0){
             arr[2]++;
-            cc++;
+            cCount++;
         }
-        else if (FinalScoreBoard[3] == a && cc == 0){
+        else if (FinalScoreBoard[3] == a && cCount == 0){
             arr[3]++;
-            cc++;
+            cCount++;
         }
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void Setcc_RPC()
     {
-        cc=0;
+        cCoint=0;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -1159,19 +1158,19 @@ public class PlayerController : NetworkBehaviour
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 if(playerController != null)
                 {
-                    if(xxx == 0){
+                    if(xCount == 0){
                         fir=playerController.distance;
                         firN=playerController.PlayerName.ToString();
-                        if(yyy == 0){
+                        if(yCount == 0){
                             playerCount ++;
                         }
-                        xxx++;
+                        xCount++;
                     }
-                    else if(xxx == 1 && playerController.PlayerName.ToString() != firN){
+                    else if(xCount == 1 && playerController.PlayerName.ToString() != firN){
                         sec=playerController.distance;
                         secN=playerController.PlayerName.ToString();
-                        xxx++;
-                        if(yyy == 0){
+                        xCount++;
+                        if(yCount == 0){
                            playerCount ++;
                         }
                         if(sec<=fir){
@@ -1183,11 +1182,11 @@ public class PlayerController : NetworkBehaviour
                             firN=chaN;
                         }
                     }
-                    else if(xxx == 2 && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
+                    else if(xCount == 2 && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         thi=playerController.distance;
                         thiN=playerController.PlayerName.ToString();
-                        xxx++;
-                        if(yyy == 0){
+                        xCount++;
+                        if(yCount == 0){
                            playerCount ++;
                         }
                         if(thi<=fir){
@@ -1214,11 +1213,11 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-                    else if(xxx == 3 && playerController.PlayerName.ToString() != thiN && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
+                    else if(xCount == 3 && playerController.PlayerName.ToString() != thiN && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         fou=playerController.distance;
                         fouN=playerController.PlayerName.ToString();
-                        xxx++;
-                        if(yyy == 0){
+                        xCount++;
+                        if(yCount == 0){
                             playerCount ++;
                         }
                         if(fou<=fir){
@@ -1268,14 +1267,14 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-                        if(yyy == 0 ){
+                        if(yCount == 0 ){
                             FinalScoreBoard.Set(0, firN);
                         }
                         ScoreLeaderboard.Set(0, firN);
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             ScoreLeaderboard.Set(1, secN);
-                            if(yyy == 0 ){
+                            if(yCount == 0 ){
                                 FinalScoreBoard.Set(1, secN);
                             }
                             print(secN+" Is The Second Place !! ");
@@ -1283,7 +1282,7 @@ public class PlayerController : NetworkBehaviour
                         }
                         if(thi != -1){
                             ScoreLeaderboard.Set(2, thiN);
-                            if(yyy == 0 ){
+                            if(yCount == 0 ){
                                 FinalScoreBoard.Set(2, thiN);
                             }
                             print(thiN+" Is The Third Place !! ");
@@ -1291,7 +1290,7 @@ public class PlayerController : NetworkBehaviour
                         }
                         if(fou != -1){
                             ScoreLeaderboard.Set(3, fouN);
-                            if(yyy == 0 ){
+                            if(yCount == 0 ){
                                 FinalScoreBoard.Set(3, fouN);
                             }
                             print(fouN+" Is The Fourth Place !! ");
