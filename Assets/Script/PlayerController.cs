@@ -486,9 +486,9 @@ public class PlayerController : NetworkBehaviour
     {
         if (frozen == 1)
         {
-            moveSpeed = 0f;
+            _speed = 0f;
             yield return new WaitForSeconds(seconds); // 等待指定的秒數
-            moveSpeed = 13f; // 恢復移動速度
+            _speed = 13f; // 恢復移動速度
         }
         //frozen = 0;
     }
