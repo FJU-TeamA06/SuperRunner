@@ -20,6 +20,7 @@ public class NameInputHandler : MonoBehaviour
     void Start()
     {
         okButton.onClick.AddListener(OnOkButtonClick);
+        nameInputField.text=PlayerPrefs.GetString("PlayerName");
     }
 
     void OnOkButtonClick()

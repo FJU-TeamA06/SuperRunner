@@ -9,6 +9,7 @@ public class SettingButton : MonoBehaviour
 {
     public void OnButtonClick()
     {
+        gameObject.SetActive(false);
         SceneManager.LoadScene(2);
     }
 }
