@@ -882,7 +882,7 @@ public class PlayerController : NetworkBehaviour
                     startWallScript.RequestDespawnWall_RPC();
                     Debug.Log("wall3!");
                 }
-                //StartGame();
+                StartGame();
             }
             else
             {
