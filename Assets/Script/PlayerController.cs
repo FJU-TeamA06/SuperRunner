@@ -1074,7 +1074,7 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void Setcc_RPC()
     {
-        cCoint=0;
+        cCount=0;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
