@@ -33,6 +33,7 @@ TagManager:
   - StartWall3
   - LoadingOverlay
   - middleSpawn2
+  - toolui
   layers:
   - Default
   - TransparentFX

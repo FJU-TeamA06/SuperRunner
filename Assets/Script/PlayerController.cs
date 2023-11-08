@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using System;
 
+
 public class PlayerController : NetworkBehaviour
 {
     private Dictionary<int, Color> colorsDict;
@@ -167,6 +168,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
     public CountdownTimer countdownTimer;
+    public ToolUI toolui;
     public FinishPlane finishPlane;
     private FirstCamera firstCamera;
     private BasicSpawner basicSpawner;  //引用
@@ -522,11 +524,21 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Frozen"))
         {
             Debug.Log("Trapdead frozen!");
+            //timeObject = GameObject.FindGameObjectWithTag("toolui");
+            //TextMeshProUGUI toolext = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            //toolext.text = "Be Frozen !";
+
+            //timeObject = GameObject.FindGameObjectWithTag("toolui");
+            //ToolUI toolplane = timeObject.GetComponent<ToolUI>();
+            //toolplane.toolUI();
+
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "Be Frozen !";
+            timerText.text = "be frozen";
+
             frozen = 1;
         }
+
         if (other.gameObject.CompareTag("Coin"))
         {
             CoinPoint_RPC(this.PlayerName.ToString());
