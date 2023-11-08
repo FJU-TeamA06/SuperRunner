@@ -174,15 +174,20 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        //backgroundMusicSource.clip = bgmBackground;
+        backgroundMusicSource.clip = bgmBackground;
+        backgroundMusicSource.playOnAwake = false;
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
         shootMusicSource = gameObject.AddComponent<AudioSource>();
+        shootMusicSource.clip = shootbgmFPS;
 
         //backAudios.Add("background", new List<AudioClip> { bgmBackground });
         //backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
         audioClips.Add("shoot", new List<AudioClip> { seShoot });
         audioClips.Add("collision", new List<AudioClip> { seCollision, seDamage });
         audioClips.Add("cactus", new List<AudioClip> { seCactus });
+
+        backgroundMusicSource.Play();
+        backgroundMusicSource.loop = true;
     }
 
     //public void SomeMethod()
@@ -843,9 +848,9 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.K)){
             SetId_RPC();
             gotoFPS();
-            // 停止播放背景音樂800
+            // 停止播放背景音樂
             backgroundMusicSource.Stop();
-
+            Debug.Log("shootmusic!");
             // 播放特殊條件音樂
             shootMusicSource.Play();
             shootMusicSource.loop = true;
