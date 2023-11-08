@@ -333,7 +333,7 @@ MonoBehaviour:
   AudioManagerPrefab: {fileID: 7270766955060539352, guid: baa31c895b8b6a342825b516a83dcf65,
     type: 3}
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
-  bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
+  shootbgmFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
   seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
   seCollision: {fileID: 8300000, guid: d230ce4259a33cd4cbd4c3e4be22cbcd, type: 3}
   seDamage: {fileID: 8300000, guid: 7cd4f1803ddf8204d866a1aad1ddc139, type: 3}
