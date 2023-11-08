@@ -328,9 +328,10 @@ MonoBehaviour:
   maxHp: 100
   maxBullet: 5
   maxDist: 0
+  isFinish: 0
+  frozen: 0
   AudioManagerPrefab: {fileID: 7270766955060539352, guid: baa31c895b8b6a342825b516a83dcf65,
     type: 3}
-  isFinish: 0
   bgmBackground: {fileID: 8300000, guid: 74a2697f014ab26498c7c5e507d3b123, type: 3}
   bgmBackgroundFPS: {fileID: 8300000, guid: dfce4b2cb3ff5f44da46dbaef1185dd2, type: 3}
   seShoot: {fileID: 8300000, guid: c0320031bd81d4846852bd7e30f5f089, type: 3}
