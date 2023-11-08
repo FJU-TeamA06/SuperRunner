@@ -4,58 +4,58 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    //public AudioClip bgmBackground; // 背景音樂
-    //public AudioClip[] collisionSounds;// 碰撞音效
+    public AudioClip backgroundMusicClip;
     public AudioClip seShoot;// 碰撞音效槍
     public AudioClip seCollision;// 碰撞音效
-    public AudioClip seDamage;// 碰撞音效被打到
+    public AudioClip seCactus;// 碰撞音效被打到
+    public AudioClip shootMusicClip;//level3 backgroundmusic
 
-    //private AudioSource backgroundMusicSource;
-    private AudioSource collisionSoundSource1;
-    private AudioSource collisionSoundSource2;
-    private AudioSource collisionSoundSource3;
+    private AudioSource backgroundMusicSource;
+    private AudioSource collisionMusicSource;
+    private AudioSource shootMusicSource;
 
-    private float originalBackgroundMusicVolume;
+    private Dictionary<string, List<AudioClip>> audioClips = new Dictionary<string, List<AudioClip>>();
 
-    // Start is called before the first frame update
-    public void Awake()
+    void Start()
     {
-        // 添加背景音樂的AudioSource
         //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        //backgroundMusicSource.clip = bgmBackground;
-        //backgroundMusicSource.loop = true;
+        //collisionMusicSource = gameObject.AddComponent<AudioSource>();
+        //specialConditionMusicSource = gameObject.AddComponent<AudioSource>();
+
+        //backgroundMusicSource.clip = backgroundMusicClip;
+        ////collisionMusicSource.clip = seShoot;
+        //specialConditionMusicSource.clip = specialConditionMusicClip;
+
+        ////backAudios.Add("background", new List<AudioClip> { bgmBackground });
+        ////backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
+        //audioClips.Add("shoot", new List<AudioClip> { seShoot });
+        //audioClips.Add("collision", new List<AudioClip> { seCollision, seDamage });
+        //audioClips.Add("cactus", new List<AudioClip> { seCactus });
+
+        //// 播放背景音樂
         //backgroundMusicSource.Play();
-
-        // 添加碰撞音效的AudioSource
-        collisionSoundSource1 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource2 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource3 = gameObject.AddComponent<AudioSource>();
-        collisionSoundSource1.clip = seShoot;
-        collisionSoundSource2.clip = seCollision;
-        collisionSoundSource3.clip = seDamage;
-        collisionSoundSource1.loop = false;
-        collisionSoundSource2.loop = false;
-        collisionSoundSource3.loop = false;
-
+        //backgroundMusicSource.loop = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void Update()
     {
-        if (collision.collider.CompareTag("Soundtest") && collision.other.gameObject.CompareTag("Player"))
-        {
-            collisionSoundSource2.clip = seCollision;
-            collisionSoundSource2.Play();
-        }
-        else if (collision.collider.CompareTag("bullet") && collision.other.gameObject.CompareTag("Player"))
-        {
-            collisionSoundSource3.clip = seDamage;
-            collisionSoundSource3.Play();
-        }
-
-        //if (!backgroundMusicSource.isPlaying)
+        //// 在某些條件下觸發背景音樂切換為特殊條件音樂
+        //if (Input.GetKeyDown(KeyCode.K))
         //{
-        //    //backgroundMusicSource.Play(); // 在適當的時機播放背景音樂
+        //    // 停止播放背景音樂
+        //    backgroundMusicSource.Stop();
+
+        //    // 播放特殊條件音樂
+        //    shootMusicSource.Play();
+        //    shootMusicSource.loop = true;
         //}
     }
 
+    // 在碰撞事件中觸發碰撞音樂播放
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 播放碰撞音樂
+        //collisionMusicSource.Play();
+    }
 }
+    

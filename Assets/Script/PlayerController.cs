@@ -72,17 +72,21 @@ public class PlayerController : NetworkBehaviour
     public GameObject AudioManagerPrefab;
 
     public AudioClip bgmBackground; // 背景音樂
-    public AudioClip bgmBackgroundFPS; // 背景音樂
+    public AudioClip shootbgmFPS;//level3 backgroundmusic
     public AudioClip seShoot;// 碰撞音效槍
     public AudioClip seCollision;// 碰撞音效
     public AudioClip seDamage;// 碰撞音效被打到
     public AudioClip seCactus;// 碰撞音效被打到
 
+    //public AudioClip bgmBackground; // 背景音樂
+    //public AudioClip bgmBackgroundFPS; // 背景音樂
+
+    private AudioSource shootMusicSource;
     private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource;
     
     private Dictionary<string, List<AudioClip>> audioClips = new Dictionary<string, List<AudioClip>>();
-    private Dictionary<string, List<AudioClip>> backAudios = new Dictionary<string, List<AudioClip>>();
+    //private Dictionary<string, List<AudioClip>> backAudios = new Dictionary<string, List<AudioClip>>();
     //本地計時器
     private float timer = 0;
     public GameObject timerPrefab;
@@ -142,20 +146,14 @@ public class PlayerController : NetworkBehaviour
     public InputActionAsset myActions;
     public int ColorNum=0;
     private int isTriggedRedCubeTips=0;
+
+
     private void Awake()
     {
-        //backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        //backgroundMusicSource.clip = bgmBackground;
-        
-        collisionSoundSource = gameObject.AddComponent<AudioSource>();
-
-        //originalBackgroundMusicVolume = backgroundMusicSource.volume;
-
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
         firstCamera = FindObjectOfType<FirstCamera>();
         myActions.Enable();
     }
-
 
     private void InstantiateHUD_UI()
     {
@@ -175,42 +173,47 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        backAudios.Add("background", new List<AudioClip> { bgmBackground });
-        backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
+        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        //backgroundMusicSource.clip = bgmBackground;
+        collisionSoundSource = gameObject.AddComponent<AudioSource>();
+        shootMusicSource = gameObject.AddComponent<AudioSource>();
+
+        //backAudios.Add("background", new List<AudioClip> { bgmBackground });
+        //backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
         audioClips.Add("shoot", new List<AudioClip> { seShoot });
         audioClips.Add("collision", new List<AudioClip> { seCollision, seDamage });
         audioClips.Add("cactus", new List<AudioClip> { seCactus });
     }
 
-    public void SomeMethod()
-    {
-        //Dictionary<string, AudioClip> spawnPositions
-        // 確保你有有效的索引來訪問陣列中的值
-        int levelIndex = basicSpawner.levelIndex;
+    //public void SomeMethod()
+    //{
+    //    //Dictionary<string, AudioClip> spawnPositions
+    //    // 確保你有有效的索引來訪問陣列中的值
+    //    int levelIndex = basicSpawner.levelIndex;
 
-        if (levelIndex == 1 || levelIndex == 2)
-        {
-            // 如果是前兩關
-            string selectedSound = "background";
-            if (backAudios.ContainsKey(selectedSound))
-            {
-                backgroundMusicSource.clip = backAudios[selectedSound][0];
-                backgroundMusicSource.Play(); // 播放所選擇的音檔
-                backgroundMusicSource.loop = true;
-            }
-        }
-        else if (levelIndex == 3)
-        {
-            // 如果是最後一關
-            string selectedSound = "shootbackg";
-            if (backAudios.ContainsKey(selectedSound))
-            {
-                backgroundMusicSource.clip = backAudios[selectedSound][1];
-                backgroundMusicSource.Play(); // 播放所選擇的音檔
-                backgroundMusicSource.loop = true;
-            }
-        }
-    }
+    //    if (levelIndex == 1 || levelIndex == 2)
+    //    {
+    //        // 如果是前兩關
+    //        string selectedSound = "background";
+    //        if (backAudios.ContainsKey(selectedSound))
+    //        {
+    //            backgroundMusicSource.clip = backAudios[selectedSound][0];
+    //            backgroundMusicSource.Play(); // 播放所選擇的音檔
+    //            backgroundMusicSource.loop = true;
+    //        }
+    //    }
+    //    else if (levelIndex == 3)
+    //    {
+    //        // 如果是最後一關
+    //        string selectedSound = "shootbackg";
+    //        if (backAudios.ContainsKey(selectedSound))
+    //        {
+    //            backgroundMusicSource.clip = backAudios[selectedSound][1];
+    //            backgroundMusicSource.Play(); // 播放所選擇的音檔
+    //            backgroundMusicSource.loop = true;
+    //        }
+    //    }
+    //}
 
 
     public override void Spawned()
@@ -379,9 +382,6 @@ public class PlayerController : NetworkBehaviour
                     GetComponent<AudioSource>().clip = audioClips[selectedSound][0];
                     GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                     GetComponent<AudioSource>().loop = false;
-
-                    //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
-
                 }
 
                 //發射子彈(子彈數量的檢測)
@@ -567,8 +567,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().clip = audioClips[selectedSound][1];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
-
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -588,8 +586,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
-
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -610,8 +606,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().clip = audioClips[selectedSound][1];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
-
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -630,8 +624,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
-
-                //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.7f;
             }
 
             // Respawn();
@@ -851,6 +843,12 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.K)){
             SetId_RPC();
             gotoFPS();
+            // 停止播放背景音樂800
+            backgroundMusicSource.Stop();
+
+            // 播放特殊條件音樂
+            shootMusicSource.Play();
+            shootMusicSource.loop = true;
         }
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
