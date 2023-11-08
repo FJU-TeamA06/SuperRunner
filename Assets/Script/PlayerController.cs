@@ -267,6 +267,10 @@ public class PlayerController : NetworkBehaviour
             {
                 finishObject = GameObject.FindGameObjectWithTag("Finish2");
             }
+            else if(basicSpawner.levelIndex==3)
+            {
+                finishObject = GameObject.FindGameObjectWithTag("Finish3");
+            }
             finishCollider = finishObject.GetComponent<Collider>(); 
             
             totalDistance = Vector3.Distance(startPoint, finishObject.transform.position);
@@ -503,7 +507,7 @@ public class PlayerController : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 檢查是否已經抵達終點
-        if (other.gameObject == finishObject)
+        if (other.CompareTag("Finish3"))
         {
             print("Touched finish");
             OnReachedFinish();
@@ -519,6 +523,15 @@ public class PlayerController : NetworkBehaviour
                 other.transform.position = p;
             }
             
+        }
+        if ( other.CompareTag("Finish2") || other.CompareTag("Finish1") )
+        {
+            print("Touched finish");
+            OnReachedFinish();
+            gotonext = true;
+            Vector3 p = other.transform.position;
+            p.y = 50f;
+            other.transform.position = p;         
         }
         //if (other.gameObject.CompareTag("trapdead"))
         //{
@@ -553,6 +566,7 @@ public class PlayerController : NetworkBehaviour
             timerText.text="Coin Get !";
             Invoke("C0", 5 );
             Debug.Log("Get Coin!");
+            Debug.Log(basicSpawner.levelIndex);
             Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("Clip"))
@@ -650,10 +664,11 @@ public class PlayerController : NetworkBehaviour
 
     private void OnReachedFinish()
     {
+        print("fffffffffffffffff");
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();                                        // 限制次數
+            //DistRutern_RPC();                                        // 限制次數
             Finish_RPC(this.PlayerName.ToString());
             
         }
@@ -942,9 +957,7 @@ public class PlayerController : NetworkBehaviour
         print("Player:"+a+" Is the First Place.");
         DistRutern_RPC();
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
-        if (finishPlane != null)
-        {
-            
+       // if (finishPlane != null)
             if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
             {   
                 finishPlane.FinishClick();
@@ -959,7 +972,6 @@ public class PlayerController : NetworkBehaviour
                 CalculateAndSyncScoreL3_RPC();
                 TotalScoreDisplay_RPC();
             }
-        }
         
 
         //isFinish=1;
