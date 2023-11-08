@@ -9,11 +9,13 @@ public class StartButton : MonoBehaviour
 {
     //public Button okButton;
     public GameObject levelPanel; 
+    public GameObject SettingButton;
 
     
 
     public void OnButtonClick()
     {
         levelPanel.SetActive(true); 
+        SettingButton.SetActive(false);
     }
 }

@@ -957,6 +957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPanel: {fileID: 1037720332}
+  SettingButton: {fileID: 0}
 --- !u!1 &1125434127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,6 +1551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPanel: {fileID: 1037720332}
+  SettingButton: {fileID: 210754374}
 --- !u!114 &1397170116
 MonoBehaviour:
   m_ObjectHideFlags: 0

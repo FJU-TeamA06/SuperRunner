@@ -16,6 +16,7 @@ public class SessionInputHandler : MonoBehaviour
     void Start()
     {
         okButton.onClick.AddListener(OnOkButtonClick);
+        sessionInputField.text=PlayerPrefs.GetString("SessionName");
     }
     void OnOkButtonClick()
     {
