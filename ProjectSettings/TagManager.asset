@@ -34,6 +34,7 @@ TagManager:
   - LoadingOverlay
   - middleSpawn2
   - toolui
+  - cake
   layers:
   - Default
   - TransparentFX

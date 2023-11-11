@@ -69,6 +69,8 @@ public class PlayerController : NetworkBehaviour
     private int isFinish = 0;
     [SerializeField]
     private int frozen = 0;
+    [SerializeField]
+    private int runfast = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
 
@@ -426,6 +428,13 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Frozen!");
             frozen = 0;
         }
+        if (runfast == 1)
+        {
+            StartCoroutine(runPlayerForSeconds(5.0f));
+            Debug.Log("runfast!");
+            runfast = 0;
+        }
+
 
         if (HasStateAuthority)
         {
@@ -478,6 +487,25 @@ public class PlayerController : NetworkBehaviour
         else
             return false;
     }
+    private IEnumerator runPlayerForSeconds(float seconds)
+    {
+        if (runfast == 1)
+        {
+            // Instantiate effect
+            GameObject runfastEffect = Instantiate( runfirePrefab, transform.position, transform.rotation);
+
+            _speed = 30f;
+            yield return new WaitForSeconds(seconds);
+            _speed = 13f;
+
+            // Stop the effect
+            var particleSystem = runfastEffect.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+            }
+        }
+    }
 
     private IEnumerator FreezePlayerForSeconds(float seconds)
     {
@@ -528,12 +556,7 @@ public class PlayerController : NetworkBehaviour
             p.y = 50f;
             other.transform.position = p;         
         }
-        //if (other.gameObject.CompareTag("trapdead"))
-        //{
-        //    Debug.Log("Trapdead object collision!");
-        //    // Respawn();
-        //    a = 1;
-        //}
+
         if (other.gameObject.CompareTag("Frozen"))
         {
             
@@ -551,6 +574,21 @@ public class PlayerController : NetworkBehaviour
             timerText.text = "be frozen";
 
             frozen = 1;
+        }
+        if (other.gameObject.CompareTag("cake"))
+        {
+            //Instantiate(runfirePrefab, transform.position, transform.rotation);
+
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "run fast !";
+            Invoke("C0", 5);
+            Debug.Log("Get Cake!");
+            
+
+            Destroy(other.gameObject);
+
+            runfast = 1;
         }
 
         if (other.gameObject.CompareTag("Coin"))
