@@ -89,7 +89,11 @@ public class PlayerController : NetworkBehaviour
     public GameObject timerPrefab;
     public GameObject bulletCountPrefab;
     public GameObject countDownPrefab;
-    public GameObject FinishPlanePrefab; 
+    public GameObject FinishPlanePrefab;
+    //Effects
+    public GameObject runfirePrefab;
+    public GameObject frozenPrefab;
+
     [Networked] public float Dist { get; set; }
     //玩家血量
     [Networked(OnChanged = nameof(OnHpChanged))]
@@ -475,18 +479,26 @@ public class PlayerController : NetworkBehaviour
             return false;
     }
 
-    
     private IEnumerator FreezePlayerForSeconds(float seconds)
     {
         if (frozen == 1)
         {
+            // Instantiate frozen effect
+            GameObject frozenEffect = Instantiate(frozenPrefab, transform.position, transform.rotation);
+
             _speed = 0f;
-            yield return new WaitForSeconds(seconds); // 等待指定的秒數
-            _speed = 13f; // 恢復移動速度
+            yield return new WaitForSeconds(seconds);
+            _speed = 13f;
+
+            // Stop the frozen effect
+            var particleSystem = frozenEffect.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+            }
         }
-        //frozen = 0;
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         // 檢查是否已經抵達終點
@@ -524,6 +536,7 @@ public class PlayerController : NetworkBehaviour
         //}
         if (other.gameObject.CompareTag("Frozen"))
         {
+            
             Debug.Log("Trapdead frozen!");
             //timeObject = GameObject.FindGameObjectWithTag("toolui");
             //TextMeshProUGUI toolext = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -542,6 +555,8 @@ public class PlayerController : NetworkBehaviour
 
         if (other.gameObject.CompareTag("Coin"))
         {
+            //Instantiate(runfirePrefab, transform.position, transform.rotation);
+        
             CoinPoint_RPC(this.PlayerName.ToString());
             Setcc_RPC();
             timeObject = GameObject.FindGameObjectWithTag("timerText");

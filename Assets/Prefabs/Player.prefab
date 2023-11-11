@@ -347,6 +347,10 @@ MonoBehaviour:
     type: 3}
   FinishPlanePrefab: {fileID: 6053830348991827790, guid: f34ff5ec5b04194479eb4824dadaee3e,
     type: 3}
+  runfirePrefab: {fileID: 4545730075028336661, guid: eafb5fe28c005164a92ca42f3f7532a7,
+    type: 3}
+  frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
+    type: 3}
   _Dist: 0
   _Hp: 0
   _bulletCount: 0
