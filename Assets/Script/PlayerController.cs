@@ -44,7 +44,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject scoreObject;
     private GameObject timeObject;
     public GameObject wallObject;
-    public GameObject rankingObject;//
+    public GameObject rankingObject;
     public GameObject countdownTimerObject;
     public GameObject bulletCountObject;
     public GameObject AudioManagerObject;//music
@@ -85,8 +85,10 @@ public class PlayerController : NetworkBehaviour
     private AudioSource shootMusicSource;
     private AudioSource backgroundMusicSource;
     private AudioSource collisionSoundSource;
-    
+    //private int iindex = 0;
+
     private Dictionary<string, List<AudioClip>> audioClips = new Dictionary<string, List<AudioClip>>();
+    private Dictionary<string, List<AudioClip>> audioClips2 = new Dictionary<string, List<AudioClip>>();
     //private Dictionary<string, List<AudioClip>> backAudios = new Dictionary<string, List<AudioClip>>();
     //本地計時器
     private float timer = 0;
@@ -186,7 +188,7 @@ public class PlayerController : NetworkBehaviour
         //backAudios.Add("shootbackg", new List<AudioClip> { bgmBackgroundFPS });
         audioClips.Add("shoot", new List<AudioClip> { seShoot });
         audioClips.Add("collision", new List<AudioClip> { seCollision, seDamage });
-        audioClips.Add("cactus", new List<AudioClip> { seCactus });
+        audioClips2.Add("cactus", new List<AudioClip> { seCactus });
 
         backgroundMusicSource.Play();
         backgroundMusicSource.loop = true;
@@ -481,9 +483,6 @@ public class PlayerController : NetworkBehaviour
     int x = 0;
     private bool MiddleRespawn()
     {
-        
-        //if (networkCharacterController.transform.position.x >= 145 && networkCharacterController.transform.position.y <= -5f)
-            //return true;
         if (x == 1)
         {
             return true;
@@ -612,9 +611,9 @@ public class PlayerController : NetworkBehaviour
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "cactus";
-            if (audioClips.ContainsKey(selectedSound))
+            if (audioClips2.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
+                GetComponent<AudioSource>().clip = audioClips2[selectedSound][0];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
@@ -650,9 +649,9 @@ public class PlayerController : NetworkBehaviour
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "You died!";
             string selectedSound = "cactus";
-            if (audioClips.ContainsKey(selectedSound))
+            if (audioClips2.ContainsKey(selectedSound))
             {
-                GetComponent<AudioSource>().clip = audioClips[selectedSound][2];
+                GetComponent<AudioSource>().clip = audioClips2[selectedSound][0];
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
