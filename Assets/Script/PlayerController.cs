@@ -524,17 +524,7 @@ public class PlayerController : NetworkBehaviour
             print("Touched finish");
             OnReachedFinish();
             gotonext = true;
-            if(basicSpawner.levelIndex==3)
-            {
-                Destroy(other.gameObject);
-            }
-            else
-            {
-                Vector3 p = other.transform.position;
-                p.y = 50f;
-                other.transform.position = p;
-            }
-            
+            Destroy(other.gameObject);
         }
         if ( other.CompareTag("Finish2") || other.CompareTag("Finish1") )
         {
@@ -687,7 +677,6 @@ public class PlayerController : NetworkBehaviour
 
     private void OnReachedFinish()
     {
-        print("fffffffffffffffff");
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
@@ -1005,15 +994,28 @@ public class PlayerController : NetworkBehaviour
         yCount += 1;
         gotonext = true;
     }   
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置ID＿RPC
     public void SetId_RPC()
     {
         basicSpawner.levelIndex = 3;
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置Count＿RPC
     public void SetCount_RPC()
     {
         ppCount = playerCount;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置Count＿RPC
+    public void SetPoint_RPC( int a, int b, int c, int d )
+    {
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var player in allPlayers){
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            playerController.arr[0] = a ;
+            playerController.arr[1] = b ;
+            playerController.arr[2] = c ;
+            playerController.arr[3] = d ;
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
@@ -1047,26 +1049,23 @@ public class PlayerController : NetworkBehaviour
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+4;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
                 arr[i] = arr[i]+6;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
                 arr[i] = arr[i]+8;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 arr[i] = arr[i]+10;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
         }
         cCount=cCount+1;
+        SetPoint_RPC(arr[0],arr[1],arr[2],arr[3]);
         if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )        // 第一關第二關時，調用 FinalScoreDisplay_RPC
         {
             FinalScoreDisplay_RPC();
@@ -1079,22 +1078,18 @@ public class PlayerController : NetworkBehaviour
         {
             if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
                 arr[i] = arr[i]+1;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
                 arr[i] = arr[i]+1;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
                 arr[i] = arr[i]+1;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
             else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
                 arr[i] = arr[i]+5;
-                ScoreBoard.Set(i, arr[i]);
                 ppCount--;
             }
         }
