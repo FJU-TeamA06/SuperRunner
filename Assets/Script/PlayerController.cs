@@ -54,7 +54,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject finishObjectTemp;
     private Vector3 spawnPosition = Vector3.zero;
     [SerializeField]
-    private float moveSpeed = 15f;
+    private float moveSpeed = 10f;
     [SerializeField]
     private Text UIname = null;
     [SerializeField]
@@ -431,15 +431,11 @@ public class PlayerController : NetworkBehaviour
         
         if (runfast == 1)
         {
-            //GameObject runfastEffect = Instantiate( transform.position, transform.rotation);
-            
-            StartCoroutine(runPlayerForSeconds(5.0f));
+            //GameObject runfastEffect = Instantiate( transform.position, transform.rotation);          
+            StartCoroutine(runPlayerForSeconds(8.0f));
             Debug.Log("runfast!");
-
-            
+          
             runfast = 0;
-            
-
         }
 
 
@@ -504,14 +500,13 @@ public class PlayerController : NetworkBehaviour
             {
                 particleSystem.Play();
             }
-            _speed = 30f;
+            _speed = 28f;
             yield return new WaitForSeconds(seconds);
-            _speed = 10f;
+            _speed = 5f;
             if (particleSystem != null)
             {
                 particleSystem.Stop();
             }
-
         }  
     }
 
@@ -524,7 +519,7 @@ public class PlayerController : NetworkBehaviour
 
             _speed = 0f;
             yield return new WaitForSeconds(seconds);
-            _speed = 10f;
+            _speed = 5f;
 
             // Stop the frozen effect
             var particleSystem = frozenEffect.GetComponent<ParticleSystem>();
