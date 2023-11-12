@@ -428,11 +428,18 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Frozen!");
             frozen = 0;
         }
+        
         if (runfast == 1)
         {
+            //GameObject runfastEffect = Instantiate( transform.position, transform.rotation);
+            
             StartCoroutine(runPlayerForSeconds(5.0f));
             Debug.Log("runfast!");
+
+            
             runfast = 0;
+            
+
         }
 
 
@@ -491,20 +498,21 @@ public class PlayerController : NetworkBehaviour
     {
         if (runfast == 1)
         {
-            // Instantiate effect
-            GameObject runfastEffect = Instantiate( runfirePrefab, transform.position, transform.rotation);
-
+            runfirePrefab.SetActive(true);
+            var particleSystem = runfirePrefab.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Play();
+            }
             _speed = 30f;
             yield return new WaitForSeconds(seconds);
-            _speed = 13f;
-
-            // Stop the effect
-            var particleSystem = runfastEffect.GetComponent<ParticleSystem>();
+            _speed = 10f;
             if (particleSystem != null)
             {
                 particleSystem.Stop();
             }
-        }
+
+        }  
     }
 
     private IEnumerator FreezePlayerForSeconds(float seconds)
@@ -516,7 +524,7 @@ public class PlayerController : NetworkBehaviour
 
             _speed = 0f;
             yield return new WaitForSeconds(seconds);
-            _speed = 13f;
+            _speed = 10f;
 
             // Stop the frozen effect
             var particleSystem = frozenEffect.GetComponent<ParticleSystem>();
