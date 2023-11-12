@@ -17669,8 +17669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4953c4eab274448124a7893e6849a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
-    type: 3}
 --- !u!95 &1078390787
 Animator:
   serializedVersion: 5
@@ -22257,8 +22255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4953c4eab274448124a7893e6849a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
-    type: 3}
 --- !u!95 &1416989783
 Animator:
   serializedVersion: 5
@@ -24043,8 +24039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4953c4eab274448124a7893e6849a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
-    type: 3}
 --- !u!95 &1530773738
 Animator:
   serializedVersion: 5
@@ -28168,8 +28162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4953c4eab274448124a7893e6849a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
-    type: 3}
 --- !u!1 &2075389964
 GameObject:
   m_ObjectHideFlags: 0
