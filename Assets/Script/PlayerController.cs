@@ -95,6 +95,7 @@ public class PlayerController : NetworkBehaviour
     //Effects
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
+    public GameObject bloodPrefab;
 
     [Networked] public float Dist { get; set; }
     //玩家血量
@@ -402,6 +403,7 @@ public class PlayerController : NetworkBehaviour
                         Object.InputAuthority);
 
                     bulletCount--;
+                    
                     print("bulletCount:" + bulletCount);
                 }
 
@@ -424,20 +426,14 @@ public class PlayerController : NetworkBehaviour
         }
         if (frozen == 1)
         {
-            StartCoroutine(FreezePlayerForSeconds(5.0f));
-            Debug.Log("Frozen!");
+            StartCoroutine(FreezePlayerForSeconds(5.0f));           
             frozen = 0;
-        }
-        
+        }       
         if (runfast == 1)
-        {
-            //GameObject runfastEffect = Instantiate( transform.position, transform.rotation);          
-            StartCoroutine(runPlayerForSeconds(8.0f));
-            Debug.Log("runfast!");
-          
+        {                    
+            StartCoroutine(runPlayerForSeconds(8.0f));                     
             runfast = 0;
         }
-
 
         if (HasStateAuthority)
         {
@@ -447,16 +443,7 @@ public class PlayerController : NetworkBehaviour
 
         //var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
         //firstCamera.transform.rotation = Quaternion.Euler((float)_pitch, cameraEulerAngle.y, cameraEulerAngle.z);
-
-       
-        /*if(HasInputAuthority)
-        if (followlevel() == true)
-        {
-
-            gotoFPS();
-            gotonext = false;
-        }*/
-
+ 
     }
     private bool followlevel()
     {
@@ -465,7 +452,6 @@ public class PlayerController : NetworkBehaviour
         else
             return false;
     }
-
     
     int a = 0;
     private bool ShouldRespawn()
@@ -588,9 +574,7 @@ public class PlayerController : NetworkBehaviour
             Invoke("C0", 5);
             Debug.Log("Get Cake!");
             
-
             Destroy(other.gameObject);
-
             runfast = 1;
         }
 
@@ -787,8 +771,10 @@ public class PlayerController : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            Hp -= damage;
-        }
+            bloodPrefab.SetActive(true);
+            Hp -= damage;     
+        } 
+        //bloodPrefab.SetActive(false);
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {

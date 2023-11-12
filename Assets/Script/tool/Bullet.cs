@@ -9,7 +9,7 @@ public class Bullet : NetworkBehaviour
     private TickTimer life { get; set; }
 
     [SerializeField]
-    private float bulletSpeed = 5f;
+    private float bulletSpeed = 8f;
 
     //AudioSource
     public AudioClip seDamage;// 碰撞音效被打到
