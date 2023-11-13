@@ -185,8 +185,6 @@ public class PlayerController : NetworkBehaviour
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = bgmBackground;
-        //backgroundMusicSource.Play();
-        //backgroundMusicSource.loop = true;
         StartBackgroundMusic();
 
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
@@ -196,6 +194,8 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("shoot", new List<AudioClip> { seShoot });
         audioClips.Add("collision", new List<AudioClip> { seShoot,seCollision });
         audioClips.Add("cactus", new List<AudioClip> { seShoot, seCollision,seCactus });
+
+        string jumpButton = "JumpButton";
     }
 
     public override void Spawned()
@@ -365,11 +365,12 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            //if(isFinish==0)
-            //{
-                networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            //}
-            if(isMainCamera)
+            var moveInputj = new Vector3(data.MoveInput.y, data.MoveInput.x, 0);
+            networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
+            networkCharacterController.Move(transform.rotation * moveInputj * _jumpForce * Runner.DeltaTime);
+
+
+            if (isMainCamera)
             {
                 _yaw=0;
                 _pitch=0;
@@ -440,7 +441,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (highhigh == 1)
         {
-            //StartCoroutine(runPlayerForSeconds(8.0f));
+            //StartCoroutine(jumpPlayerForSeconds(8.0f));
             highhigh = 0;
         }
         if (HasStateAuthority)
@@ -528,19 +529,23 @@ public class PlayerController : NetworkBehaviour
     {
         if (highhigh == 1)
         {
-            jumpPrefab.SetActive(true);
-            var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
-            if (particleSystem != null)
+            //jumpPrefab.SetActive(true);
+            //var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
+            //if (particleSystem != null)
+            //{
+            //    particleSystem.Play();
+            //}
+            if (Input.GetButtonDown("jumpButton"))
             {
-                particleSystem.Play();
+                // 將垂直方向上的速度設置為跳躍力
+                _jumpForce = 28f;
+                yield return new WaitForSeconds(seconds);
+                _jumpForce = 10f;
             }
-            _jumpForce = 28f;
-            yield return new WaitForSeconds(seconds);
-            _jumpForce = 5f;
-            if (particleSystem != null)
-            {
-                particleSystem.Stop();
-            }
+            //if (particleSystem != null)
+            //{
+            //    particleSystem.Stop();
+            //}
         }
     }
 
