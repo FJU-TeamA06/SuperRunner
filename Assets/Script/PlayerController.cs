@@ -808,6 +808,11 @@ public class PlayerController : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         if (Object.HasStateAuthority)
+        {        
+            Hp -= damage;
+        }
+
+        if (Hp > 0)
         {
             blood = 1;
             var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
@@ -815,10 +820,9 @@ public class PlayerController : NetworkBehaviour
             {
                 bloodPrefab.SetActive(true);
                 particleSystem.Play();
-            }
-            Hp -= damage;
-            blood = 0;
-        }      
+            }        
+        }
+        blood = 0;
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {

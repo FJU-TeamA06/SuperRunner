@@ -10,6 +10,8 @@ public class Bullet : NetworkBehaviour
 
     [SerializeField]
     private float bulletSpeed = 8f;
+    public int blood = 0;
+    public GameObject bloodPrefab;
 
     //AudioSource
     public AudioClip seDamage;// 碰撞音效被打到
@@ -61,6 +63,14 @@ public class Bullet : NetworkBehaviour
                 //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
             }
             player.TakeDamage(34);
+            /*blood = 1;
+            var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
+            if (blood == 1)
+            {
+                bloodPrefab.SetActive(true);
+                particleSystem.Play();
+            }
+            blood = 0;*/
 
             Runner.Despawn(Object);
         }
