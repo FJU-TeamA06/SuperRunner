@@ -3,7 +3,12 @@ guid: 5d6c0afe6da2b7f478f8ce8378d5114f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Runner: {instanceID: 0}
+  - Object: {instanceID: 0}
+  - bloodPrefab: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d,
+      type: 3}
+  - seDamage: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
