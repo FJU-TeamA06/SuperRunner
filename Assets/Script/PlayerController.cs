@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour
     private Angle _yaw { get; set; }
     [SerializeField]
     private float _speed = 5f;
+    private float _jumpForce = 10f;
     [Networked]
     private Angle _pitch { get; set; }
     [SerializeField]
@@ -71,6 +72,8 @@ public class PlayerController : NetworkBehaviour
     private int frozen = 0;   
     [SerializeField]
     private int runfast = 0;
+    [SerializeField]
+    private int highhigh = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
 
@@ -96,6 +99,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
+    public GameObject jumpPrefab;
     public int blood = 0;
 
     [Networked] public float Dist { get; set; }
@@ -434,7 +438,11 @@ public class PlayerController : NetworkBehaviour
             StartCoroutine(runPlayerForSeconds(8.0f));                     
             runfast = 0;
         }
-
+        if (highhigh == 1)
+        {
+            //StartCoroutine(runPlayerForSeconds(8.0f));
+            highhigh = 0;
+        }
         if (HasStateAuthority)
         {
             distance = CalculateDistancePercentage();
@@ -509,6 +517,26 @@ public class PlayerController : NetworkBehaviour
 
             // Stop the frozen effect
             var particleSystem = frozenEffect.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+            }
+        }
+    }
+
+    private IEnumerator jumpPlayerForSeconds(float seconds)
+    {
+        if (highhigh == 1)
+        {
+            jumpPrefab.SetActive(true);
+            var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Play();
+            }
+            _jumpForce = 28f;
+            yield return new WaitForSeconds(seconds);
+            _jumpForce = 5f;
             if (particleSystem != null)
             {
                 particleSystem.Stop();
@@ -597,7 +625,9 @@ public class PlayerController : NetworkBehaviour
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Nice!";
+            //Invoke("C0", 5);
             Destroy(other.gameObject);
+            highhigh = 1;
         }
         if (other.gameObject.CompareTag("Soundtest"))
         {
