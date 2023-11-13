@@ -365,9 +365,9 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            var moveInputj = new Vector3(data.MoveInput.y, data.MoveInput.x, 0);
+            //var moveInputj = new Vector3(data.MoveInput.y, data.MoveInput.x, 0);
             networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            networkCharacterController.Move(transform.rotation * moveInputj * _jumpForce * Runner.DeltaTime);
+            //networkCharacterController.Move(transform.rotation * moveInputj * _jumpForce * Runner.DeltaTime);
 
 
             if (isMainCamera)
