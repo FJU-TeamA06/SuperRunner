@@ -854,7 +854,7 @@ public class PlayerController : NetworkBehaviour
         {
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "下方有祕密通道 !";
+            timerText.text = "下方有驚喜通道 !";
             Invoke("C0", 3);
             istrapTips = 1;
         }
