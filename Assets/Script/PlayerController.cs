@@ -23,8 +23,10 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     private Angle _yaw { get; set; }
     [SerializeField]
-    private float _speed = 5f;
-    private float _jumpForce = 10f;
+    private float _speed = 6f;
+    private float _jumpForce = 7f;
+    public float jumpHigh = 5f;
+    private Rigidbody rb;
     [Networked]
     private Angle _pitch { get; set; }
     [SerializeField]
@@ -196,6 +198,7 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("cactus", new List<AudioClip> { seShoot, seCollision,seCactus });
 
         string jumpButton = "JumpButton";
+        rb = GetComponent<Rigidbody>();
     }
 
     public override void Spawned()
@@ -365,10 +368,11 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            //var moveInputj = new Vector3(data.MoveInput.y, data.MoveInput.x, 0);
+            var moveInputj = new Vector3(data.MoveInput.y, 0,data.MoveInput.x);
+            var moveDirection = transform.rotation * moveInputj;
+            moveDirection.y += _jumpForce;
+            networkCharacterController.Move(moveDirection * Runner.DeltaTime);
             networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            //networkCharacterController.Move(transform.rotation * moveInputj * _jumpForce * Runner.DeltaTime);
-
 
             if (isMainCamera)
             {
@@ -535,18 +539,28 @@ public class PlayerController : NetworkBehaviour
             //{
             //    particleSystem.Play();
             //}
-            if (Input.GetButtonDown("jumpButton"))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 // 將垂直方向上的速度設置為跳躍力
                 _jumpForce = 28f;
+                Jump();
                 yield return new WaitForSeconds(seconds);
+                jumpHigh = 5f;
                 _jumpForce = 10f;
+                
             }
             //if (particleSystem != null)
             //{
             //    particleSystem.Stop();
             //}
         }
+    }
+
+    private void Jump()
+    {
+        // 增加向上的力以實現跳躍
+        jumpHigh = 78f;
+        rb.AddForce(Vector3.up * jumpHigh, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -629,7 +643,7 @@ public class PlayerController : NetworkBehaviour
         {
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "Nice!";
+            timerText.text = "Jump High!";
             //Invoke("C0", 5);
             Destroy(other.gameObject);
             highhigh = 1;
@@ -794,17 +808,21 @@ public class PlayerController : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         if (Object.HasStateAuthority)
+        {        
+            Hp -= damage;
+        }
+
+        if (Hp > 0)
         {
-            /*blood = 1;
+            blood = 1;
             var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
             if (blood == 1)
             {
                 bloodPrefab.SetActive(true);
                 particleSystem.Play();
-            }*/
-            Hp -= damage;
-            //blood = 0;
-        }      
+            }        
+        }
+        blood = 0;
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {
