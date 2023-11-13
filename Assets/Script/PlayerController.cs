@@ -103,6 +103,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject bloodPrefab;
     public GameObject jumpPrefab;
     public int blood = 0;
+    public int door = 0;
 
     [Networked] public float Dist { get; set; }
     //玩家血量
@@ -443,6 +444,11 @@ public class PlayerController : NetworkBehaviour
             StartCoroutine(runPlayerForSeconds(8.0f));                     
             runfast = 0;
         }
+        if (door == 1)
+        {
+            gateway();
+            door = 0;
+        }
         if (highhigh == 1)
         {
             //StartCoroutine(jumpPlayerForSeconds(8.0f));
@@ -614,7 +620,17 @@ public class PlayerController : NetworkBehaviour
             Destroy(other.gameObject);
             runfast = 1;
         }
+        if (other.gameObject.CompareTag("gateway"))
+        {
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "傳送門 Go!";
+            Invoke("C0", 3);
+            Debug.Log("Get Cake!");
 
+            Destroy(other.gameObject);
+            door = 1;
+        }
         if (other.gameObject.CompareTag("Coin"))
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
@@ -751,6 +767,13 @@ public class PlayerController : NetworkBehaviour
         //a = 1;
         //currentInputMode = InputMode.ModeFPS;
         //isFinish=0;
+    }
+    private void gateway()
+    {
+        if (basicSpawner.levelIndex == 1)
+        {
+            networkCharacterController.transform.position = new Vector3(215, 6, -5);
+        }
     }
 
     private void Respawn()

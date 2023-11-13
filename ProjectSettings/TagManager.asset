@@ -35,6 +35,7 @@ TagManager:
   - middleSpawn2
   - toolui
   - cake
+  - gateway
   layers:
   - Default
   - TransparentFX
