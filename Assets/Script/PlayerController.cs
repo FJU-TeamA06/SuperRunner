@@ -24,7 +24,7 @@ public class PlayerController : NetworkBehaviour
     private Angle _yaw { get; set; }
     [SerializeField]
     private float _speed = 6f;
-    private float _jumpForce = 7f;
+    //private float _jumpForce = 7f;
     public float jumpHigh = 5f;
     private Rigidbody rb;
     [Networked]
@@ -368,10 +368,10 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            var moveInputj = new Vector3(data.MoveInput.y, 0,data.MoveInput.x);
-            var moveDirection = transform.rotation * moveInputj;
-            moveDirection.y += _jumpForce;
-            networkCharacterController.Move(moveDirection * Runner.DeltaTime);
+            //var moveInputj = new Vector3(data.MoveInput.y, 0,data.MoveInput.x);
+            //var moveDirection = transform.rotation * moveInputj;
+            //moveDirection.y += _jumpForce;
+            //networkCharacterController.Move(moveDirection * Runner.DeltaTime);
             networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
 
             if (isMainCamera)
@@ -542,11 +542,11 @@ public class PlayerController : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // 將垂直方向上的速度設置為跳躍力
-                _jumpForce = 28f;
+                //_jumpForce = 28f;
                 Jump();
                 yield return new WaitForSeconds(seconds);
                 jumpHigh = 5f;
-                _jumpForce = 10f;
+                //_jumpForce = 10f;
                 
             }
             //if (particleSystem != null)
