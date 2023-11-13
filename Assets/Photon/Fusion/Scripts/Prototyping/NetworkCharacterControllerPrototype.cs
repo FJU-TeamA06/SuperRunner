@@ -73,17 +73,24 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   /// </summary>
   public virtual void Jump(bool ignoreGrounded = false, float? overrideImpulse = null) {
     if (IsGrounded || ignoreGrounded) {
+      SetJumpImpulse(jumpImpulse);
       var newVel = Velocity;
       newVel.y += overrideImpulse ?? jumpImpulse;
       Velocity =  newVel;
     }
   }
 
-  /// <summary>
-  /// Basic implementation of a character controller's movement function based on an intended direction.
-  /// <param name="direction">Intended movement direction, subject to movement query, acceleration and max speed values.</param>
-  /// </summary>
-  public virtual void Move(Vector3 direction) {
+  public void SetJumpImpulse(float impulse)
+  {
+      // 設定跳躍高度
+      jumpImpulse = impulse;
+  }
+
+    /// <summary>
+    /// Basic implementation of a character controller's movement function based on an intended direction.
+    /// <param name="direction">Intended movement direction, subject to movement query, acceleration and max speed values.</param>
+    /// </summary>
+    public virtual void Move(Vector3 direction) {
     var deltaTime    = Runner.DeltaTime;
     var previousPos  = transform.position;
     var moveVelocity = Velocity;
