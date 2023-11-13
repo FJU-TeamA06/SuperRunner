@@ -68,7 +68,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private int isFinish = 0;
     [SerializeField]
-    private int frozen = 0;
+    private int frozen = 0;   
     [SerializeField]
     private int runfast = 0;
     //AudioSource
@@ -96,6 +96,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
+    public int blood = 0;
 
     [Networked] public float Dist { get; set; }
     //玩家血量
@@ -406,12 +407,11 @@ public class PlayerController : NetworkBehaviour
                     
                     print("bulletCount:" + bulletCount);
                 }
+                
 
             }
-
-            
+          
         }
-        
 
         if (ShouldRespawn()==true)
         {
@@ -755,15 +755,21 @@ public class PlayerController : NetworkBehaviour
         Debug.Log($"[RPC] SetName {name}");
         this.PlayerName= name;
     }
-
+    
     public void TakeDamage(int damage)
     {
         if (Object.HasStateAuthority)
         {
-            bloodPrefab.SetActive(true);
-            Hp -= damage;     
-        } 
-        //bloodPrefab.SetActive(false);
+            blood = 1;
+            var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
+            if (blood == 1)
+            {
+                bloodPrefab.SetActive(true);
+                particleSystem.Play();
+            }
+            Hp -= damage;
+            blood = 0;
+        }      
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {
