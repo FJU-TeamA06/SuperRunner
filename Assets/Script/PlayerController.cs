@@ -155,7 +155,7 @@ public class PlayerController : NetworkBehaviour
     public InputActionAsset myActions;
     public int ColorNum=0;
     private int isTriggedRedCubeTips=0;
-
+    private int istrapTips = 0;
 
     private void Awake()
     {
@@ -835,6 +835,14 @@ public class PlayerController : NetworkBehaviour
             timerText.text="避開紅方塊而行 !";
             Invoke("C0", 5 );
             isTriggedRedCubeTips=1;
+        }
+        if (transform.position.x > 90 && basicSpawner.levelIndex == 1 && istrapTips == 0)//提示碰到紅方塊會死人
+        {
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "下方有祕密通道 !";
+            Invoke("C0", 3);
+            istrapTips = 1;
         }
         //FirstCamera.enabled = currentCameraMode == 2;
 
