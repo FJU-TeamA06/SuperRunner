@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour
     private Angle _yaw { get; set; }
     [SerializeField]
     private float _speed = 5f;
+    private float _jumpForce = 10f;
     [Networked]
     private Angle _pitch { get; set; }
     [SerializeField]
@@ -68,9 +69,11 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private int isFinish = 0;
     [SerializeField]
-    private int frozen = 0;
+    private int frozen = 0;   
     [SerializeField]
     private int runfast = 0;
+    [SerializeField]
+    private int highhigh = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
 
@@ -96,6 +99,8 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
+    public GameObject jumpPrefab;
+    public int blood = 0;
 
     [Networked] public float Dist { get; set; }
     //玩家血量
@@ -180,8 +185,6 @@ public class PlayerController : NetworkBehaviour
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = bgmBackground;
-        //backgroundMusicSource.Play();
-        //backgroundMusicSource.loop = true;
         StartBackgroundMusic();
 
         collisionSoundSource = gameObject.AddComponent<AudioSource>();
@@ -191,6 +194,8 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("shoot", new List<AudioClip> { seShoot });
         audioClips.Add("collision", new List<AudioClip> { seShoot,seCollision });
         audioClips.Add("cactus", new List<AudioClip> { seShoot, seCollision,seCactus });
+
+        string jumpButton = "JumpButton";
     }
 
     public override void Spawned()
@@ -360,11 +365,12 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            //if(isFinish==0)
-            //{
-                networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
-            //}
-            if(isMainCamera)
+            //var moveInputj = new Vector3(data.MoveInput.y, data.MoveInput.x, 0);
+            networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
+            //networkCharacterController.Move(transform.rotation * moveInputj * _jumpForce * Runner.DeltaTime);
+
+
+            if (isMainCamera)
             {
                 _yaw=0;
                 _pitch=0;
@@ -406,12 +412,11 @@ public class PlayerController : NetworkBehaviour
                     
                     print("bulletCount:" + bulletCount);
                 }
+                
 
             }
-
-            
+          
         }
-        
 
         if (ShouldRespawn()==true)
         {
@@ -434,7 +439,11 @@ public class PlayerController : NetworkBehaviour
             StartCoroutine(runPlayerForSeconds(8.0f));                     
             runfast = 0;
         }
-
+        if (highhigh == 1)
+        {
+            //StartCoroutine(jumpPlayerForSeconds(8.0f));
+            highhigh = 0;
+        }
         if (HasStateAuthority)
         {
             distance = CalculateDistancePercentage();
@@ -513,6 +522,30 @@ public class PlayerController : NetworkBehaviour
             {
                 particleSystem.Stop();
             }
+        }
+    }
+
+    private IEnumerator jumpPlayerForSeconds(float seconds)
+    {
+        if (highhigh == 1)
+        {
+            //jumpPrefab.SetActive(true);
+            //var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
+            //if (particleSystem != null)
+            //{
+            //    particleSystem.Play();
+            //}
+            if (Input.GetButtonDown("jumpButton"))
+            {
+                // 將垂直方向上的速度設置為跳躍力
+                _jumpForce = 28f;
+                yield return new WaitForSeconds(seconds);
+                _jumpForce = 10f;
+            }
+            //if (particleSystem != null)
+            //{
+            //    particleSystem.Stop();
+            //}
         }
     }
 
@@ -597,7 +630,9 @@ public class PlayerController : NetworkBehaviour
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Nice!";
+            //Invoke("C0", 5);
             Destroy(other.gameObject);
+            highhigh = 1;
         }
         if (other.gameObject.CompareTag("Soundtest"))
         {
@@ -755,15 +790,21 @@ public class PlayerController : NetworkBehaviour
         Debug.Log($"[RPC] SetName {name}");
         this.PlayerName= name;
     }
-
+    
     public void TakeDamage(int damage)
     {
         if (Object.HasStateAuthority)
         {
-            bloodPrefab.SetActive(true);
-            Hp -= damage;     
-        } 
-        //bloodPrefab.SetActive(false);
+            /*blood = 1;
+            var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
+            if (blood == 1)
+            {
+                bloodPrefab.SetActive(true);
+                particleSystem.Play();
+            }*/
+            Hp -= damage;
+            //blood = 0;
+        }      
     }
     private static void OnHpChanged(Changed<PlayerController> changed)
     {
