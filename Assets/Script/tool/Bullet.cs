@@ -63,14 +63,14 @@ public class Bullet : NetworkBehaviour
                 //backgroundMusicSource.volume = originalBackgroundMusicVolume * 0.1f;
             }
             player.TakeDamage(34);
-            blood = 1;
+            /*blood = 1;
             var particleSystem = bloodPrefab.GetComponent<ParticleSystem>();
             if (blood == 1)
             {
                 bloodPrefab.SetActive(true);
                 particleSystem.Play();
             }
-            blood = 0;
+            blood = 0;*/
 
             Runner.Despawn(Object);
         }
