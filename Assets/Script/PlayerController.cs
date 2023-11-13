@@ -603,8 +603,7 @@ public class PlayerController : NetworkBehaviour
 
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "be frozen";
-
+            timerText.text = "冰凍中...";
             frozen = 1;
         }
         if (other.gameObject.CompareTag("cake"))
@@ -613,7 +612,7 @@ public class PlayerController : NetworkBehaviour
 
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "run fast !";
+            timerText.text = "獲得加速道具 !";
             Invoke("C0", 5);
             Debug.Log("Get Cake!");
             
@@ -626,7 +625,6 @@ public class PlayerController : NetworkBehaviour
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "傳送門 Go!";
             Invoke("C0", 3);
-            Debug.Log("Get Cake!");
 
             Destroy(other.gameObject);
             door = 1;
@@ -639,7 +637,7 @@ public class PlayerController : NetworkBehaviour
             Setcc_RPC();
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text="Coin Get !";
+            timerText.text="獲得金幣 !";
             Invoke("C0", 5 );
             Debug.Log("Get Coin!");
             Debug.Log(basicSpawner.levelIndex);
@@ -650,7 +648,7 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Get Clip!");
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "Clip Get !";
+            timerText.text = "子彈 +5 !";
             bulletCount +=5;
             print("bulletCount:"+bulletCount);
             Destroy(other.gameObject);
