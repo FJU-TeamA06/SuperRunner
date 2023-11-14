@@ -7,6 +7,7 @@ public class LeaderboardMain : MonoBehaviour
 {
     IEnumerator DoRequest()
     {
+        Debug.Log(WWW.EscapeURL("Testing 1,2,3"));
         var request = UnityWebRequest.Get("http://140.136.151.71:5000/players?mode=getalldata");
         
         yield return request.Send();
