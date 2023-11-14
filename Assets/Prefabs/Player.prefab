@@ -342,6 +342,7 @@ MonoBehaviour:
   FirstCamera: {fileID: 5070783983854351187}
   _speed: 5
   jumpHigh: 5
+  normalJump: 13
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
@@ -388,7 +389,6 @@ MonoBehaviour:
   frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
     type: 3}
   bloodPrefab: {fileID: 5047771336749653308}
-  jumpPrefab: {fileID: 0}
   blood: 0
   door: 0
   _Dist: 0
@@ -474,6 +474,7 @@ MonoBehaviour:
   braking: 10
   maxSpeed: 40
   rotationSpeed: 10
+  jumphh: 2
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
 --- !u!82 &7521128050612297871

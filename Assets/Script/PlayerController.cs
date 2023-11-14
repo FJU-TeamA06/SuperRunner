@@ -24,11 +24,9 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     private Angle _yaw { get; set; }
     [SerializeField]
-    private float _speed = 6f;
-    //private float _jumpForce = 7f;
-    public float jumpHigh = 18f;
-    public float normalJump = 5f;
-    //private Rigidbody rb;
+    private float _speed = 5f;
+    public float jumpHigh = 28f;
+    public float normalJump = 13f;
     [Networked]
     private Angle _pitch { get; set; }
     [SerializeField]
@@ -102,7 +100,6 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
-    //public GameObject jumpPrefab;
     public int blood = 0;
     public int door = 0;
 
@@ -269,8 +266,7 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("collision", new List<AudioClip> { seShoot,seCollision });
         audioClips.Add("cactus", new List<AudioClip> { seShoot, seCollision,seCactus });
 
-        string jumpButton = "JumpButton";
-        //rb = GetComponent<Rigidbody>();
+        networkCharacterController.SetJumpImpulse(normalJump);
     }
 
     public override void Spawned()
@@ -440,10 +436,6 @@ public class PlayerController : NetworkBehaviour
             ButtonsPrevious = buttons;
 
             var moveInput = new Vector3(data.MoveInput.y, 0, data.MoveInput.x);
-            //var moveInputj = new Vector3(data.MoveInput.y, 0,data.MoveInput.x);
-            //var moveDirection = transform.rotation * moveInputj;
-            //moveDirection.y += _jumpForce;
-            //networkCharacterController.Move(moveDirection * Runner.DeltaTime);
             networkCharacterController.Move(transform.rotation * moveInput * _speed * Runner.DeltaTime);
 
             if (isMainCamera)
@@ -466,7 +458,7 @@ public class PlayerController : NetworkBehaviour
                 if (audioClips.ContainsKey(selectedSound))
                 {                
                     GetComponent<AudioSource>().clip = audioClips[selectedSound][0];
-                    GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
+                    GetComponent<AudioSource>().Play(); 
                     GetComponent<AudioSource>().loop = false;
                 }
 
@@ -522,7 +514,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (highhigh == 1)
         {
-            StartCoroutine(jumpPlayerForSeconds(8.0f));
+            StartCoroutine(jumpPlayerForSecondsCoroutine());
             highhigh = 0;
         }
         if (HasStateAuthority)
@@ -606,47 +598,23 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private IEnumerator jumpPlayerForSeconds(float seconds)
+    private IEnumerator jumpPlayerForSecondsCoroutine()
     {
-        if (highhigh == 1)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //SetJumpForce(jumpHigh);
-                //Jump(jumpHigh);
-                networkCharacterController.SetJumpImpulse(jumpHigh);
-                networkCharacterController.Jump();
-                //Jump();
-                yield return new WaitForSeconds(seconds);
-                //SetJumpForce(normalJump);
-                //Jump();
-                networkCharacterController.SetJumpImpulse(normalJump);
-                networkCharacterController.Jump();
-                //jumpHigh = 5f;
-
-
-            }
-        }
+        Debug.Log("highhighYes!");
+        yield return null;
+        //SetJumpForce(jumpHigh);
+        //Jump(jumpHigh);
+        networkCharacterController.SetJumpImpulse(jumpHigh);
+        networkCharacterController.Jump();
+        Debug.Log("jump highhigh!");
+        //Jump();
+        yield return new WaitForSeconds(8.0f);
+        //SetJumpForce(normalJump);
+        //Jump();
+        networkCharacterController.SetJumpImpulse(normalJump);
+        networkCharacterController.Jump();
+        //jumpHigh = 5f;
     }
-
-    //private void Jump()
-    //{
-    //    // 增加向上的力以實現跳躍
-    //    //jumpHigh = 18f;
-    //    networkCharacterController.JumpImpulse();
-    //    //rb.velocity = new Vector3(rb.velocity.x, CalculateJumpSpeed(jumpHeight), rb.velocity.z);
-    //    //rb.AddForce(Vector3.up * jumpHigh, ForceMode.Impulse);
-    //}
-    //private void SetJumpForce(float impulse)
-    //{
-    //    // 設定跳躍力
-    //    networkCharacterController.JumpImpulse = impulse;
-    //}
-    //private float CalculateJumpSpeed(float jumpHeight)
-    //{
-    //    // 根據物理公式計算所需的跳躍速度
-    //    return Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
-    //}
 
     private void OnTriggerEnter(Collider other)
     {

@@ -14,8 +14,9 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   public float braking       = 10.0f;
   public float maxSpeed      = 2.0f;
   public float rotationSpeed = 15.0f;
+  public float jumphh = 12.0f;
 
-  [Networked]
+    [Networked]
   [HideInInspector]
   public bool IsGrounded { get; set; }
 
@@ -73,9 +74,11 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   /// </summary>
   public virtual void Jump(bool ignoreGrounded = false, float? overrideImpulse = null) {
     if (IsGrounded || ignoreGrounded) {
-      SetJumpImpulse(jumpImpulse);
+      //SetJumpImpulse(jumphh);
+      Debug.Log("JumpImpulse: " + jumphh);
+      Debug.Log("Jumping!");
       var newVel = Velocity;
-      newVel.y += overrideImpulse ?? jumpImpulse;
+      newVel.y += overrideImpulse ?? jumphh;
       Velocity =  newVel;
     }
   }
@@ -83,7 +86,7 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   public void SetJumpImpulse(float impulse)
   {
       // 設定跳躍高度
-      jumpImpulse = impulse;
+      jumphh = impulse;
   }
 
     /// <summary>
