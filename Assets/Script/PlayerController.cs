@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
@@ -39,7 +40,6 @@ public class PlayerController : NetworkBehaviour
     private Vector3 startPoint;
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
-    private int   firS = 0, secS = 0, thiS = 0, fouS = 0;                                         // 分數用
     private int [] arr = {0,0,0,0};                                                               // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private int xCount = 0, yCount = 0 ,cCount = 0 , ppCount = 0;
@@ -159,6 +159,76 @@ public class PlayerController : NetworkBehaviour
     private int isTriggedRedCubeTips=0;
     private int istrapTips = 0;
 
+    IEnumerator DeleteDataInSession(string sname)                         // SQL清除Session 
+    {
+        string URL="http://140.136.151.71:5000/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
+    }
+    IEnumerator GetDataInSession(string sname)                           // SQL取得Session
+    {
+        string URL="http://140.136.151.71:5000/players?mode=getsessionplayers&sname="+WWW.EscapeURL(sname);
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
+    }
+    IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
+    {
+        string URL="http://140.136.151.71:5000/players?mode=setplayerdata&pname="+WWW.EscapeURL(pname)+"&sname="+WWW.EscapeURL(sname)+"&score="+score;
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
+    }
+
+    IEnumerator AddDataInSession(string sname,string pname,int score)                  // SQL增加玩家分數
+    {
+        string URL="http://140.136.151.71:5000/players?mode=addplayerscore&sname=" + WWW.EscapeURL(sname) + "&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
+    }
+
     private void Awake()
     {
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
@@ -265,11 +335,13 @@ public class PlayerController : NetworkBehaviour
         //ChangeColor_RPC(ColorNum);
         if (Object.HasStateAuthority)
         {
+            StartCoroutine(DeleteDataInSession(PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
             playerCount=0;
             bulletCount=maxBullet;
             Hp = maxHp;
         }
-        
+        StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
 
 
     }
@@ -569,7 +641,7 @@ public class PlayerController : NetworkBehaviour
         if (other.CompareTag("Finish3"))
         {
             print("Touched finish");
-            OnReachedFinish();
+            OnReachedFinish_3();
             gotonext = true;
             Destroy(other.gameObject);
         }
@@ -619,8 +691,7 @@ public class PlayerController : NetworkBehaviour
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
         
-            CoinPoint_RPC(this.PlayerName.ToString());
-            Setcc_RPC();
+            CoinPoint(this.PlayerName.ToString());
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text="Coin Get !";
@@ -724,12 +795,28 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private void OnReachedFinish()
+    private void OnReachedFinish()                                //    第一二關的finish
     {
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            //DistRutern_RPC();                                        // 限制次數
+            DistRutern_RPC();                                        
+            SetPoint();
+            Finish_RPC(this.PlayerName.ToString());
+            
+        }
+        // 在這裡添加您想要在角色抵達終點時執行的程式碼
+        timeObject = GameObject.FindGameObjectWithTag("Timer");
+        timerUI timerScript = timeObject.GetComponent<timerUI>();
+        timerScript.StopTimer();
+    }
+    private void OnReachedFinish_3()                             //     第三關的finish
+    {
+        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        if (finishPlane != null)
+        {
+            DistRutern_RPC();                                        
+            SetPoint_3();
             Finish_RPC(this.PlayerName.ToString());
             
         }
@@ -1045,6 +1132,7 @@ public class PlayerController : NetworkBehaviour
                 ppCount=playerCount;
                 FinalPlaneDisplay_RPC();
                 CalculateAndSyncScores_RPC();
+
             }
             else if( basicSpawner.levelIndex == 3 )                              //在第三關
             {
@@ -1071,18 +1159,55 @@ public class PlayerController : NetworkBehaviour
     {
         ppCount = playerCount;
     }
+ 
 
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置Count＿RPC
-    public void SetPoint_RPC( int a, int b, int c, int d )
+    private void SetPoint()     // 第一，二關分數設置
     {
-        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var player in allPlayers){
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            playerController.arr[0] = a ;
-            playerController.arr[1] = b ;
-            playerController.arr[2] = c ;
-            playerController.arr[3] = d ;
+        for (int i = 0; i < playerCount ; i++)
+        {
+            if (i >= 3 )
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[3].ToString(),4));
+            }
+            else if (i >= 2)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[2].ToString(),6));
+            }
+            else if (i >= 1)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[1].ToString(),8));
+            }
+            else if (i >= 0)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[0].ToString(),10));
+            }
         }
+    }
+    private void SetPoint_3()     // 第三關分數設置
+    {
+        for (int i = 0; i < playerCount ; i++)
+        {
+            if (i >= 3 )
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[3].ToString(),2));
+            }
+            else if (i >= 2)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[2].ToString(),2));
+            }
+            else if (i >= 1)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[1].ToString(),2));
+            }
+            else if (i >= 0)
+            {
+                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[0].ToString(),5));
+            }
+        }
+    }
+    private void CoinPoint(string a)           // 金幣分數設置
+    {
+         StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),a,1));
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
@@ -1132,7 +1257,6 @@ public class PlayerController : NetworkBehaviour
             }
         }
         cCount=cCount+1;
-        SetPoint_RPC(arr[0],arr[1],arr[2],arr[3]);
         if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )        // 第一關第二關時，調用 FinalScoreDisplay_RPC
         {
             FinalScoreDisplay_RPC();
@@ -1160,31 +1284,8 @@ public class PlayerController : NetworkBehaviour
                 ppCount--;
             }
         }
-    }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]                                                                   // 金幣分數＿RPC試作
-    public void CoinPoint_RPC(string a)
-    {
-        if(yCount == 0)
-        {
-            DistRutern_RPC();
-        }
-        if (FinalScoreBoard[0] == a && cCount == 0){
-            arr[0]++;
-            cCount++;
-        }
-        else if (FinalScoreBoard[1] == a && cCount == 0){
-            arr[1]++;
-            cCount++;
-        }
-        else if (FinalScoreBoard[2] == a && cCount == 0){
-            arr[2]++;
-            cCount++;
-        }
-        else if (FinalScoreBoard[3] == a && cCount == 0){
-            arr[3]++;
-            cCount++;
-        }
-    }
+    }                                                                 
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void Setcc_RPC()
     {
