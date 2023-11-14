@@ -25,7 +25,7 @@ public class PlayerController : NetworkBehaviour
     private Angle _yaw { get; set; }
     [SerializeField]
     private float _speed = 5f;
-    public float jumpHigh = 28f;
+    public float jumpHigh = 12f;
     public float normalJump = 13f;
     [Networked]
     private Angle _pitch { get; set; }

@@ -76,7 +76,6 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
     if (IsGrounded || ignoreGrounded) {
       //SetJumpImpulse(jumphh);
       Debug.Log("JumpImpulse: " + jumphh);
-      Debug.Log("Jumping!");
       var newVel = Velocity;
       newVel.y += overrideImpulse ?? jumphh;
       Velocity =  newVel;
