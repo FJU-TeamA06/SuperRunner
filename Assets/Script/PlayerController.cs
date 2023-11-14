@@ -26,8 +26,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float _speed = 6f;
     //private float _jumpForce = 7f;
-    public float jumpHigh = 5f;
-    private Rigidbody rb;
+    public float jumpHigh = 18f;
+    public float normalJump = 5f;
+    //private Rigidbody rb;
     [Networked]
     private Angle _pitch { get; set; }
     [SerializeField]
@@ -101,8 +102,9 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
-    public GameObject jumpPrefab;
+    //public GameObject jumpPrefab;
     public int blood = 0;
+    public int door = 0;
 
     [Networked] public float Dist { get; set; }
     //玩家血量
@@ -268,7 +270,7 @@ public class PlayerController : NetworkBehaviour
         audioClips.Add("cactus", new List<AudioClip> { seShoot, seCollision,seCactus });
 
         string jumpButton = "JumpButton";
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     public override void Spawned()
@@ -371,7 +373,6 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RpcStartBackgroundMusic()
     {
-        // 在這裡啟動背景音樂
         backgroundMusicSource.Play();
         backgroundMusicSource.loop = true;
     }
@@ -384,7 +385,6 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RpcStopBackgroundMusic()
     {
-        // 在這裡停止背景音樂
         backgroundMusicSource.Stop();
     }
 
@@ -515,9 +515,14 @@ public class PlayerController : NetworkBehaviour
             StartCoroutine(runPlayerForSeconds(8.0f));                     
             runfast = 0;
         }
+        if (door == 1)
+        {
+            gateway();
+            door = 0;
+        }
         if (highhigh == 1)
         {
-            //StartCoroutine(jumpPlayerForSeconds(8.0f));
+            StartCoroutine(jumpPlayerForSeconds(8.0f));
             highhigh = 0;
         }
         if (HasStateAuthority)
@@ -605,35 +610,43 @@ public class PlayerController : NetworkBehaviour
     {
         if (highhigh == 1)
         {
-            //jumpPrefab.SetActive(true);
-            //var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
-            //if (particleSystem != null)
-            //{
-            //    particleSystem.Play();
-            //}
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                // 將垂直方向上的速度設置為跳躍力
-                //_jumpForce = 28f;
-                Jump();
+                //SetJumpForce(jumpHigh);
+                //Jump(jumpHigh);
+                networkCharacterController.SetJumpImpulse(jumpHigh);
+                networkCharacterController.Jump();
+                //Jump();
                 yield return new WaitForSeconds(seconds);
-                jumpHigh = 5f;
-                //_jumpForce = 10f;
-                
+                //SetJumpForce(normalJump);
+                //Jump();
+                networkCharacterController.SetJumpImpulse(normalJump);
+                networkCharacterController.Jump();
+                //jumpHigh = 5f;
+
+
             }
-            //if (particleSystem != null)
-            //{
-            //    particleSystem.Stop();
-            //}
         }
     }
 
-    private void Jump()
-    {
-        // 增加向上的力以實現跳躍
-        jumpHigh = 78f;
-        rb.AddForce(Vector3.up * jumpHigh, ForceMode.Impulse);
-    }
+    //private void Jump()
+    //{
+    //    // 增加向上的力以實現跳躍
+    //    //jumpHigh = 18f;
+    //    networkCharacterController.JumpImpulse();
+    //    //rb.velocity = new Vector3(rb.velocity.x, CalculateJumpSpeed(jumpHeight), rb.velocity.z);
+    //    //rb.AddForce(Vector3.up * jumpHigh, ForceMode.Impulse);
+    //}
+    //private void SetJumpForce(float impulse)
+    //{
+    //    // 設定跳躍力
+    //    networkCharacterController.JumpImpulse = impulse;
+    //}
+    //private float CalculateJumpSpeed(float jumpHeight)
+    //{
+    //    // 根據物理公式計算所需的跳躍速度
+    //    return Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -669,8 +682,7 @@ public class PlayerController : NetworkBehaviour
 
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "be frozen";
-
+            timerText.text = "冰凍中...";
             frozen = 1;
         }
         if (other.gameObject.CompareTag("cake"))
@@ -679,14 +691,23 @@ public class PlayerController : NetworkBehaviour
 
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "run fast !";
+            timerText.text = "獲得加速道具 !";
             Invoke("C0", 5);
             Debug.Log("Get Cake!");
             
             Destroy(other.gameObject);
             runfast = 1;
         }
+        if (other.gameObject.CompareTag("gateway"))
+        {
+            timeObject = GameObject.FindGameObjectWithTag("timerText");
+            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+            timerText.text = "傳送門 Go!";
+            Invoke("C0", 3);
 
+            Destroy(other.gameObject);
+            door = 1;
+        }
         if (other.gameObject.CompareTag("Coin"))
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
@@ -694,7 +715,7 @@ public class PlayerController : NetworkBehaviour
             CoinPoint(this.PlayerName.ToString());
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text="Coin Get !";
+            timerText.text="獲得金幣 !";
             Invoke("C0", 5 );
             Debug.Log("Get Coin!");
             Debug.Log(basicSpawner.levelIndex);
@@ -705,7 +726,7 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Get Clip!");
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "Clip Get !";
+            timerText.text = "子彈 +5 !";
             bulletCount +=5;
             print("bulletCount:"+bulletCount);
             Destroy(other.gameObject);
@@ -838,6 +859,13 @@ public class PlayerController : NetworkBehaviour
         //a = 1;
         //currentInputMode = InputMode.ModeFPS;
         //isFinish=0;
+    }
+    private void gateway()
+    {
+        if (basicSpawner.levelIndex == 1)
+        {
+            networkCharacterController.transform.position = new Vector3(215, 6, -5);
+        }
     }
 
     private void Respawn()

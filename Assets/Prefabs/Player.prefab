@@ -390,6 +390,7 @@ MonoBehaviour:
   bloodPrefab: {fileID: 5047771336749653308}
   jumpPrefab: {fileID: 0}
   blood: 0
+  door: 0
   _Dist: 0
   _Hp: 0
   _bulletCount: 0
@@ -468,7 +469,7 @@ MonoBehaviour:
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
   gravity: -15
-  jumpImpulse: 30
+  jumpImpulse: 13
   acceleration: 10
   braking: 10
   maxSpeed: 40
