@@ -37,6 +37,18 @@ public class PlayerController : NetworkBehaviour
     private int FPS_Level=3;
     
     private Vector3 startPoint;
+    [System.Serializable]
+    public class PlayerData
+    {
+        public string name;
+        public int score;
+    }
+
+    [System.Serializable]
+    public class PlayerDataArray
+    {
+        public PlayerData[] players;
+    }
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
     private int [] arr = {0,0,0,0};                                                               // 分數用
@@ -163,10 +175,51 @@ public class PlayerController : NetworkBehaviour
     {
         yield return DeleteDataInSession(sname);
         yield return new WaitForSeconds(0.2f);
-        yield return GetDataInSession(name);
-        yield return new WaitForSeconds(0.2f);
         yield return SetDataInSession(pname,sname,score);
+        yield return new WaitForSeconds(0.2f);
     }
+    IEnumerator Set_1(string name,string sname)
+    {
+        yield return AddDataInSession(sname,name,10);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession(sname);
+        yield return new WaitForSeconds(0.2f);
+
+    }
+    IEnumerator Set_2(string name_1,string name_2,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,10);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,8);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
+    IEnumerator Set_3(string name_1,string name_2,string name_3,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,10);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,8);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_3,6);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
+    IEnumerator Set_4(string name_1,string name_2,string name_3,string name_4,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,10);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,8);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_3,6);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_4,4);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
+    
     IEnumerator DeleteDataInSession(string sname)                         // SQL清除Session 
     {
         string URL="http://140.136.151.71:5000/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
@@ -183,7 +236,6 @@ public class PlayerController : NetworkBehaviour
         
         var html = request.downloadHandler.text;
         Debug.Log(html);
-        yield return new WaitForSeconds(0.2f);
     }
 
     IEnumerator GetDataInSession(string sname)                           // SQL取得Session
@@ -201,7 +253,6 @@ public class PlayerController : NetworkBehaviour
         }
         var html = request.downloadHandler.text;
         Debug.Log(html);
-        yield return new WaitForSeconds(0.2f);
     }
     IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
     {
@@ -219,7 +270,6 @@ public class PlayerController : NetworkBehaviour
         
         var html = request.downloadHandler.text;
         Debug.Log(html);
-        yield return new WaitForSeconds(0.2f);
     }
 
     IEnumerator AddDataInSession(string sname,string pname,int score)                  // SQL增加玩家分數
@@ -351,7 +401,10 @@ public class PlayerController : NetworkBehaviour
             bulletCount=maxBullet;
             Hp = maxHp;
         }
-        //StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
+        else
+        {
+            StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
+        }
 
 
     }
@@ -809,7 +862,6 @@ public class PlayerController : NetworkBehaviour
             DistRutern_RPC();                                        
             SetPoint();
             Finish_RPC(this.PlayerName.ToString());
-            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         timeObject = GameObject.FindGameObjectWithTag("Timer");
@@ -1176,24 +1228,22 @@ public class PlayerController : NetworkBehaviour
 
     private void SetPoint()     // 第一，二關分數設置
     {
-        for (int i = 0; i < playerCount ; i++)
+
+        if (playerCount == 4 )
         {
-            if (i >= 3 )
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[3].ToString(),4));
-            }
-            else if (i >= 2)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[2].ToString(),6));
-            }
-            else if (i >= 1)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[1].ToString(),8));
-            }
-            else if (i >= 0)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[0].ToString(),10));
-            }
+            StartCoroutine(Set_4(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),ScoreLeaderboard[3].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 3)
+        {
+            StartCoroutine(Set_3(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 2)
+        {
+            StartCoroutine(Set_2(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 1)
+        {
+            StartCoroutine(Set_1(ScoreLeaderboard[0].ToString(),PlayerPrefs.GetString("SessionName")));
         }
     }
     private void SetPoint_3()     // 第三關分數設置
