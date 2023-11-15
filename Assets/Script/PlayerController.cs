@@ -175,10 +175,11 @@ public class PlayerController : NetworkBehaviour
         
         var html = request.downloadHandler.text;
         Debug.Log(html);
+        StartCoroutine(GetDataInSession_1(PlayerPrefs.GetString("SessionName")));
     }
-    IEnumerator GetDataInSession(string sname)                           // SQL取得Session
+    IEnumerator GetDataInSession_1(string sname)                           // SQL取得Session
     {
-        string URL="http://140.136.151.71:5000/players?mode=getsessionplayers&sname="+WWW.EscapeURL(sname);
+        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -189,7 +190,23 @@ public class PlayerController : NetworkBehaviour
             Debug.Log(request.error);
             yield break;
         }
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
+        StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
+    }
+    IEnumerator GetDataInSession(string sname)                           // SQL取得Session
+    {
+        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
         
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
         var html = request.downloadHandler.text;
         Debug.Log(html);
     }
@@ -335,12 +352,14 @@ public class PlayerController : NetworkBehaviour
         if (Object.HasStateAuthority)
         {
             StartCoroutine(DeleteDataInSession(PlayerPrefs.GetString("SessionName")));
-            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
             playerCount=0;
             bulletCount=maxBullet;
             Hp = maxHp;
         }
-        StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
+        else
+        {
+            StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
+        }
 
 
     }
@@ -798,7 +817,7 @@ public class PlayerController : NetworkBehaviour
             DistRutern_RPC();                                        
             SetPoint();
             Finish_RPC(this.PlayerName.ToString());
-            
+            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         timeObject = GameObject.FindGameObjectWithTag("Timer");
@@ -812,8 +831,8 @@ public class PlayerController : NetworkBehaviour
         {
             DistRutern_RPC();                                        
             SetPoint_3();
+            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
             Finish_RPC(this.PlayerName.ToString());
-            
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
         timeObject = GameObject.FindGameObjectWithTag("Timer");
