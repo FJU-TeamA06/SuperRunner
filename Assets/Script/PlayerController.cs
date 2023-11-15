@@ -602,18 +602,12 @@ public class PlayerController : NetworkBehaviour
     {
         Debug.Log("highhighYes!");
         yield return null;
-        //SetJumpForce(jumpHigh);
-        //Jump(jumpHigh);
         networkCharacterController.SetJumpImpulse(jumpHigh);
         networkCharacterController.Jump();
         Debug.Log("jump highhigh!");
-        //Jump();
-        yield return new WaitForSeconds(8.0f);
-        //SetJumpForce(normalJump);
-        //Jump();
+        yield return new WaitForSeconds(12.0f);
         networkCharacterController.SetJumpImpulse(normalJump);
         networkCharacterController.Jump();
-        //jumpHigh = 5f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -704,7 +698,7 @@ public class PlayerController : NetworkBehaviour
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "Jump High!";
-            //Invoke("C0", 5);
+            Invoke("C0", 5);
             Destroy(other.gameObject);
             highhigh = 1;
         }
