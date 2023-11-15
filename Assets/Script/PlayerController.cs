@@ -100,6 +100,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject runfirePrefab;
     public GameObject frozenPrefab;
     public GameObject bloodPrefab;
+    public GameObject jumpPrefab;
     public int blood = 0;
     public int door = 0;
 
@@ -605,9 +606,20 @@ public class PlayerController : NetworkBehaviour
         networkCharacterController.SetJumpImpulse(jumpHigh);
         networkCharacterController.Jump();
         Debug.Log("jump highhigh!");
+
+        jumpPrefab.SetActive(true);
+        var particleSystem = jumpPrefab.GetComponent<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            particleSystem.Play();
+        }
         yield return new WaitForSeconds(12.0f);
         networkCharacterController.SetJumpImpulse(normalJump);
         networkCharacterController.Jump();
+        if (particleSystem != null)
+        {
+            particleSystem.Stop();
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -390,6 +390,7 @@ MonoBehaviour:
   frozenPrefab: {fileID: 6969245875107871824, guid: 2e187e22a11f364409b0a3f4d03c36a8,
     type: 3}
   bloodPrefab: {fileID: 5047771336749653308}
+  jumpPrefab: {fileID: 7512672985981626408}
   blood: 0
   door: 0
   _Dist: 0
@@ -1763,6 +1764,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7bf18dd20422304ea868e95c3518f19, type: 3}
+--- !u!1 &7512672985981626408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 101130, guid: d7bf18dd20422304ea868e95c3518f19,
+    type: 3}
+  m_PrefabInstance: {fileID: 7512672985981526818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7512672985981708398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 445260, guid: d7bf18dd20422304ea868e95c3518f19,
