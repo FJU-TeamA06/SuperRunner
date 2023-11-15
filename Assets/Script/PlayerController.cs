@@ -159,6 +159,14 @@ public class PlayerController : NetworkBehaviour
     private int isTriggedRedCubeTips=0;
     private int istrapTips = 0;
 
+    IEnumerator StartAsHost(string pname,string sname,int score)
+    {
+        yield return DeleteDataInSession(sname);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession(name);
+        yield return new WaitForSeconds(0.2f);
+        yield return SetDataInSession(pname,sname,score);
+    }
     IEnumerator DeleteDataInSession(string sname)                         // SQL清除Session 
     {
         string URL="http://140.136.151.71:5000/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
@@ -175,25 +183,9 @@ public class PlayerController : NetworkBehaviour
         
         var html = request.downloadHandler.text;
         Debug.Log(html);
-        StartCoroutine(GetDataInSession_1(PlayerPrefs.GetString("SessionName")));
+        yield return new WaitForSeconds(0.2f);
     }
-    IEnumerator GetDataInSession_1(string sname)                           // SQL取得Session
-    {
-        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
-        Debug.Log(URL);
-        var request = UnityWebRequest.Get(URL);
-        
-        yield return request.Send();
-        
-        if (request.isNetworkError)
-        {
-            Debug.Log(request.error);
-            yield break;
-        }
-        var html = request.downloadHandler.text;
-        Debug.Log(html);
-        StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
-    }
+
     IEnumerator GetDataInSession(string sname)                           // SQL取得Session
     {
         string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
@@ -209,6 +201,7 @@ public class PlayerController : NetworkBehaviour
         }
         var html = request.downloadHandler.text;
         Debug.Log(html);
+        yield return new WaitForSeconds(0.2f);
     }
     IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
     {
@@ -226,6 +219,7 @@ public class PlayerController : NetworkBehaviour
         
         var html = request.downloadHandler.text;
         Debug.Log(html);
+        yield return new WaitForSeconds(0.2f);
     }
 
     IEnumerator AddDataInSession(string sname,string pname,int score)                  // SQL增加玩家分數
@@ -243,6 +237,7 @@ public class PlayerController : NetworkBehaviour
         }
         
         var html = request.downloadHandler.text;
+        yield return new WaitForSeconds(0.1f);
         Debug.Log(html);
     }
 
@@ -351,15 +346,12 @@ public class PlayerController : NetworkBehaviour
         //ChangeColor_RPC(ColorNum);
         if (Object.HasStateAuthority)
         {
-            StartCoroutine(DeleteDataInSession(PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(StartAsHost(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
             playerCount=0;
             bulletCount=maxBullet;
             Hp = maxHp;
         }
-        else
-        {
-            StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
-        }
+        //StartCoroutine(SetDataInSession(PlayerPrefs.GetString("PlayerName"),PlayerPrefs.GetString("SessionName"),0));
 
 
     }
