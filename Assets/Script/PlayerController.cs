@@ -49,11 +49,23 @@ public class PlayerController : NetworkBehaviour
     {
         public PlayerData[] players;
     }
+    [System.Serializable]
+    public class PlayerData2
+    {
+        public string name;
+        public int score;
+    }
+
+    [System.Serializable]
+    public class PlayerDataArray2
+    {
+        public PlayerData2[] players;
+    }
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
     private int [] arr = {0,0,0,0};                                                               // 分數用
     private string firN, secN, thiN, fouN, chaN;
-    private int xCount = 0, yCount = 0 ,cCount = 0 , ppCount = 0;
+    private int xCount = 0, yCount = 0 ;
     [SerializeField]
     private GameObject scoreObject;
     private GameObject timeObject;
@@ -220,6 +232,47 @@ public class PlayerController : NetworkBehaviour
         yield return new WaitForSeconds(0.2f);
     }
     
+    IEnumerator Set3_1(string name,string sname)
+    {
+        yield return AddDataInSession(sname,name,5);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession_2(sname);
+        yield return new WaitForSeconds(0.2f);
+
+    }
+    IEnumerator Set3_2(string name_1,string name_2,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,5);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession_2(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
+    IEnumerator Set3_3(string name_1,string name_2,string name_3,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,5);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_3,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession_2(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
+    IEnumerator Set3_4(string name_1,string name_2,string name_3,string name_4,string sname)
+    {
+        yield return AddDataInSession(sname,name_1,5);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_2,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_3,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return AddDataInSession(sname,name_4,2);
+        yield return new WaitForSeconds(0.2f);
+        yield return GetDataInSession_2(sname);
+        yield return new WaitForSeconds(0.2f);
+    }
     IEnumerator DeleteDataInSession(string sname)                         // SQL清除Session 
     {
         string URL="http://140.136.151.71:5000/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
@@ -234,8 +287,8 @@ public class PlayerController : NetworkBehaviour
             yield break;
         }
         
-        var html = request.downloadHandler.text;
-        Debug.Log(html);
+        //var html = request.downloadHandler.text;
+        //Debug.Log(html);
     }
 
     IEnumerator GetDataInSession(string sname)                           // SQL取得Session
@@ -251,8 +304,64 @@ public class PlayerController : NetworkBehaviour
             Debug.Log(request.error);
             yield break;
         }
-        var html = request.downloadHandler.text;
-        Debug.Log(html);
+        // 解析 JSON 數據
+        PlayerDataArray playerDataArray = JsonUtility.FromJson<PlayerDataArray>("{\"players\":" + request.downloadHandler.text + "}");
+
+        // 將資料轉換成兩個獨立的陣列
+        List<string> namesList = new List<string>();
+        List<int> scoresList = new List<int>();
+
+        foreach (PlayerData player in playerDataArray.players)
+        {
+            namesList.Add(player.name);
+            scoresList.Add(player.score);
+        }
+        // 存取資料
+        string[] names = namesList.ToArray();
+        int[] scores = scoresList.ToArray();
+        for (int i = 0; i < names.Length; i++)
+        {
+            Debug.Log(names[i] + " : " + scores[i]);
+        }
+        SetPlane_RPC();
+        FinalPlaneDisplay_RPC(names);
+        FinalScoreDisplay_RPC(names,scores);
+    }
+    IEnumerator GetDataInSession_2(string sname)                           // SQL取得Session
+    {
+        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        // 解析 JSON 數據
+        PlayerDataArray2 playerDataArray2 = JsonUtility.FromJson<PlayerDataArray2>("{\"players\":" + request.downloadHandler.text + "}");
+
+        // 將資料轉換成兩個獨立的陣列
+        List<string> namesList2 = new List<string>();
+        List<int> scoresList2 = new List<int>();
+
+        foreach (PlayerData2 player in playerDataArray2.players)
+        {
+            namesList2.Add(player.name);
+            scoresList2.Add(player.score);
+        }
+        // 存取資料
+        string[] names2 = namesList2.ToArray();
+        int[] scores2 = scoresList2.ToArray();
+        for (int i = 0; i < names2.Length; i++)
+        {
+            Debug.Log(names2[i] + " : " + scores2[i]);
+        }
+        SetPlane2_RPC();
+        FinalPlaneDisplay_RPC(names2);
+        FinalScoreDisplay_RPC(names2,scores2);
     }
     IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
     {
@@ -875,7 +984,6 @@ public class PlayerController : NetworkBehaviour
         {
             DistRutern_RPC();                                        
             SetPoint_3();
-            StartCoroutine(GetDataInSession(PlayerPrefs.GetString("SessionName")));
             Finish_RPC(this.PlayerName.ToString());
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -1188,43 +1296,30 @@ public class PlayerController : NetworkBehaviour
     {
 
         print("Player:"+a+" Is the First Place.");
-        DistRutern_RPC();
-        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
-       // if (finishPlane != null)
-            if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )          //在第一關或第二關
-            {   
-                finishPlane.FinishClick();
-                ppCount=playerCount;
-                FinalPlaneDisplay_RPC();
-                CalculateAndSyncScores_RPC();
-
-            }
-            else if( basicSpawner.levelIndex == 3 )                              //在第三關
-            {
-                finishPlane.Finish3Click();
-                ppCount=playerCount;
-                CalculateAndSyncScoreL3_RPC();
-                TotalScoreDisplay_RPC();
-            }
+        //DistRutern_RPC();
         
-
-        //isFinish=1;
-        cCount = 0;
         xCount = 0;
         yCount += 1;
         gotonext = true;
     }   
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                     
+    public void SetPlane_RPC()
+    {
+        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        finishPlane.FinishClick();
+    }
+    
+    [Rpc(RpcSources.All, RpcTargets.All)]                                                                     
+    public void SetPlane2_RPC()
+    {
+        FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
+        finishPlane.Finish3Click();
+    }
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置ID＿RPC
     public void SetId_RPC()
     {
         basicSpawner.levelIndex = 3;
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 設置Count＿RPC
-    public void SetCount_RPC()
-    {
-        ppCount = playerCount;
-    }
- 
 
     private void SetPoint()     // 第一，二關分數設置
     {
@@ -1248,24 +1343,21 @@ public class PlayerController : NetworkBehaviour
     }
     private void SetPoint_3()     // 第三關分數設置
     {
-        for (int i = 0; i < playerCount ; i++)
+        if (playerCount == 4 )
         {
-            if (i >= 3 )
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[3].ToString(),2));
-            }
-            else if (i >= 2)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[2].ToString(),2));
-            }
-            else if (i >= 1)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[1].ToString(),2));
-            }
-            else if (i >= 0)
-            {
-                StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),ScoreLeaderboard[0].ToString(),5));
-            }
+            StartCoroutine(Set3_4(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),ScoreLeaderboard[3].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 3)
+        {
+            StartCoroutine(Set3_3(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 2)
+        {
+            StartCoroutine(Set3_2(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),PlayerPrefs.GetString("SessionName")));
+        }
+        else if (playerCount == 1)
+        {
+            StartCoroutine(Set3_1(ScoreLeaderboard[0].ToString(),PlayerPrefs.GetString("SessionName")));
         }
     }
     private void CoinPoint(string a)           // 金幣分數設置
@@ -1274,86 +1366,29 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
-    public void FinalPlaneDisplay_RPC()
+    public void FinalPlaneDisplay_RPC(string [] names)
     {
         rankingObject = GameObject.FindGameObjectWithTag("RankingText");
         TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
         
         rankingText.text="";
-        for (int i = 0; i < ScoreLeaderboard.Length; ++i)
+        for (int i = 0; i < names.Length; ++i)
         {
-            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+ScoreLeaderboard[i] ;
+            rankingText.text=rankingText.text+"\n"+(i+1)+" : "+names[i] ;
         }      
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
-    public void FinalScoreDisplay_RPC()
+    public void FinalScoreDisplay_RPC(string [] names, int [] scores)
     {
         scoreObject = GameObject.FindGameObjectWithTag("scoreText");
         TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
         scoreText.text="";
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < names.Length; i++)
         {
-            scoreText.text=scoreText.text+"\n"+FinalScoreBoard[i]+" : "+arr[i] ;
+            scoreText.text=scoreText.text+"\n"+names[i]+" : "+scores[i] ;
         }        
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void CalculateAndSyncScores_RPC()
-    {
-        for (int i = 0; i < playerCount && cCount==0 && ppCount > 0 ; i++)
-        {
-            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
-                arr[i] = arr[i]+4;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
-                arr[i] = arr[i]+6;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                arr[i] = arr[i]+8;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
-                arr[i] = arr[i]+10;
-                ppCount--;
-            }
-        }
-        cCount=cCount+1;
-        if( basicSpawner.levelIndex == 1 || basicSpawner.levelIndex == 2 )        // 第一關第二關時，調用 FinalScoreDisplay_RPC
-        {
-            FinalScoreDisplay_RPC();
-        }
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void CalculateAndSyncScoreL3_RPC()                                                              // 第3
-    {
-        for (int i = 0; i < playerCount && ppCount > 0 ; i++)
-        {
-            if (FinalScoreBoard[i] == ScoreLeaderboard[3] && playerCount >= 4 ){
-                arr[i] = arr[i]+1;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[2] && playerCount >= 3){
-                arr[i] = arr[i]+1;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[1] && playerCount >= 2){
-                arr[i] = arr[i]+1;
-                ppCount--;
-            }
-            else if (FinalScoreBoard[i] == ScoreLeaderboard[0] && playerCount >= 1){
-                arr[i] = arr[i]+5;
-                ppCount--;
-            }
-        }
-    }                                                                 
-
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    private void Setcc_RPC()
-    {
-        cCount=0;
-    }
+    }                                                                
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void StartM_RPC()
@@ -1574,212 +1609,6 @@ public class PlayerController : NetworkBehaviour
                             print(fouN+" Is The Fourth Place !! ");
                            
                         }
-                }
-            }
-        }
-    }
-
-
-    [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 最終排名顯示＿RPC
-    public void TotalScoreDisplay_RPC()
-    {
-        rankingObject = GameObject.FindGameObjectWithTag("RankingText");
-        TextMeshProUGUI rankingText = rankingObject.GetComponent<TMPro.TextMeshProUGUI>();
-        rankingText.text="";
-        scoreObject = GameObject.FindGameObjectWithTag("scoreText");
-        TextMeshProUGUI scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
-        scoreText.text="";   
-        if(playerCount == 1){
-            rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
-        }
-        else if(playerCount == 2){
-            if(arr[0] >= arr[1]){     // 2p 2
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-            }
-            else if(arr[1] >= arr[0]){ // 2p 1
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-            }
-        }
-        else if(playerCount == 3){
-            if(arr[2] >= arr[0] && arr[2] >= arr[1]){ // 3p 3
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" WIN ! : " + arr[2] + " Points" ;
-                if(arr[0] >= arr[1]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                }
-                else if(arr[1] >= arr[0]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                }
-            }
-            else if(arr[1] >= arr[0] && arr[1] >= arr[2]){  // 3p 2
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
-                if(arr[0] >= arr[2]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                }
-                else if(arr[2] >= arr[0]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                }
-            }
-            else if(arr[0] >= arr[1] && arr[0] >= arr[2]){  // 3p 1
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
-                if(arr[1] >= arr[2]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                }
-                else if(arr[2] >= arr[1]){
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                }
-            }
-        }
-        else if(playerCount == 4){
-            if(arr[3] >= arr[0] &&  arr[3] >= arr[1] && arr[3] >= arr[2] ){   // 4p 4
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" WIN ! : " + arr[3] + " Points" ;
-                if(arr[2] >= arr[0] && arr[2] >= arr[1]){ // 3p 3
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
-                    if(arr[0] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                    else if(arr[1] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[1] >= arr[0] && arr[1] >= arr[2]){  // 3p 2
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-                    if(arr[0] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
-                    else if(arr[2] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[0] >= arr[1] && arr[0] >= arr[2]){  // 3p 1
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-                    if(arr[1] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
-                    else if(arr[2] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                }
-            }
-            else if(arr[2] >= arr[0] &&  arr[2] >= arr[1] && arr[2] >= arr[3] ){   // 4p 3
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" WIN ! : " + arr[2] + " Points" ;
-                if(arr[3] >= arr[0] && arr[3] >= arr[1]){ // 3p 4
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
-                    if(arr[0] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                    else if(arr[1] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[1] >= arr[0] && arr[1] >= arr[3]){  // 3p 2
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-                    if(arr[0] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[0] >= arr[1] && arr[0] >= arr[3]){  // 3p 1
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-                    if(arr[1] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                }
-            }
-            else if(arr[1] >= arr[0] &&  arr[1] >= arr[3] && arr[1] >= arr[2] ){   // 4p 2
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" WIN ! : " + arr[1] + " Points" ;
-                if(arr[3] >= arr[0] && arr[3] >= arr[2]){ // 3p 4
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
-                    if(arr[0] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
-                    else if(arr[2] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[2] >= arr[0] && arr[2] >= arr[3]){  // 3p 3
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
-                    if(arr[0] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 3rd : "+arr[0] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[0]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 4th : "+arr[0] + " Points";
-                    }
-                }
-                else if(arr[0] >= arr[2] && arr[0] >= arr[3]){  // 3p 0
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" 2nd : "+arr[0] + " Points";
-                    if(arr[2] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
-                }
-            }
-            else if(arr[0] >= arr[3] &&  arr[0] >= arr[1] && arr[0] >= arr[2] ){   // 4p 1
-                rankingText.text=rankingText.text+"\n"+FinalScoreBoard[0]+" WIN ! : " + arr[0] + " Points" ;
-                if(arr[3] >= arr[2] && arr[3] >= arr[1]){ // 3p 4
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 2nd : "+arr[3] + " Points";
-                    if(arr[2] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                    else if(arr[1] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
-                }
-                else if(arr[2] >= arr[1] && arr[2] >= arr[3]){  // 3p 3
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 2nd : "+arr[2] + " Points";
-                    if(arr[1] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 3rd : "+arr[1] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[1]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 4th : "+arr[1] + " Points";
-                    }
-                }
-                else if(arr[1] >= arr[2] && arr[1] >= arr[3]){  // 3p 2
-                    rankingText.text=rankingText.text+"\n"+FinalScoreBoard[1]+" 2nd : "+arr[1] + " Points";
-                    if(arr[2] >= arr[3]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 3rd : "+arr[2] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 4th : "+arr[3] + " Points";
-                    }
-                    else if(arr[3] >= arr[2]){
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[3]+" 3rd : "+arr[3] + " Points";
-                        rankingText.text=rankingText.text+"\n"+FinalScoreBoard[2]+" 4th : "+arr[2] + " Points";
-                    }
                 }
             }
         }
