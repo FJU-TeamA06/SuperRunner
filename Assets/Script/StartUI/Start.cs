@@ -11,4 +11,8 @@ public class Start : MonoBehaviour
         loadingPanel.SetActive(true); 
         SceneManager.LoadScene(1);
     }
+    public void leaderboardButtonClick()
+    {
+        SceneManager.LoadScene(3);
+    }
 }
