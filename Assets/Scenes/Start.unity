@@ -1092,6 +1092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelPanel: {fileID: 1037720332}
   SettingButton: {fileID: 0}
+  LeaderboardButton: {fileID: 0}
 --- !u!1 &1125434127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelPanel: {fileID: 1037720332}
   SettingButton: {fileID: 210754374}
+  LeaderboardButton: {fileID: 980586239}
 --- !u!114 &1397170116
 MonoBehaviour:
   m_ObjectHideFlags: 0
