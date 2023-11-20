@@ -821,21 +821,15 @@ public class PlayerController : NetworkBehaviour
         // 檢查是否已經抵達終點
         if (other.CompareTag("Finish3"))
         {
-            if(HasInputAuthority)
-            {
             print("Touched finish");
             OnReachedFinish_3();
-            }
             gotonext = true;
             Destroy(other.gameObject);
         }
         if ( other.CompareTag("Finish2") || other.CompareTag("Finish1") )
         {
-            if(HasInputAuthority)
-            {
             print("Touched finish");
             OnReachedFinish();
-            }
             gotonext = true;
             Vector3 p = other.transform.position;
             p.y = 50f;
@@ -1006,8 +1000,11 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();                                        
+            DistRutern_RPC();      
+            if(HasInputAuthority)
+            {                                  
             SetPoint();
+            }
             Finish_RPC(this.PlayerName.ToString());
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -1020,8 +1017,11 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();                                        
+            DistRutern_RPC();  
+            if(HasInputAuthority)
+            {                                      
             SetPoint_3();
+            }
             Finish_RPC(this.PlayerName.ToString());
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
