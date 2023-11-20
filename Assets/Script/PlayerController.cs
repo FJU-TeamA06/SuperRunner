@@ -821,15 +821,19 @@ public class PlayerController : NetworkBehaviour
         // 檢查是否已經抵達終點
         if (other.CompareTag("Finish3"))
         {
-            print("Touched finish");
-            OnReachedFinish_3();
+            if(HasInputAuthority){
+                print("Touched finish");
+                OnReachedFinish_3();
+            }
             gotonext = true;
             Destroy(other.gameObject);
         }
         if ( other.CompareTag("Finish2") || other.CompareTag("Finish1") )
         {
-            print("Touched finish");
-            OnReachedFinish();
+            if(HasInputAuthority){
+                print("Touched finish");
+                OnReachedFinish();
+            }
             gotonext = true;
             Vector3 p = other.transform.position;
             p.y = 50f;
@@ -1000,11 +1004,16 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();      
-            if(HasInputAuthority)
-            {                                  
-            SetPoint();
+            if(playerCount == 0){
+                GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in allPlayers)
+                {
+                    playerCount++;
+                }
+                SetPlayer_RPC(playerCount);
             }
+            DistRutern_RPC();                                     
+            SetPoint();
             Finish_RPC(this.PlayerName.ToString());
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -1017,11 +1026,16 @@ public class PlayerController : NetworkBehaviour
         FinishPlane finishPlane = FindObjectOfType<FinishPlane>();
         if (finishPlane != null)
         {
-            DistRutern_RPC();  
-            if(HasInputAuthority)
-            {                                      
-            SetPoint_3();
+            if(playerCount == 0){
+                GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in allPlayers)
+                {
+                    playerCount++;
+                }
+                SetPlayer_RPC(playerCount);
             }
+            DistRutern_RPC();                                      
+            SetPoint_3();
             Finish_RPC(this.PlayerName.ToString());
         }
         // 在這裡添加您想要在角色抵達終點時執行的程式碼
@@ -1381,6 +1395,7 @@ public class PlayerController : NetworkBehaviour
     }
     private void SetPoint_3()     // 第三關分數設置
     {
+        Debug.Log(playerCount);
         if (playerCount == 4 )
         {
             StartCoroutine(Set3_4(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),ScoreLeaderboard[3].ToString(),PlayerPrefs.GetString("SessionName")));
@@ -1391,6 +1406,7 @@ public class PlayerController : NetworkBehaviour
         }
         else if (playerCount == 2)
         {
+            Debug.Log("00000000000000000");
             StartCoroutine(Set3_2(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 1)
@@ -1481,7 +1497,12 @@ public class PlayerController : NetworkBehaviour
         TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
         timerText.text=" ";
     }
-
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetPlayer_RPC(int a)
+    {
+        playerCount = a ;
+    }
+    
     private void HandlePitchYaw(NetworkInputData data)
     {
         _yaw   += data.Yaw;
@@ -1513,18 +1534,12 @@ public class PlayerController : NetworkBehaviour
                     if(xCount == 0){
                         fir=playerController.distance;
                         firN=playerController.PlayerName.ToString();
-                        if(yCount == 0){
-                            playerCount ++;
-                        }
                         xCount++;
                     }
                     else if(xCount == 1 && playerController.PlayerName.ToString() != firN){
                         sec=playerController.distance;
                         secN=playerController.PlayerName.ToString();
                         xCount++;
-                        if(yCount == 0){
-                           playerCount ++;
-                        }
                         if(sec<=fir){
                             cha=sec;    //2->1
                             chaN=secN;
@@ -1538,9 +1553,6 @@ public class PlayerController : NetworkBehaviour
                         thi=playerController.distance;
                         thiN=playerController.PlayerName.ToString();
                         xCount++;
-                        if(yCount == 0){
-                           playerCount ++;
-                        }
                         if(thi<=fir){
                             cha=thi;  // 3->1
                             chaN=thiN;
@@ -1569,9 +1581,6 @@ public class PlayerController : NetworkBehaviour
                         fou=playerController.distance;
                         fouN=playerController.PlayerName.ToString();
                         xCount++;
-                        if(yCount == 0){
-                            playerCount ++;
-                        }
                         if(fou<=fir){
                             cha=fou;
                             chaN=fouN;
