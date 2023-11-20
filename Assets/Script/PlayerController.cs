@@ -838,35 +838,40 @@ public class PlayerController : NetworkBehaviour
 
         if (other.gameObject.CompareTag("Frozen"))
         {
-            
-            Debug.Log("Trapdead frozen!");
+            if(HasInputAuthority)
+            {
+                Debug.Log("Trapdead frozen!");
 
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "冰凍中...";
-            Invoke("C0", 5);
-            frozen = 1;
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text = "冰凍中...";
+                Invoke("C0", 5);
+                frozen = 1;
+            }
         }
         if (other.gameObject.CompareTag("cake"))
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
-
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "獲得加速道具 !";
-            Invoke("C0", 5);
-            Debug.Log("Get Cake!");
-            
+            if(HasInputAuthority)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text = "獲得加速道具 !";
+                Invoke("C0", 5);
+                Debug.Log("Get Cake!");
+            }
             Destroy(other.gameObject);
             runfast = 1;
         }
         if (other.gameObject.CompareTag("gateway"))
         {
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "傳送門 Go!";
-            Invoke("C0", 5);
-
+            if(HasInputAuthority)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text = "傳送門 Go!";
+                Invoke("C0", 5);
+            }
             Destroy(other.gameObject);
             door = 1;
         }
@@ -888,25 +893,33 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Clip"))
         {
-            Debug.Log("Get Clip!");
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "子彈 +5 !";
-            bulletCount +=5;
-            print("bulletCount:"+bulletCount);
+            if(HasInputAuthority)
+            {
+                Debug.Log("Get Clip!");
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text = "子彈 +5 !";
+                bulletCount +=5;
+                print("bulletCount:"+bulletCount);
+            }
             Destroy(other.gameObject);
         }
         if (other.gameObject.tag == "Treasure")
         {
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text = "Jump High!";
-            Invoke("C0", 5);
+            if(HasInputAuthority)
+            {
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text = "Jump High!";
+                Invoke("C0", 5);
+            }
             Destroy(other.gameObject);
             highhigh = 1;
         }
         if (other.gameObject.CompareTag("Soundtest"))
         {
+            if(HasInputAuthority)
+            {
             Debug.Log("Soundtest object collision!");
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -921,6 +934,7 @@ public class PlayerController : NetworkBehaviour
 
             // Respawn();
             a = 1;
+            }
             
         }
 
