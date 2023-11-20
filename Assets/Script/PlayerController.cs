@@ -821,15 +821,21 @@ public class PlayerController : NetworkBehaviour
         // 檢查是否已經抵達終點
         if (other.CompareTag("Finish3"))
         {
+            if(HasInputAuthority)
+            {
             print("Touched finish");
             OnReachedFinish_3();
+            }
             gotonext = true;
             Destroy(other.gameObject);
         }
         if ( other.CompareTag("Finish2") || other.CompareTag("Finish1") )
         {
+            if(HasInputAuthority)
+            {
             print("Touched finish");
             OnReachedFinish();
+            }
             gotonext = true;
             Vector3 p = other.transform.position;
             p.y = 50f;
