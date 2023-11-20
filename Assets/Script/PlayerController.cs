@@ -873,14 +873,17 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
-        
-            CoinPoint(this.PlayerName.ToString());
-            timeObject = GameObject.FindGameObjectWithTag("timerText");
-            TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            timerText.text="獲得金幣 !";
-            Invoke("C0", 5 );
-            Debug.Log("Get Coin!");
-            Debug.Log(basicSpawner.levelIndex);
+            is(HasInputAuthority)
+            {
+                CoinPoint(this.PlayerName.ToString());
+                timeObject = GameObject.FindGameObjectWithTag("timerText");
+                TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
+                timerText.text="獲得金幣 !";
+                Invoke("C0", 5 );
+                Debug.Log("Get Coin!");
+                Debug.Log(basicSpawner.levelIndex);
+                
+            }
             Destroy(other.gameObject);
         }
         if (other.gameObject.CompareTag("Clip"))
