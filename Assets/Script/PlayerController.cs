@@ -304,6 +304,8 @@ public class PlayerController : NetworkBehaviour
             Debug.Log(request.error);
             yield break;
         }
+        var html = request.downloadHandler.text;
+        Debug.Log(html);
         // 解析 JSON 數據
         PlayerDataArray playerDataArray = JsonUtility.FromJson<PlayerDataArray>("{\"players\":" + request.downloadHandler.text + "}");
 
@@ -362,6 +364,7 @@ public class PlayerController : NetworkBehaviour
         SetPlane2_RPC();
         FinalPlaneDisplay_RPC(names2);
         FinalScoreDisplay_RPC(names2,scores2);
+        StartCoroutine(FetchDataInSession(names2[0],scores2[0]));
     }
     IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
     {
@@ -384,6 +387,24 @@ public class PlayerController : NetworkBehaviour
     IEnumerator AddDataInSession(string sname,string pname,int score)                  // SQL增加玩家分數
     {
         string URL="http://140.136.151.71:5000/players?mode=addplayerscore&sname=" + WWW.EscapeURL(sname) + "&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
+        Debug.Log(URL);
+        var request = UnityWebRequest.Get(URL);
+        
+        yield return request.Send();
+        
+        if (request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        
+        var html = request.downloadHandler.text;
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log(html);
+    }
+    IEnumerator FetchDataInSession(string pname,int score)                  // SQL更新排行榜
+    {
+        string URL="http://140.136.151.71:5000/leaderboard?mode=updateleaderscore&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -1369,7 +1390,7 @@ public class PlayerController : NetworkBehaviour
         for (int i = 0; i < names.Length; ++i)
         {
             rankingText.text=rankingText.text+"\n"+(i+1)+" : "+names[i] ;
-        }      
+        }     
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 分數顯示＿RPC
@@ -1380,6 +1401,7 @@ public class PlayerController : NetworkBehaviour
         scoreText.text="";
         for (int i = 0; i < names.Length; i++)
         {
+            if(i == 0 ){scoreText.text = "Score";}
             scoreText.text=scoreText.text+"\n"+names[i]+" : "+scores[i] ;
         }        
     }                                                                
