@@ -819,17 +819,11 @@ public class PlayerController : NetworkBehaviour
         {
             
             Debug.Log("Trapdead frozen!");
-            //timeObject = GameObject.FindGameObjectWithTag("toolui");
-            //TextMeshProUGUI toolext = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
-            //toolext.text = "Be Frozen !";
-
-            //timeObject = GameObject.FindGameObjectWithTag("toolui");
-            //ToolUI toolplane = timeObject.GetComponent<ToolUI>();
-            //toolplane.toolUI();
 
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "冰凍中...";
+            Invoke("C0", 5);
             frozen = 1;
         }
         if (other.gameObject.CompareTag("cake"))
@@ -850,7 +844,7 @@ public class PlayerController : NetworkBehaviour
             timeObject = GameObject.FindGameObjectWithTag("timerText");
             TextMeshProUGUI timerText = timeObject.GetComponent<TMPro.TextMeshProUGUI>();
             timerText.text = "傳送門 Go!";
-            Invoke("C0", 3);
+            Invoke("C0", 5);
 
             Destroy(other.gameObject);
             door = 1;
