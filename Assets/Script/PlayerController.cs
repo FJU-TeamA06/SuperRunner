@@ -873,7 +873,7 @@ public class PlayerController : NetworkBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             //Instantiate(runfirePrefab, transform.position, transform.rotation);
-            is(HasInputAuthority)
+            if(HasInputAuthority)
             {
                 CoinPoint(this.PlayerName.ToString());
                 timeObject = GameObject.FindGameObjectWithTag("timerText");
