@@ -1377,7 +1377,10 @@ public class PlayerController : NetworkBehaviour
     }
     private void CoinPoint(string a)           // 金幣分數設置
     {
-         StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),a,1));
+         if(this.PlayerName.ToString() == a)
+         {
+            StartCoroutine(AddDataInSession(PlayerPrefs.GetString("SessionName"),a,1));
+         }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]                                                                      // 排名顯示FP＿RPC
