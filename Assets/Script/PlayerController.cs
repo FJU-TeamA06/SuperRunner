@@ -1513,8 +1513,8 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
-        //if (HasStateAuthority)
-        //{
+        if (HasInputAuthority)
+        {
             GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in allPlayers)
             {
@@ -1638,6 +1638,6 @@ public class PlayerController : NetworkBehaviour
                         }
                 }
             }
-        //}
+        }
     }
 }
