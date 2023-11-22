@@ -160,15 +160,6 @@ public class PlayerController : NetworkBehaviour
         {2, new Vector3(-5.9f, 58.84f, -269f)}, 
         {3, new Vector3(-2, 2, 0)}
     };
-    [Networked]
-    [Capacity(4)] // Sets the fixed capacity of the collection
-    NetworkArray<NetworkString<_32>> FinalScoreBoard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "-2", "-2", "-2", "-2" });       // 分數 
-
-    [Networked]
-    [Capacity(4)] // Sets the fixed capacity of the collection
-    NetworkArray<int> ScoreBoard { get; } =
-    MakeInitializer(new int[] { 0,0,0,0 }); 
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
@@ -1522,8 +1513,8 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
-        if (HasStateAuthority)
-        {
+        //if (HasStateAuthority)
+        //{
             GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in allPlayers)
             {
@@ -1628,37 +1619,25 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-                        if(yCount == 0 ){
-                            FinalScoreBoard.Set(0, firN);
-                        }
                         ScoreLeaderboard.Set(0, firN);
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             ScoreLeaderboard.Set(1, secN);
-                            if(yCount == 0 ){
-                                FinalScoreBoard.Set(1, secN);
-                            }
                             print(secN+" Is The Second Place !! ");
                             
                         }
                         if(thi != -1){
                             ScoreLeaderboard.Set(2, thiN);
-                            if(yCount == 0 ){
-                                FinalScoreBoard.Set(2, thiN);
-                            }
                             print(thiN+" Is The Third Place !! ");
                             
                         }
                         if(fou != -1){
                             ScoreLeaderboard.Set(3, fouN);
-                            if(yCount == 0 ){
-                                FinalScoreBoard.Set(3, fouN);
-                            }
                             print(fouN+" Is The Fourth Place !! ");
                            
                         }
                 }
             }
-        }
+        //}
     }
 }
