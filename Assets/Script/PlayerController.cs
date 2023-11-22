@@ -1522,8 +1522,8 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void DistRutern_RPC()
     {
-        //if (HasStateAuthority)
-        //{
+        if (HasStateAuthority)
+        {
             GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in allPlayers)
             {
@@ -1628,25 +1628,37 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
+                        if(yCount == 0 ){
+                            FinalScoreBoard.Set(0, firN);
+                        }
                         ScoreLeaderboard.Set(0, firN);
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
                             ScoreLeaderboard.Set(1, secN);
+                            if(yCount == 0 ){
+                                FinalScoreBoard.Set(1, secN);
+                            }
                             print(secN+" Is The Second Place !! ");
                             
                         }
                         if(thi != -1){
                             ScoreLeaderboard.Set(2, thiN);
+                            if(yCount == 0 ){
+                                FinalScoreBoard.Set(2, thiN);
+                            }
                             print(thiN+" Is The Third Place !! ");
                             
                         }
                         if(fou != -1){
                             ScoreLeaderboard.Set(3, fouN);
+                            if(yCount == 0 ){
+                                FinalScoreBoard.Set(3, fouN);
+                            }
                             print(fouN+" Is The Fourth Place !! ");
                            
                         }
                 }
             }
-        //}
+        }
     }
 }
