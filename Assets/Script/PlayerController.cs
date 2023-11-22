@@ -63,7 +63,8 @@ public class PlayerController : NetworkBehaviour
     }
     [SerializeField]
     private float fir = -1, sec = -1, thi = -1, fou = -1, cha;                                    // 排名用
-    private int [] arr = {0,0,0,0};                                                               // 分數用
+    private int [] arr = {0,0,0,0};       
+    public string [] sarr = { "-1", "-1", "-1", "-1" } ;                                                      // 分數用
     private string firN, secN, thiN, fouN, chaN;
     private int xCount = 0, yCount = 0 ;
     [SerializeField]
@@ -148,10 +149,10 @@ public class PlayerController : NetworkBehaviour
     [field: SerializeField]
     public float distance { get; private set; }
 
-    [Networked]
+    /*[Networked]
     [Capacity(4)] // Sets the fixed capacity of the collection
     NetworkArray<NetworkString<_32>> ScoreLeaderboard { get; } =
-    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名
+    MakeInitializer(new NetworkString<_32>[] { "-1", "-1", "-1", "-1" });   // 排名*/
     [Networked()]
     public int finish3PositionIndex { get; set; }
     private Dictionary<int,Vector3> finish3SpawnPositions = new Dictionary<int,Vector3>()
@@ -531,6 +532,18 @@ public class PlayerController : NetworkBehaviour
     }
     private float CalculateDistancePercentage()
     {
+        if(basicSpawner.levelIndex==1)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish1");
+        }
+        else if(basicSpawner.levelIndex==2)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish2");
+        }
+        else if(basicSpawner.levelIndex==3)
+        {
+            finishObject = GameObject.FindGameObjectWithTag("Finish3");
+        }
         if (finishObject != null)
         {
             //Vector3 closestPointOnBounds = finishCollider.boun  ds.ClosestPoint(transform.position);
@@ -703,10 +716,10 @@ public class PlayerController : NetworkBehaviour
             StartCoroutine(jumpPlayerForSecondsCoroutine());
             highhigh = 0;
         }
-        if (HasStateAuthority)
-        {
+        //if (HasStateAuthority)
+        //{
             distance = CalculateDistancePercentage();
-        }
+        //}
         transform.rotation = Quaternion.Euler(0, (float)_yaw,(float)_pitch);
 
         //var cameraEulerAngle = firstCamera.transform.rotation.eulerAngles;
@@ -1003,7 +1016,7 @@ public class PlayerController : NetworkBehaviour
                 }
                 SetPlayer_RPC(playerCount);
             }
-            DistRutern_RPC();                                     
+            DistRutern();                                     
             SetPoint();
             Finish_RPC(this.PlayerName.ToString());
         }
@@ -1025,7 +1038,7 @@ public class PlayerController : NetworkBehaviour
                 }
                 SetPlayer_RPC(playerCount);
             }
-            DistRutern_RPC();                                      
+            DistRutern();                                      
             SetPoint_3();
             Finish_RPC(this.PlayerName.ToString());
         }
@@ -1339,7 +1352,6 @@ public class PlayerController : NetworkBehaviour
     {
 
         print("Player:"+a+" Is the First Place.");
-        //DistRutern_RPC();
         
         xCount = 0;
         yCount += 1;
@@ -1369,19 +1381,19 @@ public class PlayerController : NetworkBehaviour
 
         if (playerCount == 4 )
         {
-            StartCoroutine(Set_4(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),ScoreLeaderboard[3].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set_4(sarr[0],sarr[1],sarr[2],sarr[3],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 3)
         {
-            StartCoroutine(Set_3(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set_3(sarr[0],sarr[1],sarr[2],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 2)
         {
-            StartCoroutine(Set_2(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set_2(sarr[0],sarr[1],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 1)
         {
-            StartCoroutine(Set_1(ScoreLeaderboard[0].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set_1(sarr[0],PlayerPrefs.GetString("SessionName")));
         }
     }
     private void SetPoint_3()     // 第三關分數設置
@@ -1389,20 +1401,19 @@ public class PlayerController : NetworkBehaviour
         Debug.Log(playerCount);
         if (playerCount == 4 )
         {
-            StartCoroutine(Set3_4(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),ScoreLeaderboard[3].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set3_4(sarr[0],sarr[1],sarr[2],sarr[3],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 3)
         {
-            StartCoroutine(Set3_3(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),ScoreLeaderboard[2].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set3_3(sarr[0],sarr[1],sarr[2],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 2)
         {
-            Debug.Log("00000000000000000");
-            StartCoroutine(Set3_2(ScoreLeaderboard[0].ToString(),ScoreLeaderboard[1].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set3_2(sarr[0],sarr[1],PlayerPrefs.GetString("SessionName")));
         }
         else if (playerCount == 1)
         {
-            StartCoroutine(Set3_1(ScoreLeaderboard[0].ToString(),PlayerPrefs.GetString("SessionName")));
+            StartCoroutine(Set3_1(sarr[0],PlayerPrefs.GetString("SessionName")));
         }
     }
     private void CoinPoint(string a)           // 金幣分數設置
@@ -1510,11 +1521,13 @@ public class PlayerController : NetworkBehaviour
         }
         //print(_pitch);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void DistRutern_RPC()
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    public void DistRutern()
     {
-        if (HasInputAuthority)
-        {
+        Debug.Log(basicSpawner.levelIndex);
+        xCount = 0;
+        //if (HasInputAuthority)
+        //{
             GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in allPlayers)
             {
@@ -1525,11 +1538,15 @@ public class PlayerController : NetworkBehaviour
                     if(xCount == 0){
                         fir=playerController.distance;
                         firN=playerController.PlayerName.ToString();
+                        Debug.Log(playerController.distance);
+                        Debug.Log(playerController.PlayerName.ToString());
                         xCount++;
                     }
                     else if(xCount == 1 && playerController.PlayerName.ToString() != firN){
                         sec=playerController.distance;
                         secN=playerController.PlayerName.ToString();
+                        Debug.Log(playerController.distance);
+                        Debug.Log(playerController.PlayerName.ToString());
                         xCount++;
                         if(sec<=fir){
                             cha=sec;    //2->1
@@ -1543,6 +1560,8 @@ public class PlayerController : NetworkBehaviour
                     else if(xCount == 2 && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         thi=playerController.distance;
                         thiN=playerController.PlayerName.ToString();
+                        Debug.Log(playerController.distance);
+                        Debug.Log(playerController.PlayerName.ToString());
                         xCount++;
                         if(thi<=fir){
                             cha=thi;  // 3->1
@@ -1571,6 +1590,8 @@ public class PlayerController : NetworkBehaviour
                     else if(xCount == 3 && playerController.PlayerName.ToString() != thiN && playerController.PlayerName.ToString() != secN && playerController.PlayerName.ToString() != firN){
                         fou=playerController.distance;
                         fouN=playerController.PlayerName.ToString();
+                        Debug.Log(playerController.distance);
+                        Debug.Log(playerController.PlayerName.ToString());
                         xCount++;
                         if(fou<=fir){
                             cha=fou;
@@ -1619,25 +1640,29 @@ public class PlayerController : NetworkBehaviour
                             thiN=chaN;
                         }
                     }
-                        ScoreLeaderboard.Set(0, firN);
+                        //ScoreLeaderboard.Set(0, firN);
+                        sarr[0] = firN;
                         print(firN+" Is The First Place !! ");
                         if(sec != -1){
-                            ScoreLeaderboard.Set(1, secN);
+                            //ScoreLeaderboard.Set(1, secN);
+                            sarr[1] = secN;
                             print(secN+" Is The Second Place !! ");
                             
                         }
                         if(thi != -1){
-                            ScoreLeaderboard.Set(2, thiN);
+                            //ScoreLeaderboard.Set(2, thiN);
+                            sarr[2] = thiN;
                             print(thiN+" Is The Third Place !! ");
                             
                         }
                         if(fou != -1){
-                            ScoreLeaderboard.Set(3, fouN);
+                            //ScoreLeaderboard.Set(3, fouN);
+                            sarr[3] = fouN;
                             print(fouN+" Is The Fourth Place !! ");
                            
                         }
                 }
             }
-        }
+        //}
     }
 }
