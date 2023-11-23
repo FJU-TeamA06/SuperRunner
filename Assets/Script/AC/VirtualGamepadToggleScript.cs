@@ -15,6 +15,10 @@ public class VirtualGamepadToggleScript : MonoBehaviour
         {
             VirtualGamepad.SetActive(true);
         }
+        else
+        {
+            VirtualGamepad.SetActive(false);
+        }
     }
 
     // Update is called once per frame
