@@ -5,21 +5,30 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Fusion;
 using Fusion.Sockets;
-
+using TMPro;
+using UnityEngine.SceneManagement;
 public class FinishPlane : MonoBehaviour
 {
-
+    private BasicSpawner basicSpawner;  //å¼•ç”¨
     public GameObject finishPanel;
-
+    public GameObject ButtonNextObject;
+    private Button buttonNext;
     void Awake()
     {
-        
+        basicSpawner = FindObjectOfType<BasicSpawner>(); // å–å¾— BasicSpawner çš„å¯¦ä¾‹
     }
 
     void Start()
     {
         EventSystem.current.SetSelectedGameObject(null);
         finishPanel.SetActive(false);
+        buttonNext = ButtonNextObject.GetComponent<Button>();
+        if(basicSpawner.levelIndex==3)
+        {
+            TextMeshProUGUI buttonNextText = buttonNext.GetComponentInChildren<TextMeshProUGUI>();
+            buttonNextText.text="å›é¦–é ";
+        }
+        
     }
     public void Finish3Click() //FPS
     {
@@ -29,15 +38,34 @@ public class FinishPlane : MonoBehaviour
     public void FinishClick() //level 1 & 2
     {
         finishPanel.SetActive(true);
-        StartCoroutine(DeactivateAfterDelay(3.0f)); // ±Ò°Ê¨óµ{µ¥«İ5¬í«áÃö³¬­±ªO
+        //StartCoroutine(DeactivateAfterDelay(3.0f)); // ï¿½Ò°Ê¨ï¿½{ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
     }
 
 
     private IEnumerator DeactivateAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay); // µ¥«İ«ü©wªº¬í¼Æ
+        yield return new WaitForSeconds(delay); // ï¿½ï¿½ï¿½İ«ï¿½ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if(basicSpawner.levelIndex==3)
+        {
+            TextMeshProUGUI buttonNextText = buttonNext.GetComponentInChildren<TextMeshProUGUI>();
+            buttonNext.interactable = true;
+            buttonNextText.text="å›é¦–é ";
+        }
+        finishPanel.SetActive(false); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
 
-        finishPanel.SetActive(false); // Ãö³¬­±ªO
-
+    }
+    public void OnButtonNextClick()
+    {
+        TextMeshProUGUI buttonNextText = buttonNext.GetComponentInChildren<TextMeshProUGUI>();
+        if(buttonNextText.text=="å›é¦–é ")
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            StartCoroutine(DeactivateAfterDelay(1.0f));
+            buttonNext.interactable = false;
+        }
+        
     }
 }

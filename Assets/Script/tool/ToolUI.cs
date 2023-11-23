@@ -14,21 +14,22 @@ public class ToolUI : MonoBehaviour
 
     void Start()
     {
-        toolPanel.SetActive(false);
+        //toolPanel.SetActive(false);
         //tooltext.SetActive(false);
     }
     public void toolUI()
     {
-        StartCoroutine(DeleteAfterDelay(5.0f)); // ±Ò°Ê¨óµ{µ¥«Ý5¬í«áÃö³¬­±ªO
+        //StartCoroutine(DeleteAfterDelay(5.0f)); // ï¿½Ò°Ê¨ï¿½{ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
 
     }
 
-    private IEnumerator DeleteAfterDelay(float delay)
+    /*private IEnumerator DeleteAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay); // µ¥«Ý«ü©wªº¬í¼Æ
+        //yield return new WaitForSeconds(delay); // ï¿½ï¿½ï¿½Ý«ï¿½ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        
+        //toolPanel.SetActive(false); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
 
-        toolPanel.SetActive(false); // Ãö³¬­±ªO
         //tooltext.SetActive(false);
-    }
+    }*/
 
 }

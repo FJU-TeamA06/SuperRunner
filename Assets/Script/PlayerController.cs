@@ -1189,9 +1189,40 @@ public class PlayerController : NetworkBehaviour
         InputAction View = myActions.FindAction("View");
         View.started += ctx=>switchView();
         InputAction Start = myActions.FindAction("Start");
-        Start.started += ctx=>StartGame();
+        Start.started += ctx=>StartButtonOnClick();
         InputAction Reset = myActions.FindAction("Reset");
-        Reset.started += ctx=>gotoFPS();
+        Reset.started += ctx=>ResetButtonOnClick();
+        void ResetButtonOnClick()
+        {
+            SetId_RPC();
+            gotoFPS();
+            // 停止播放背景音樂
+            //backgroundMusicSource.Stop();
+            StopBackgroundMusic();
+            Debug.Log("shootmusic!");
+            // 播放特殊條件音樂
+            shootMusicSource.Play();
+            shootMusicSource.loop = true;
+        }
+        void StartButtonOnClick()
+        {
+            if (basicSpawner.levelIndex == 3)
+            {
+                wallObject = GameObject.FindGameObjectWithTag("StartWall3");
+                StartWall startWallScript = wallObject.GetComponent<StartWall>();
+                if (startWallScript != null)
+                {
+                    // 呼叫RPC來消除物件
+                    startWallScript.RequestDespawnWall_RPC();
+                    Debug.Log("wall3!");
+                }
+                StartGame();
+            }
+            else
+            {
+                StartGame();
+            }
+        }
         InputAction SwitchColor = myActions.FindAction("SwitchColor");
         SwitchColor.started += ctx=> SwitchColorButtonPressed();
         void SwitchColorButtonPressed()
@@ -1269,15 +1300,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.C))
             switchView();
         if (Input.GetKeyDown(KeyCode.K)){
-            SetId_RPC();
-            gotoFPS();
-            // 停止播放背景音樂
-            //backgroundMusicSource.Stop();
-            StopBackgroundMusic();
-            Debug.Log("shootmusic!");
-            // 播放特殊條件音樂
-            shootMusicSource.Play();
-            shootMusicSource.loop = true;
+            ResetButtonOnClick();
         }
         MainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         SideCameraObject = GameObject.FindGameObjectWithTag("SideCamera");
@@ -1298,23 +1321,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-
-            if (basicSpawner.levelIndex == 3)
-            {
-                wallObject = GameObject.FindGameObjectWithTag("StartWall3");
-                StartWall startWallScript = wallObject.GetComponent<StartWall>();
-                if (startWallScript != null)
-                {
-                    // 呼叫RPC來消除物件
-                    startWallScript.RequestDespawnWall_RPC();
-                    Debug.Log("wall3!");
-                }
-                StartGame();
-            }
-            else
-            {
-                StartGame();
-            }
+            StartButtonOnClick();
         }
         
         timer += Time.deltaTime;

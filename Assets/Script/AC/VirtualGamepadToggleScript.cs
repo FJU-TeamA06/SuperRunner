@@ -11,6 +11,10 @@ public class VirtualGamepadToggleScript : MonoBehaviour
     {
         Button button = GetComponent<Button>();
         button.onClick.AddListener(OnButtonClick);
+        if(Application.isMobilePlatform)
+        {
+            VirtualGamepad.SetActive(true);
+        }
     }
 
     // Update is called once per frame
