@@ -13,9 +13,11 @@ public class FinishPlane : MonoBehaviour
     public GameObject finishPanel;
     public GameObject ButtonNextObject;
     private Button buttonNext;
+    public NetworkRunner Runner;
     void Awake()
     {
         basicSpawner = FindObjectOfType<BasicSpawner>(); // 取得 BasicSpawner 的實例
+        Runner = FindObjectOfType<NetworkRunner>(); // 取得 NetworkRunner 的實例
     }
 
     void Start()
@@ -59,6 +61,7 @@ public class FinishPlane : MonoBehaviour
         TextMeshProUGUI buttonNextText = buttonNext.GetComponentInChildren<TextMeshProUGUI>();
         if(buttonNextText.text=="回首頁")
         {
+            Runner.Shutdown();
             SceneManager.LoadScene(0);
         }
         else

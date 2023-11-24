@@ -36,6 +36,7 @@ TagManager:
   - toolui
   - cake
   - gateway
+  - NetworkRunner
   layers:
   - Default
   - TransparentFX
