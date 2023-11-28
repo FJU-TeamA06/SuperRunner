@@ -343,7 +343,7 @@ MonoBehaviour:
   FirstCamera: {fileID: 5070783983854351187}
   _speed: 5
   jumpHigh: 22
-  normalJump: 13
+  normalJump: 12
   networkCharacterController: {fileID: 2662581809399784535}
   bulletPrefab: {fileID: 3001277670608641517, guid: 5889a46cd2f6a3448968e1e354509a89,
     type: 3}
@@ -352,6 +352,11 @@ MonoBehaviour:
   thi: 0
   fou: 0
   cha: 0
+  sarr:
+  - -1
+  - -1
+  - -1
+  - -1
   scoreObject: {fileID: 0}
   wallObject: {fileID: 0}
   rankingObject: {fileID: 0}
@@ -471,7 +476,7 @@ MonoBehaviour:
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
   gravity: -15
-  jumpImpulse: 13
+  jumpImpulse: 12
   acceleration: 10
   braking: 10
   maxSpeed: 40
