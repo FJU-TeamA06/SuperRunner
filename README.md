@@ -4,6 +4,9 @@ SUPER RUNNER Introduction (OnGoing Project)
 SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場景及兩種玩法，由最快到達終點的玩家獲勝。
 在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
 
+**程式結構:** https://hackmd.io/s/rynMRIVB6
+
+
 ## Tech skills
 - Unity 
 - Photon Fusion
