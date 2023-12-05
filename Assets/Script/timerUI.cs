@@ -9,12 +9,21 @@ public class timerUI : MonoBehaviour
     private float timeElapsed;
     private bool timerActive;
     public Text sessionName;
-
+    public NetworkRunner Runner;
     void Start()
     {
         timerActive = false;
         ResetTimer();
-        sessionName.text="房間名稱: "+PlayerPrefs.GetString("SessionName");
+        Runner = FindObjectOfType<NetworkRunner>(); // 取得 NetworkRunner 的實例
+        if(Runner.IsClient)
+        {
+            sessionName.text="C_房間名稱: "+PlayerPrefs.GetString("SessionName");
+        }
+        else
+        {
+            sessionName.text="H_房間名稱: "+PlayerPrefs.GetString("SessionName");
+        }
+        
     }
 
     void Update()

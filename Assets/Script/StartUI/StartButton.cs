@@ -11,12 +11,13 @@ public class StartButton : MonoBehaviour
     public GameObject levelPanel; 
     public GameObject SettingButton;
     public GameObject LeaderboardButton;
-    
+    public GameObject ExitButton;
 
     public void OnButtonClick()
     {
         levelPanel.SetActive(true); 
         SettingButton.SetActive(false);
         LeaderboardButton.SetActive(false);
+        ExitButton.SetActive(false);
     }
 }

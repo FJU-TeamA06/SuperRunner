@@ -35,11 +35,48 @@ public class LeaderboardMain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(DoRequest());
+        if(CheckInternetConnection())
+        {
+            StartCoroutine(DoRequest());
+        }
+        else
+        {
+            TextMeshProUGUI leaderboardText = LeaderboardTextObject.GetComponent<TextMeshProUGUI>();
+            leaderboardText.text = "沒有網際網路連線";
+        }
+        
     }
     public void OnRefreshButtonClick()
     {
-        StartCoroutine(DoRequest());
+        if(CheckInternetConnection())
+        {
+            StartCoroutine(DoRequest());
+        }
+        else
+        {
+            TextMeshProUGUI leaderboardText = LeaderboardTextObject.GetComponent<TextMeshProUGUI>();
+            leaderboardText.text = "沒有網際網路連線";
+        }
+    }
+    bool CheckInternetConnection()
+    {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.Log("沒有網路連線");
+            return false;
+        }
+        else
+        {
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+            {
+                Debug.Log("通過行動數據網路連接");
+            }
+            else if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            {
+                Debug.Log("通過 LAN 或 Wi-Fi 連接");
+            }
+            return true;
+        }
     }
     string FormatLeaderboardData(List<List<object>> data)
     {
