@@ -1067,6 +1067,10 @@ public class PlayerController : NetworkBehaviour
         {
             networkCharacterController.transform.position = new Vector3(215, 6, -5);
         }
+        else if(basicSpawner.levelIndex == 2)
+        {
+            networkCharacterController.transform.position = new Vector3(178, 17, 195);
+        }
     }
 
     private void Respawn()
