@@ -35,7 +35,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
     private void Start()
     {
-        
+        Screen.sleepTimeout=SleepTimeout.NeverSleep;
         EnableInputToggle(true);
         SideInputToggle(true);
         myActions.Enable();
