@@ -223,8 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_seconds: 0
-  m_min: 3
-  m_sec: 30
+  m_min: 7
+  m_sec: 0
   m_timer: {fileID: 8304617635669381483}
   m_gameOver: {fileID: 8940915674602905781}
 --- !u!1 &6918321168707775411
