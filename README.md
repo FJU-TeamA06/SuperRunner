@@ -4,22 +4,13 @@ SUPER RUNNER Introduction
 SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場景及兩種玩法，由最快到達終點的玩家獲勝。
 在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
 
-**程式結構:** https://hackmd.io/s/rynMRIVB6
-
 ## Program Structure
+**程式結構:** https://hackmd.io/s/rynMRIVB6
 
 ### Client
 **GamePlay**
 - 遊戲的主要場景
 - 介紹整體遊戲流程和玩家互動
-
-**Main Functions**
-- 角色生成
-- 加入房間和遊戲流程
-- 視角切換
-- 分數計算和陷阱觸發
-- 道具特效和終點邏輯
-- 遊戲音效
 
 **Main Code**
 - BasicSpawner : 負責角色生成、加入房間、操作轉送等
@@ -37,22 +28,6 @@ SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場�
 - GET /players + Query String
 - Get /leaderboard + Query String
 - 定期重置排行榜
-
-### API
-- GetAllData: 獲取所有玩家數據
-- GetPlayerData: 根據玩家名稱和遊戲會話獲取特定玩家數據
-- SetPlayerData: 設置或更新玩家的數據
-- ResetScore: 重置特定遊戲會話中所有玩家的分數
-- ClearSession: 清除特定遊戲會話中所有玩家的數據
-- GetSessionPlayers: 獲取特定遊戲會話中的所有玩家
-- AddPlayerScore: 增加特定玩家在特定遊戲會話中的分數
-- GetOrderPlayers: 根據分數降序排列特定遊戲會話中的玩家
-- GetLeaderScore: 獲取排行榜上的最高分數玩家
-- ResetLeaderScore: 重置排行榜上的分數
-- UpdateLeaderScore: 更新排行榜上的玩家分數
-
-
-## Game flow
 
 ## Tech skills
 - Unity 
@@ -86,7 +61,3 @@ SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場�
 
 - 尋物關卡
 <img src="FPS_level.jpg" alt="Description" style="width: 400px; height: 250px;">
-
-## 遊戲發想
-<img src="遊戲發想.png" alt="Description" style="width: 600px; height: 400px;">
-
