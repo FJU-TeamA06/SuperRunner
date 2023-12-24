@@ -1,8 +1,10 @@
 # SUPER RUNNER
-SUPER RUNNER Introduction
+<img src="SuperRunner_logo.jpg" alt="Description" style="width: 200px; height: 200px;">
 
-SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場景及兩種玩法，由最快到達終點的玩家獲勝。
-在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
+## Introduction
+
+#### SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場景及兩種玩法，由最快到達終點的玩家獲勝。
+#### 在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
 
 ## Program Structure
 **程式結構:** https://hackmd.io/oZYns-IqTOC0Y2oNpiq0GA
@@ -41,15 +43,11 @@ SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場�
 - PC 
 - MacOS
 - IOS
-- Android
-- Switch
+- Android (包含有搖桿的Android裝置,如裝了[Switchroot Android 11](https://wiki.switchroot.org/wiki/android/11-r-setup-guide)的Nintendo Switch)
 
 ## Game Features
 - 鏡頭切換: 以 2.5D 視角為主，第三人稱視角為輔
 - 虛擬搖桿: 行動裝置遊玩的輔助
-
-### Logo
-<img src="SuperRunner_logo.jpg" alt="Description" style="width: 200px; height: 200px;">
 
 ## Demo
 
