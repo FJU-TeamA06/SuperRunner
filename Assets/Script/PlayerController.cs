@@ -426,15 +426,14 @@ public class PlayerController : NetworkBehaviour
             //Runner.Spawn(HUD_UI_Prefab);
             GameObject timerInstance = Instantiate(timerPrefab);
             GameObject bulletCountInstance = Instantiate(bulletCountPrefab);
-            GameObject countDownInstance = Instantiate(countDownPrefab); //
-            GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); //
+            GameObject countDownInstance = Instantiate(countDownPrefab); 
+            GameObject FinishPlaneInstance = Instantiate(FinishPlanePrefab); 
         }
     }
     public CountdownTimer countdownTimer;
-    public ToolUI toolui;
     public FinishPlane finishPlane;
     private FirstCamera firstCamera;
-    private BasicSpawner basicSpawner;  //引用
+    private BasicSpawner basicSpawner; 
 
     void Start()
     {
@@ -858,7 +857,6 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("cake"))
         {
-            //Instantiate(runfirePrefab, transform.position, transform.rotation);
             if(HasInputAuthority)
             {
                 timeObject = GameObject.FindGameObjectWithTag("timerText");
@@ -884,7 +882,6 @@ public class PlayerController : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Coin"))
         {
-            //Instantiate(runfirePrefab, transform.position, transform.rotation);
             if(HasInputAuthority)
             {
                 CoinPoint(this.PlayerName.ToString());
@@ -938,8 +935,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
-
-            // Respawn();
             a = 1;
             }
             
@@ -958,8 +953,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
-
-            // Respawn();
             a = 1;
 
             
@@ -978,8 +971,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
-
-            // Respawn();
             x = 1;
         }
 
@@ -996,8 +987,6 @@ public class PlayerController : NetworkBehaviour
                 GetComponent<AudioSource>().Play(); // 播放所選擇的音檔
                 GetComponent<AudioSource>().loop = false;
             }
-
-            // Respawn();
             x = 1;
         }
     }
@@ -1047,18 +1036,10 @@ public class PlayerController : NetworkBehaviour
         timerScript.StopTimer();
     }
 
-    //[Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void gotoFPS()
     {
         print(basicSpawner.levelIndex);
         Hp=0;
-        //networkCharacterController.transform.position = spawnPosition;
-        /*networkCharacterController.transform.position = new Vector3(0, 61, -200);
-        currentCameraMode = 1;
-        basicSpawner.SideInput = false;*/
-        //a = 1;
-        //currentInputMode = InputMode.ModeFPS;
-        //isFinish=0;
     }
     private void gateway()
     {
@@ -1178,7 +1159,6 @@ public class PlayerController : NetworkBehaviour
             istrapTips = 1;
         }
         //FirstCamera.enabled = currentCameraMode == 2;
-
         if (basicSpawner.levelIndex==1||basicSpawner.levelIndex==2)//在確認為第一關或第二關要做的事情
         {
             
