@@ -9,12 +9,11 @@ using Newtonsoft.Json; // Make sure you have Newtonsoft.Json package
 public class LeaderboardMain : MonoBehaviour
 {
     public GameObject LeaderboardTextObject;
-
     IEnumerator DoRequest()
     {
         TextMeshProUGUI leaderboardText = LeaderboardTextObject.GetComponent<TextMeshProUGUI>();
         leaderboardText.text = "Loading...";
-        var request = UnityWebRequest.Get("http://140.136.151.71:5000/leaderboard?mode=getleaderscore");
+        var request = UnityWebRequest.Get(ServerConfig.APIServerURL+"/leaderboard?mode=getleaderscore");
         yield return request.SendWebRequest();
 
         if (request.isNetworkError || request.isHttpError)

@@ -102,7 +102,6 @@ public class PlayerController : NetworkBehaviour
     private int highhigh = 0;
     //AudioSource
     public GameObject AudioManagerPrefab;
-
     public AudioClip bgmBackground; // 背景音樂
     public AudioClip shootbgmFPS;//level3 backgroundmusic
     public AudioClip seShoot;// 碰撞音效槍
@@ -267,7 +266,7 @@ public class PlayerController : NetworkBehaviour
     }
     IEnumerator DeleteDataInSession(string sname)                         // SQL清除Session 
     {
-        string URL="http://140.136.151.71:5000/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
+        string URL=ServerConfig.APIServerURL+"/players?mode=clearsession&sname="+WWW.EscapeURL(sname);
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -285,7 +284,7 @@ public class PlayerController : NetworkBehaviour
 
     IEnumerator GetDataInSession(string sname)                           // SQL取得Session
     {
-        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
+        string URL=ServerConfig.APIServerURL+"/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -323,7 +322,7 @@ public class PlayerController : NetworkBehaviour
     }
     IEnumerator GetDataInSession_2(string sname)                           // SQL取得Session
     {
-        string URL="http://140.136.151.71:5000/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
+        string URL=ServerConfig.APIServerURL+"/players?mode=getorderplayers&sname="+WWW.EscapeURL(sname);
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -360,7 +359,7 @@ public class PlayerController : NetworkBehaviour
     }
     IEnumerator SetDataInSession(string pname,string sname,int score)                  // SQL設定玩家初始值
     {
-        string URL="http://140.136.151.71:5000/players?mode=setplayerdata&pname="+WWW.EscapeURL(pname)+"&sname="+WWW.EscapeURL(sname)+"&score="+score;
+        string URL=ServerConfig.APIServerURL+"/players?mode=setplayerdata&pname="+WWW.EscapeURL(pname)+"&sname="+WWW.EscapeURL(sname)+"&score="+score;
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -378,7 +377,7 @@ public class PlayerController : NetworkBehaviour
 
     IEnumerator AddDataInSession(string sname,string pname,int score)                  // SQL增加玩家分數
     {
-        string URL="http://140.136.151.71:5000/players?mode=addplayerscore&sname=" + WWW.EscapeURL(sname) + "&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
+        string URL=ServerConfig.APIServerURL+"/players?mode=addplayerscore&sname=" + WWW.EscapeURL(sname) + "&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
@@ -396,7 +395,7 @@ public class PlayerController : NetworkBehaviour
     }
     IEnumerator FetchDataInSession(string pname,int score)                  // SQL更新排行榜
     {
-        string URL="http://140.136.151.71:5000/leaderboard?mode=updateleaderscore&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
+        string URL=ServerConfig.APIServerURL+"/leaderboard?mode=updateleaderscore&pname=" + WWW.EscapeURL(pname) + "&score= " + score;
         Debug.Log(URL);
         var request = UnityWebRequest.Get(URL);
         
