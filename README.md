@@ -59,3 +59,9 @@
 
 - 尋物關卡
 <img src="FPS_level.jpg" alt="Description" style="width: 400px; height: 250px;">
+
+## 如何使用
+#### Git Clone專案之後，使用Unity Hub打開，接著它會要求下載對應的Unity版本
+#### 另外，***自2024年二月後，預設的Server會關停***
+#### 如要架設環境者，請到[FJU-TeamA06/SuperRunner_Server](https://github.com/FJU-TeamA06/SuperRunner_Server)將Server架設好
+#### 於`ServerConfig.cs` 中的 `APIServerURL` 更新成您的Server IP。
