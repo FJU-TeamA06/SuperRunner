@@ -7,7 +7,7 @@
 #### 在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
 
 ## Program Structure
-**程式結構:** https://hackmd.io/oZYns-IqTOC0Y2oNpiq0GA
+[**程式架構**](程式架構.md)
 
 ### Client
 **GamePlay**
@@ -23,7 +23,7 @@
 - Tool : 處理遊戲中的道具
 - CountdownTimer：本地運行的計時器
 
-### Server
+### [Server](https://github.com/FJU-TeamA06/SuperRunner_Server)
 
 **以Flask為架構的Python程式**
 - 透過HTTP API去存取SQL資料庫
