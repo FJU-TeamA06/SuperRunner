@@ -6,8 +6,12 @@
 #### SUPER RUNNER 是一款多人連線競技遊戲，提供三種不同的遊戲場景及兩種玩法，由最快到達終點的玩家獲勝。
 #### 在想方設法阻礙對手到達終點的同時，也不要栽在前方的陷阱和障礙面前。
 
+## [Demo影片](https://drive.google.com/file/d/11sq8hAEq4ZrXCpnE2kzbwya-zXdb_lTG/view?usp=sharing)
+## [專題報告](https://drive.google.com/file/d/1ZM0ePBOpYo9pZvM3bVFNBkA6SBSPCmpj/view?usp=sharing)
 ## Program Structure
 [**程式架構**](程式架構.md)
+
+
 
 ### Client
 **GamePlay**
